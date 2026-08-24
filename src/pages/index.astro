@@ -1,17 +1,25 @@
 ---
-
+import "../styles/global.css";
+import Layout from '../layouts/Layout.astro';
+import Jumbotron from '../components/Jumbotron.svelte';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<!-- Kirim data title dan description spesifik halaman ini ke Layout lewat atribut -->
+<Layout title="Smk Bina wisata Lembang" description="Selamat datang di homepage.">
+  <!-- Semua kode di bawah ini akan otomatis masuk ke posisi <slot /> di file Layout -->
+   	<!-- All contents -->
+    <!-- 1. Jumbotron dan Portal Berita -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-5 lg:px-6 py-6">
+        <!-- Kontainer Flexbox Responsif -->
+        <div class="flex flex-col lg:flex-row gap-6 items-stretch">
+          <!-- Komponen Jumbotron (Otomatis menyesuaikan lebar dari instruksi di Svelte) -->
+          <Jumbotron client:idle />  
+          <!-- Ruang Portal Berita (Area Hijau) -->
+          <aside class="w-full lg:flex-1 bg-[#1F2937] border border-[#16A34A]/20 rounded-[1.5rem] lg:rounded-[2rem] p-6 min-h-[380px]">
+            <h2 class="text-xl text-center font-bold text-alabaster mb-4">Portal Berita Terbaru</h2>
+            <!-- Tempat komponen berita preview -->
+          </aside>
+        </div>
+      </main>
+
+</Layout>

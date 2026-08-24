@@ -1,0 +1,44 @@
+---
+import "../styles/global.css";
+import Navbar from '../components/Navbar.svelte';
+import { ClientRouter } from "astro:transitions";
+
+// Mendefinisikan tipe data untuk properti (props) yang bisa diterima layout
+interface Props {
+  title: string;
+  description?: string;
+}
+
+// Menangkap data title dan description yang dikirim oleh halaman penyeru
+const { title, description = "Portfolio & Personal Notes" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="SMK Bina Wisata" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+    <!-- SEO Meta Tags Dinamis -->
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <!-- Client-side navigation antar halaman (eliminasi full page reload) -->
+    <ClientRouter />
+  </head>
+  <body class="antialiased">
+    
+    <!-- 1. NAVBAR GLOBAL: Otomatis ada di setiap halaman -->
+    <Navbar client:idle />
+    <!-- 2. SLOT KONTEN: Tempat masuknya kode unik dari file halaman Anda -->
+    <slot />
+
+    <!-- 3: Footer -->
+  </body>
+</html>

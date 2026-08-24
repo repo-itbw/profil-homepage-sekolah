@@ -1,43 +1,64 @@
-# Astro Starter Kit: Minimal
+## SC Homepage SMK BINA WISATA
 
-```sh
-bun create astro@latest -- --template minimal
-```
+Ini adalah repository resmi untuk halaman website publik tentang profil institusi SMK BINA WISATA Lembang.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### Teknologi inti yang digunakan
 
-## 🚀 Project Structure
+Website ini dibangun dengan skema statis, dan hanya bagian berita (News) saja yang dinamis.
 
-Inside of your Astro project, you'll see the following folders and files:
+**Techstack inti :**
+
+- 🚀 Astro
+- ⚡  Svelte
+- 💠 Tailwind CSS
+- 📕 @astrojs/keystatic
+
+## Struktur folder proyek
 
 ```text
-/
-├── public/
+sekolah-profile-web/
+├── .keystatic/                # Konfigurasi internal & cache Keystatic
+├── content/                   # 🗂️ DIREKTORI KONTEN CMS (Terpisah dari /src)
+│   ├── berita/                # Kumpulan file .mdoc untuk Berita & Artikel
+│   ├── pengumuman/            # Kumpulan file .mdoc untuk Pengumuman Resmi
+│   └── assets/                # Kumpulan file multimedia (foto, video, dll) dari uploader
+├── public/                    # Aset statis publik (favicon, logo, font, dll)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/            # Komponen UI modular
+│   │   ├── astro/             # Komponen statis (.astro)
+│   │   └── svelte/            # Komponen interaktif Svelte (.svelte)
+│   ├── layouts/               # Kerangka tata letak halaman (BaseLayout, Header, Footer)
+│   ├── pages/                 # Routing direktori halaman statis & dinamis
+│   │   ├── index.astro        # Homepage (Beranda)
+│   │   ├── profil/
+│   │   │   ├── sejarah.astro  # Sub-page profil sejarah sekolah
+│   │   │   └── pimpinan.astro # Sub-page profil pimpinan & guru
+│   │   ├── akademik/
+│   │   │   └── ekstrakurikuler.astro
+│   │   ├── informasi/
+│   │   │   ├── berita/
+│   │   │   │   ├── index.astro       # Daftar arsip berita
+│   │   │   │   └── [...slug].astro   # Detail halaman berita dinamis
+│   │   │   └── pengumuman.astro
+│   │   └── keystatic/
+│   │       └── [...params].astro     # Endpoint dashboard admin Keystatic
+│   ├── styles/                # Konfigurasi gaya global & Tailwind CSS v4
+│   │   └── global.css
+│   └── content.config.ts      # Definisi skema Content Collections Astro
+├── keystatic.config.ts        # File konfigurasi utama CMS Keystatic
+├── astro.config.mjs           # Konfigurasi utama Astro & Integrasi
+├── package.json
+└── tsconfig.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Protokol Pemeliharaan Rutin
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```text
+bun install
+bun update --latest
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+jalankan perintah berikut untuk memperbarui versi Astro:
+```text
+bunx @astrojs/upgrade
+```

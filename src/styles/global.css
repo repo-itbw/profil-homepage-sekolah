@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "Comfortaa";
+  src: url("/fonts/Comfortaa.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap; /* Tampilkan fallback font dulu, swap setelah font loaded */
+  /* Metrics untuk minimize layout shift dengan fallback serif */
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+  size-adjust: 105%;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/Lato.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+  size-adjust: 105%;
+}
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Palet Warna Identitas Sekolah */
+  --color-alabaster: #FAF9F6;
+  --color-blackcoal: #222222;
+  --color-corporate-blue: #3ba2d5;
+  --color-accent-yellow: #EAB308;
+  --color-success-green: #16A34A;
+  
+  /* Konfigurasi Font */
+  --font-comfortaa: "Comfortaa", ui-serif, Georgia, serif;
+  --font-lato: "Lato", ui-sans-serif, Roboto, sans-serif;
+}
+
+/* Pengaturan Dasar Global */
+@layer base {
+  html, body {
+      margin: 0;
+      padding: 0;
+    }
+    
+  body {
+    @apply bg-alabaster;
+    @apply text-blackcoal;
+  }
+
+  h1, h2, h3 { @apply font-lato leading-[1.2] font-normal; }
+  h1 { @apply text-4xl; }
+  h2 { @apply text-2xl; }
+  h3 { @apply text-xl; }
+  p { @apply font-comfortaa; }
+}
