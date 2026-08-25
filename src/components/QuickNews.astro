@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+
+const semuaBerita = await getCollection('berita');
+
+// Batas 5 berita terbaru
+const beritaTerbaru = semuaBerita
+  .sort((a, b) => b.data.tanggal.valueOf() - a.data.tanggal.valueOf())
+  .slice(0, 6);
+
+const formatTanggal = (tanggal: Date) => {
+  return new Intl.DateTimeFormat('id-ID', { 
+    day: 'numeric', month: 'short', year: 'numeric' 
+  }).format(tanggal);
+};
+---
+
+<div class="flex flex-col w-full gap-4">
+  
+  <!-- 
+    KUNCI RESPONSIVITAS SCROLL: max-h-[250px]
+    Memaksa kontainer berhenti tumbuh setelah ~250px (cukup untuk 2 kartu).
+    Sisa kartu ke-3 hingga ke-5 akan disembunyikan dalam scrollbar.
+  -->
+  <div class="overflow-y-auto flex flex-col gap-2.5 pr-1.5 custom-scrollbar max-h-[250px] lg:max-h-[280px]">
+    
+    {beritaTerbaru.length === 0 && (
+      <div class="text-center py-4 text-gray-400 text-xs border border-dashed border-gray-600 rounded-lg">
+        Belum ada berita yang diterbitkan.
+      </div>
+    )}
+
+    {beritaTerbaru.map((berita) => (
+      <a 
+        href={`/informasi/${berita.id}`} 
+        // Padding disusutkan menjadi p-2 agar kartu lebih langsing
+        class="group flex gap-3 p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-colors items-center"
+      >
+        <!-- Thumbnail dikecilkan secara ekstrem (64x64 pixel) -->
+        <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-800">
+          <img 
+            src={berita.data.image || '/placeholder-news.jpg'} 
+            alt={berita.data.judul} 
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+            loading="lazy"
+          />
+        </div>
+
+        <div class="flex flex-col flex-grow min-w-0 justify-center">
+          <h3 class="text-alabaster font-bold text-[13px] sm:text-sm line-clamp-1 group-hover:text-success-green transition-colors leading-tight">
+            {berita.data.judul}
+          </h3>
+          
+          <div class="flex items-center gap-1.5 mt-0.5 mb-1 text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+            <span class="text-blue-300 truncate max-w-[70px]">{berita.data.kategori?.[0] || 'Umum'}</span>
+            <span>&bull;</span>
+            <span class="truncate">{formatTanggal(berita.data.tanggal)}</span>
+          </div>
+          
+          <p class="text-[10px] sm:text-[11px] text-gray-400 line-clamp-2 font-comfortaa leading-snug">
+            {berita.data.deskripsi}
+          </p>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <!-- Tombol Aksi (Terkunci di Bawah) -->
+  <a 
+    href="/informasi/berita" 
+    class="block w-full py-2.5 text-center bg-accent-yellow hover:bg-yellow-500 text-blackcoal font-bold rounded-lg transition-colors uppercase tracking-wide text-xs shrink-0 mt-2"
+  >
+    Lihat Semua Berita
+  </a>
+
+</div>
+
+<style>
+  /* Menipiskan scrollbar agar tidak merusak tata letak estetik */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+</style>

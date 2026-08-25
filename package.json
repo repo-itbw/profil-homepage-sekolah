@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "ipv4": "astro dev --host 127.0.0.1",
+    "untun":"untun tunnel http://127.0.0.1:4321"
   },
   "dependencies": {
     "@astrojs/markdoc": "^2.0.8",

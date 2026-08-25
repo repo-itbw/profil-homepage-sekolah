@@ -16,17 +16,14 @@ Website ini dibangun dengan skema statis, dan hanya bagian berita (News) saja ya
 ## Struktur folder proyek
 
 ```text
-sekolah-profile-web/
+sekolah-homepage-web/
 ├── .keystatic/                # Konfigurasi internal & cache Keystatic
 ├── content/                   # 🗂️ DIREKTORI KONTEN CMS (Terpisah dari /src)
 │   ├── berita/                # Kumpulan file .mdoc untuk Berita & Artikel
-│   ├── pengumuman/            # Kumpulan file .mdoc untuk Pengumuman Resmi
 │   └── assets/                # Kumpulan file multimedia (foto, video, dll) dari uploader
 ├── public/                    # Aset statis publik (favicon, logo, font, dll)
 ├── src/
 │   ├── components/            # Komponen UI modular
-│   │   ├── astro/             # Komponen statis (.astro)
-│   │   └── svelte/            # Komponen interaktif Svelte (.svelte)
 │   ├── layouts/               # Kerangka tata letak halaman (BaseLayout, Header, Footer)
 │   ├── pages/                 # Routing direktori halaman statis & dinamis
 │   │   ├── index.astro        # Homepage (Beranda)

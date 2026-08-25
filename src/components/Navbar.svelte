@@ -46,7 +46,6 @@
     { label: 'E-learning', href: 'https://elearning.smkbinawisata.sch.id' }
   ];
 
-  // Gunakan Svelte 5 $props() rune untuk menerima data dari Astro
   let { logoSrc = '/web-app-manifest-512x512.png' } = $props();
 
   let isMobileMenuOpen = $state(false);
@@ -77,7 +76,6 @@
   };
 </script>
 
-<!-- Perubahan Svelte 5: on:click menjadi onclick -->
 <svelte:window onclick={handleGlobalClick} />
 
 <nav bind:this={navContainerRef} class="sticky top-0 left-0 right-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm transition-all">
@@ -87,14 +85,12 @@
       <!-- container Logo & title -->
       <div class="flex-shrink-0 flex items-center z-50">
         <a href="/" onclick={closeAllMenus} class="flex items-center gap-2.5 sm:gap-3 group">
-          <!-- Gambar Logo -->
           <img 
             src={logoSrc} 
             alt="Logo SMK Bina Wisata" 
             class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
           />
           
-          <!-- Teks Identitas Sekolah (Bertumpuk) -->
           <div class="flex flex-col font-lato font-bold select-none">
             <span class="text-[10px] sm:text-xs font-bold tracking-widest text-gray-500 uppercase leading-none mb-0.5">
               SMKs
@@ -106,7 +102,8 @@
         </a>
       </div>
 
-      <div class="hidden md:flex items-center">
+      <!-- PERUBAHAN 1: hidden md:flex diubah menjadi hidden lg:flex -->
+      <div class="hidden lg:flex items-center">
         {#each navItems as item, index}
           <div class="relative group flex items-center">
 
@@ -138,9 +135,8 @@
         {/each}
       </div>
 
-      <!-- Tombol Hamburger Mobile -->
-      <div class="flex md:hidden items-center z-50">
-        <!-- Perubahan Svelte 5: onclick -->
+      <!-- PERUBAHAN 2: flex md:hidden diubah menjadi flex lg:hidden -->
+      <div class="flex lg:hidden items-center z-50">
         <button
           type="button"
           onclick={toggleMobileMenu}
@@ -158,14 +154,14 @@
     </div>
   </div>
 
+  <!-- PERUBAHAN 3: md:hidden diubah menjadi lg:hidden -->
   {#if isMobileMenuOpen}
-    <div class="absolute top-20 left-0 w-full bg-white shadow-lg border-b border-gray-100 md:hidden z-40">
+    <div class="absolute top-20 left-0 w-full bg-white shadow-lg border-b border-gray-100 lg:hidden z-40">
       <div class="px-4 py-6 relative">
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-2">
           {#each navItems as item}
             <div class="flex justify-center">
               {#if item.sublinks && item.sublinks.length > 0}
-                <!-- Perubahan Svelte 5: onclick -->
                 <button
                   type="button"
                   onclick={(e) => handleSubmenuToggle(item.label, true, e)}
@@ -175,7 +171,6 @@
                   {item.label}
                 </button>
               {:else}
-                <!-- Perubahan Svelte 5: onclick -->
                 <a
                   href={item.href}
                   onclick={closeAllMenus}
@@ -195,7 +190,6 @@
             <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-t border-l border-gray-100 rotate-45"></div>
             <div class="grid grid-cols-2 gap-3 relative z-10">
               {#each activeItem.sublinks as sublink}
-                <!-- Perubahan Svelte 5: onclick -->
                 <a
                   href={sublink.href}
                   onclick={closeAllMenus}
