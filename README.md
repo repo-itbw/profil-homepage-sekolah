@@ -20,8 +20,10 @@ sekolah-homepage-web/
 ├── .keystatic/                # Konfigurasi internal & cache Keystatic
 ├── content/                   # 🗂️ DIREKTORI KONTEN CMS (Terpisah dari /src)
 │   ├── berita/                # Kumpulan file .mdoc untuk Berita & Artikel
-│   └── assets/                # Kumpulan file multimedia (foto, video, dll) dari uploader
 ├── public/                    # Aset statis publik (favicon, logo, font, dll)
+│   └── assets/                # Kumpulan file multimedia (foto, video, dll) dari uploader untuk berita
+│   ├── staticAssets/          # file statis untuk banner & internal web
+│   ├── fonts/                 # Kumpulan file font lokal
 ├── src/
 │   ├── components/            # Komponen UI modular
 │   ├── layouts/               # Kerangka tata letak halaman (BaseLayout, Header, Footer)
@@ -59,3 +61,5 @@ jalankan perintah berikut untuk memperbarui versi Astro:
 ```text
 bunx @astrojs/upgrade
 ```
+
+Saat membuat konten baru di dalam dasbor Keystatic, biasakan menekan tombol Enter sekali di awal area editor Isi Konten Utama sebelum mulai mengetik paragraf pertama. Langkah kecil ini memaksa serializer (pengonversi data) Keystatic untuk membuat node paragraf baru yang terpisah oleh spasi \n\n dari pembatas YAML

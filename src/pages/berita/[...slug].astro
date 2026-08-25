@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const semuaBerita = await getCollection('berita');
+  return semuaBerita.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+// render(): Fungsi bawaan Astro untuk mengompilasi AST Markdoc/Markdown menjadi komponen HTML
+const { Content } = await render(entry); 
+---
+
+<article class="prose prose-invert max-w-none">
+  <h1>{entry.data.judul}</h1>
+  <p class="text-sm text-gray-400">{entry.data.deskripsi}</p>
+  <hr />
+  
+  <!-- Komponen ini akan merender isi konten utama secara bersih -->
+  <Content /> 
+</article>

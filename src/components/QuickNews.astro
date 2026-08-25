@@ -32,7 +32,7 @@ const formatTanggal = (tanggal: Date) => {
 
     {beritaTerbaru.map((berita) => (
       <a 
-        href={`/informasi/${berita.id}`} 
+        href={`/berita/${berita.id}`} 
         // Padding disusutkan menjadi p-2 agar kartu lebih langsing
         class="group flex gap-3 p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-colors items-center"
       >
@@ -52,7 +52,8 @@ const formatTanggal = (tanggal: Date) => {
           </h3>
           
           <div class="flex items-center gap-1.5 mt-0.5 mb-1 text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
-            <span class="text-blue-300 truncate max-w-[70px]">{berita.data.kategori?.[0] || 'Umum'}</span>
+            <!-- Langsung panggil variabel kategori -->
+            <span class="text-success-green truncate max-w-[70px]">{berita.data.kategori || 'Umum'}</span>
             <span>&bull;</span>
             <span class="truncate">{formatTanggal(berita.data.tanggal)}</span>
           </div>
@@ -67,7 +68,7 @@ const formatTanggal = (tanggal: Date) => {
 
   <!-- Tombol Aksi (Terkunci di Bawah) -->
   <a 
-    href="/informasi/berita" 
+    href="/berita/arsip" 
     class="block w-full py-2.5 text-center bg-accent-yellow hover:bg-yellow-500 text-blackcoal font-bold rounded-lg transition-colors uppercase tracking-wide text-xs shrink-0 mt-2"
   >
     Lihat Semua Berita

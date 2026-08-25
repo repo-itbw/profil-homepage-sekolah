@@ -11,10 +11,11 @@
     "preview": "astro preview",
     "astro": "astro",
     "ipv4": "astro dev --host 127.0.0.1",
-    "untun":"untun tunnel http://127.0.0.1:4321"
+    "untun": "untun tunnel http://127.0.0.1:4321"
   },
   "dependencies": {
     "@astrojs/markdoc": "^2.0.8",
+    "@astrojs/react": "^6.0.4",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/svelte": "^9.0.1",
@@ -26,9 +27,16 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.4",
     "astro-icon": "^1.2.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "remark-directive": "^4.0.0",
     "svelte": "^5.56.10",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3",
+    "svgo": "^4.1.0",
+    "vite-plugin-image-optimizer": "^2.0.3"
   }
 }
