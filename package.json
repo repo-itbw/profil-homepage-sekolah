@@ -29,7 +29,6 @@
     "astro-icon": "^1.2.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "remark-directive": "^4.0.0",
     "svelte": "^5.56.10",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"

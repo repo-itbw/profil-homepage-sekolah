@@ -1,24 +1,78 @@
 ---
+import Layout from '../../layouts/Layout.astro';
+import SmartDock from '../../components/SmartDock.svelte';
 import { getCollection, render } from 'astro:content';
 
+// getStaticPaths: Fungsi absolut Astro untuk mendaftarkan seluruh URL dinamis saat proses kompilasi (build-time)
 export async function getStaticPaths() {
   const semuaBerita = await getCollection('berita');
-  return semuaBerita.map((entry) => ({
-    params: { slug: entry.id },
+  return semuaBerita.map(entry => ({
+    params: { slug: entry.id }, // ID adalah nama file tanpa ekstensi (.mdoc)
     props: { entry },
   }));
 }
 
 const { entry } = Astro.props;
-// render(): Fungsi bawaan Astro untuk mengompilasi AST Markdoc/Markdown menjadi komponen HTML
-const { Content } = await render(entry); 
+
+// render(): Fungsi pemroses AST (Abstract Syntax Tree) untuk mengonversi data Markdoc menjadi komponen <Content />
+const { Content } = await render(entry);
+
+const formatTanggal = (tanggal: Date) => {
+  return new Intl.DateTimeFormat('id-ID', {
+    day: '2-digit', month: 'long', year: 'numeric'
+  }).format(tanggal);
+};
 ---
 
-<article class="prose prose-invert max-w-none">
-  <h1>{entry.data.judul}</h1>
-  <p class="text-sm text-gray-400">{entry.data.deskripsi}</p>
-  <hr />
-  
-  <!-- Komponen ini akan merender isi konten utama secara bersih -->
-  <Content /> 
-</article>
+<Layout title={`${entry.data.judul} | Arsip Berita`}>
+
+  <!-- INTEGRASI SMARTDOCK (Mode Detail) -->
+  <section class="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sticky top-[72px] lg:top-[84px] z-30">
+    <SmartDock client:load mode="detail" />
+  </section>
+
+  <!-- KONTEN ARTIKEL -->
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 mt-6">
+
+    <!-- Blok Header Metadata -->
+    <header class="mb-8 text-center sm:text-left">
+      <div class="mb-4">
+        <span class="inline-block text-xs font-bold uppercase tracking-wider text-corporate-blue bg-corporate-blue/10 px-3 py-1.5 rounded-md">
+          {entry.data.kategori}
+        </span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blackcoal leading-tight mb-6">
+        {entry.data.judul}
+      </h1>
+
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-sm font-comfortaa text-gray-500 border-y border-gray-100 py-4 mb-8">
+        <span class="font-bold text-blackcoal">Oleh: {entry.data.penerbit || 'Admin'}</span>
+        <span class="hidden sm:inline">&bull;</span>
+        <span class="flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          {formatTanggal(entry.data.tanggal)}
+        </span>
+      </div>
+    </header>
+
+    <!-- Blok Gambar Sampul -->
+    {entry.data.image && (
+      <figure class="w-full aspect-video rounded-2xl overflow-hidden bg-gray-100 mb-10 shadow-sm border border-gray-100">
+        <img
+          src={entry.data.image}
+          alt={entry.data.judul}
+          class="w-full h-full object-cover"
+        />
+      </figure>
+    )}
+
+    <!-- Blok Konten Teks Markdoc -->
+    <!-- prose: Kelas utilitas dari @tailwindcss/typography yang otomatis memberikan margin, padding, dan styling hierarkis pada tag HTML mentah -->
+    <!-- PERUBAHAN: Seluruh kelas utilitas panjang dihapus, diganti dengan 'prose-sekolah' -->
+      <article class="prose prose-sekolah max-w-none">
+        <Content />
+      </article>
+
+  </main>
+</Layout>

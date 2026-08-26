@@ -31,11 +31,12 @@ const { title, description = "Portfolio & Personal Notes" } = Astro.props;
 
     <!-- Client-side navigation antar halaman (eliminasi full page reload) -->
     <ClientRouter />
+
   </head>
-  <body class="antialiased">
+  <body class="antialiased" transition:animate="none">
     
     <!-- 1. NAVBAR GLOBAL: Otomatis ada di setiap halaman -->
-    <Navbar client:idle />
+    <Navbar client:idle transition:persist />
     <!-- 2. SLOT KONTEN: Tempat masuknya kode unik dari file halaman Anda -->
     <slot />
 

@@ -38,8 +38,7 @@
     { label: 'Berita',
       sublinks: [
         { label: 'Arsip Berita', href: '/berita/arsip' },
-        { label: 'Pengumuman', href: '/berita/pengumuman' },
-        { label: 'Galeri Media', href: '/berita/media_collection' }
+        { label: 'Galeri Kenangan', href: '/berita/galeri' }
       ]
     },
     { label: 'Kontak', href: '/kontak' },

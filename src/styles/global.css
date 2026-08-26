@@ -44,16 +44,75 @@
   html, body {
       margin: 0;
       padding: 0;
+      @apply bg-alabaster text-blackcoal;
     }
-    
-  body {
-    @apply bg-alabaster;
-    @apply text-blackcoal;
-  }
 
   h1, h2, h3 { @apply font-lato leading-[1.2] font-normal; }
   h1 { @apply text-4xl; }
   h2 { @apply text-2xl; }
   h3 { @apply text-xl; }
   p { @apply font-comfortaa; }
+}
+
+/*Prose khusus untuk rendering konten berita*/
+
+@layer components {
+  /* Ekstensi kustom untuk tipografi konten Markdoc */
+  .prose-sekolah {
+    /* Konfigurasi warna dasar menggunakan variabel tema */
+    --tw-prose-body: var(--color-blackcoal);
+    --tw-prose-headings: var(--color-blackcoal);
+    --tw-prose-links: var(--color-corporate-blue);
+    --tw-prose-bold: var(--color-blackcoal);
+    
+    @apply text-gray-700 font-comfortaa leading-loose;
+  }
+
+  /* Modifikasi spesifik untuk setiap elemen HTML (Tag) */
+  .prose-sekolah h1, 
+  .prose-sekolah h2, 
+  .prose-sekolah h3, 
+  .prose-sekolah h4 {
+    @apply font-lato font-extrabold text-blackcoal mt-10 mb-4 tracking-tight;
+  }
+
+  /* Paragraf & Teks standar */
+  .prose-sekolah p {
+    @apply mb-5;
+  }
+
+  /* Gambar (Rounded & Shadow) */
+  .prose-sekolah img {
+    @apply w-full rounded-2xl shadow-sm object-cover border border-gray-100 my-8;
+  }
+
+  /* Kutipan Blok (Blockquote) */
+  .prose-sekolah blockquote {
+    @apply italic border-l-4 pl-6 py-2 my-6 bg-gray-50/50 rounded-r-xl;
+    border-left-color: var(--color-corporate-blue);
+  }
+  
+  .prose-sekolah blockquote p {
+    @apply text-gray-600 m-0; /* Menghapus margin bawaan paragraf di dalam kutipan */
+  }
+
+  /* Tautan (Hyperlink) */
+  .prose-sekolah a {
+    @apply font-bold no-underline border-b-2 transition-all;
+    border-bottom-color: var(--color-corporate-blue);
+  }
+  
+  .prose-sekolah a:hover {
+    @apply text-corporate-blue bg-corporate-blue/10;
+  }
+
+  /* Daftar (Unordered & Ordered Lists) */
+  .prose-sekolah ul, 
+  .prose-sekolah ol {
+    @apply pl-6 my-5 space-y-2;
+  }
+  
+  .prose-sekolah li {
+    @apply marker:text-corporate-blue;
+  }
 }

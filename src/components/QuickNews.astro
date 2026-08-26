@@ -53,8 +53,8 @@ const formatTanggal = (tanggal: Date) => {
           
           <div class="flex items-center gap-1.5 mt-0.5 mb-1 text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
             <!-- Langsung panggil variabel kategori -->
-            <span class="text-success-green truncate max-w-[70px]">{berita.data.kategori || 'Umum'}</span>
-            <span>&bull;</span>
+            <span class="text-success-green flex-shrink-0">{berita.data.kategori || 'Umum'}</span>
+            <span class="text-gray-500">&bull;</span>
             <span class="truncate">{formatTanggal(berita.data.tanggal)}</span>
           </div>
           

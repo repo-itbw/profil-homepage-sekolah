@@ -26,6 +26,9 @@ sekolah-homepage-web/
 │   ├── fonts/                 # Kumpulan file font lokal
 ├── src/
 │   ├── components/            # Komponen UI modular
+│	  │	   └── Jumbotron.svelte
+│ 	│	   ├── Navbar.svelte
+│	  │	   └── QuickNews.astro
 │   ├── layouts/               # Kerangka tata letak halaman (BaseLayout, Header, Footer)
 │   ├── pages/                 # Routing direktori halaman statis & dinamis
 │   │   ├── index.astro        # Homepage (Beranda)
@@ -36,11 +39,15 @@ sekolah-homepage-web/
 │   │   │   └── ekstrakurikuler.astro
 │   │   ├── informasi/
 │   │   │   ├── berita/
-│   │   │   │   ├── index.astro       # Daftar arsip berita
+│   │   │   │   ├── arsip.astro       # Daftar arsip berita
 │   │   │   │   └── [...slug].astro   # Detail halaman berita dinamis
 │   │   │   └── pengumuman.astro
-│   │   └── keystatic/
-│   │       └── [...params].astro     # Endpoint dashboard admin Keystatic
+│   │   ├── keystatic/
+│   │   │   └── [...params].astro     # Endpoint dashboard admin Keystatic
+│   │   └── api/
+│   │       └── keystatic    	   	# Endpoint dashboard admin Keystatic
+│   │       	└── [...params].ts
+│	  │
 │   ├── styles/                # Konfigurasi gaya global & Tailwind CSS v4
 │   │   └── global.css
 │   └── content.config.ts      # Definisi skema Content Collections Astro
@@ -63,3 +70,4 @@ bunx @astrojs/upgrade
 ```
 
 Saat membuat konten baru di dalam dasbor Keystatic, biasakan menekan tombol Enter sekali di awal area editor Isi Konten Utama sebelum mulai mengetik paragraf pertama. Langkah kecil ini memaksa serializer (pengonversi data) Keystatic untuk membuat node paragraf baru yang terpisah oleh spasi \n\n dari pembatas YAML
+
