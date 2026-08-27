@@ -1,0 +1,13 @@
+---
+const { url, title } = Astro.props;
+---
+<!-- h-[500px]: Menetapkan tinggi absolut agar web eksternal memiliki ruang baca yang layak -->
+<div class="w-full h-96 sm:h-[500px] rounded-xl overflow-hidden my-8 shadow-sm border border-gray-200 bg-gray-50">
+  <iframe
+    src={url}
+    title={title}
+    class="w-full h-full"
+    loading="lazy"
+    allow="fullscreen"
+  ></iframe>
+</div>

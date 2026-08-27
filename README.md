@@ -15,7 +15,7 @@ Website ini dibangun dengan skema statis, dan hanya bagian berita (News) saja ya
 
 ## Struktur folder proyek
 
-```text
+```markdown
 sekolah-homepage-web/
 ├── .keystatic/                # Konfigurasi internal & cache Keystatic
 ├── content/                   # 🗂️ DIREKTORI KONTEN CMS (Terpisah dari /src)
@@ -26,9 +26,9 @@ sekolah-homepage-web/
 │   ├── fonts/                 # Kumpulan file font lokal
 ├── src/
 │   ├── components/            # Komponen UI modular
-│	  │	   └── Jumbotron.svelte
-│ 	│	   ├── Navbar.svelte
-│	  │	   └── QuickNews.astro
+│   │   └── Jumbotron.svelte
+│   │   ├── Navbar.svelte
+│   │   └── QuickNews.astro
 │   ├── layouts/               # Kerangka tata letak halaman (BaseLayout, Header, Footer)
 │   ├── pages/                 # Routing direktori halaman statis & dinamis
 │   │   ├── index.astro        # Homepage (Beranda)
@@ -47,7 +47,7 @@ sekolah-homepage-web/
 │   │   └── api/
 │   │       └── keystatic    	   	# Endpoint dashboard admin Keystatic
 │   │       	└── [...params].ts
-│	  │
+│   │
 │   ├── styles/                # Konfigurasi gaya global & Tailwind CSS v4
 │   │   └── global.css
 │   └── content.config.ts      # Definisi skema Content Collections Astro
@@ -59,15 +59,19 @@ sekolah-homepage-web/
 
 ## Protokol Pemeliharaan Rutin
 
+### Update versi seluruh package (dependencies)
+
 ```text
 bun install
 bun update --latest
 ```
+
+### Update versi Astro (Core Framework)
 
 jalankan perintah berikut untuk memperbarui versi Astro:
 ```text
 bunx @astrojs/upgrade
 ```
 
-Saat membuat konten baru di dalam dasbor Keystatic, biasakan menekan tombol Enter sekali di awal area editor Isi Konten Utama sebelum mulai mengetik paragraf pertama. Langkah kecil ini memaksa serializer (pengonversi data) Keystatic untuk membuat node paragraf baru yang terpisah oleh spasi \n\n dari pembatas YAML
+Saat membuat konten baru di dalam dasbor Keystatic, biasakan menekan tombol Enter sekali di awal area editor Isi Konten Utama sebelum mulai mengetik paragraf pertama. Langkah kecil ini memaksa serializer (pengonversi data) Keystatic untuk membuat node paragraf baru yang terpisah oleh spasi dari pembatas frontmatter
 

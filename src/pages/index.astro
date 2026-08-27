@@ -11,7 +11,7 @@ import QuickNews from '../components/QuickNews.astro';
    	<!-- All contents -->
     <!-- 1. Jumbotron dan Portal Berita -->
     <main class="max-w-7xl mx-auto px-4 sm:px-5 lg:px-6 py-6">
-        <!-- Kontainer Flexbox Responsif -->
+        <!-- Kontainer Flexbox Responsif untuk Jumbotron dan Portal Berita-->
         <div class="flex flex-col lg:flex-row gap-6 items-stretch">
           <!-- Komponen Jumbotron (Otomatis menyesuaikan lebar dari instruksi di Svelte) -->
           <Jumbotron client:idle />  
@@ -23,5 +23,7 @@ import QuickNews from '../components/QuickNews.astro';
           </aside>
         </div>
       </main>
+
+    <!-- 2. konten -->
 
 </Layout>
