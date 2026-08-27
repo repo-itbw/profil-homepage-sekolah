@@ -31,8 +31,8 @@ export default config({
 
         image: fields.image({
           label: "Gambar Utama",
-          directory: "public/assets/konten",
-          publicPath: "/assets/konten",
+          directory: "public/BeritaAssets/",
+          publicPath: "/BeritaAssets/",
         }),
 
         tanggal: fields.date({
@@ -78,8 +78,8 @@ export default config({
           },
 
           images: {
-            directory: "public/assets/konten",
-            publicPath: "/assets/konten/",
+            directory: "public/BeritaAssets/",
+            publicPath: "/BeritaAssets/",
           },
 
           componentBlocks: {

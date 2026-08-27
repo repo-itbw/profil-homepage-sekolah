@@ -19,22 +19,29 @@ Website ini dibangun dengan skema statis, dan hanya bagian berita (News) saja ya
 sekolah-homepage-web/
 ├── .keystatic/                # Konfigurasi internal & cache Keystatic
 ├── content/                   # 🗂️ DIREKTORI KONTEN CMS (Terpisah dari /src)
-│   ├── berita/                # Kumpulan file .mdoc untuk Berita & Artikel
+│   ├── berita/                # Kumpulan file .mdoc untuk Artikel Berita
+│   └── elearning/             # Kumpulan file .mdoc untuk elearning
 ├── public/                    # Aset statis publik (favicon, logo, font, dll)
-│   └── assets/                # Kumpulan file multimedia (foto, video, dll) dari uploader untuk berita
-│   ├── staticAssets/          # file statis untuk banner & internal web
-│   ├── fonts/                 # Kumpulan file font lokal
+│   ├── assets/                # file aset statis inti untuk banner & internal web
+│   ├── BeritaAssets/          # file aset (foto, video, dll) dari uploader untuk berita
+│   ├── ElearningAssets/       # file aset (foto, video, dll) dari uploader untuk Elearning
+│   └── fonts/                 # Kumpulan file font lokal
 ├── src/
 │   ├── components/            # Komponen UI modular
-│   │   └── Jumbotron.svelte
-│   │   ├── Navbar.svelte
-│   │   └── QuickNews.astro
+│   │   ├── EmbedExternal/     # Komponen untuk embed konten eksternal
+│   │   │   ├── EmbedImage.astro
+│   │   │   ├── EmbedWeb.astro
+│   │   │   └── EmbedVideo.astro
+│   │   ├── Jumbotron.svelte    # Komponen Isi banner dinamis
+│   │   ├── Navbar.svelte       # Komponen Navigasi utama
+│   │   ├── QuickNews.astro     # Komponen Isi portal berita
+│   │   └── SmartDock.svelte    # Komponen Navigasi Sekunder untuk (berita, arsip, lms)
 │   ├── layouts/               # Kerangka tata letak halaman (BaseLayout, Header, Footer)
 │   ├── pages/                 # Routing direktori halaman statis & dinamis
 │   │   ├── index.astro        # Homepage (Beranda)
 │   │   ├── profil/
 │   │   │   ├── sejarah.astro  # Sub-page profil sejarah sekolah
-│   │   │   └── pimpinan.astro # Sub-page profil pimpinan & guru
+│   │   │   └── yayasan.astro # Sub-page profil pimpinan & guru
 │   │   ├── akademik/
 │   │   │   └── ekstrakurikuler.astro
 │   │   ├── informasi/

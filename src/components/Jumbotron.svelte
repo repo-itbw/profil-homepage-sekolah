@@ -3,7 +3,7 @@
 
   export let slides = [
     {
-      image: '/staticAssets/banner.jpg',
+      image: '/assets/banner.jpg',
       title: 'Bangun sekolah impianmu dengan semangat yang keren.',
       subtitle: 'SMK bina wisata adalah vokasi untuk generasi muda yang ingin tumbuh, inovatif, dan siap bersaing.',
       actions: [
@@ -13,7 +13,7 @@
     },
     // Tambahkan slide kedua untuk menguji indikator dan swipe
     {
-      image: '/staticAssets/edu.jpg',
+      image: '/assets/edu.jpg',
       title: 'Fasilitas modern untuk pendidikan vokasi terdepan.',
       subtitle: 'Praktik langsung di laboratorium berstandar industri dengan pengajar profesional.',
       actions: [
@@ -21,7 +21,7 @@
       ]
     },
     {
-      image: '/staticAssets/industry.jpg',
+      image: '/assets/industry.jpg',
       title: 'SMK terbaik di Daerah Lembang.',
       subtitle: 'Berada di jl. situ ppi no 12 kelurahan lembang, jawabarat.',
     }
