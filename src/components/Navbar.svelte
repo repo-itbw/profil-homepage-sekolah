@@ -42,7 +42,7 @@
       ]
     },
     { label: 'Kontak', href: '/kontak' },
-    { label: 'E-learning', href: 'https://elearning.smkbinawisata.sch.id' }
+    { label: 'E-learning', href: '/elearning/' }
   ];
 
   let { logoSrc = '/web-app-manifest-512x512.png' } = $props();

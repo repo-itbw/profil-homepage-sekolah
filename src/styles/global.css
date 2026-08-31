@@ -28,12 +28,12 @@
 
 @theme {
   /* Palet Warna Identitas Sekolah */
-  --color-alabaster: #FAF9F6;
+  --color-alabaster: #faf9f6;
   --color-blackcoal: #222222;
   --color-corporate-blue: #3ba2d5;
-  --color-accent-yellow: #EAB308;
-  --color-success-green: #16A34A;
-  
+  --color-accent-yellow: #eab308;
+  --color-success-green: #16a34a;
+
   /* Konfigurasi Font */
   --font-comfortaa: "Comfortaa", ui-serif, Georgia, serif;
   --font-lato: "Lato", ui-sans-serif, Roboto, sans-serif;
@@ -41,17 +41,43 @@
 
 /* Pengaturan Dasar Global */
 @layer base {
-  html, body {
-      margin: 0;
-      padding: 0;
-      @apply bg-alabaster text-blackcoal;
-    }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    @apply bg-alabaster text-blackcoal;
+  }
 
-  h1, h2, h3 { @apply font-lato leading-[1.2] font-normal; }
-  h1 { @apply text-4xl; }
-  h2 { @apply text-2xl; }
-  h3 { @apply text-xl; }
-  p { @apply font-comfortaa; }
+  h1,
+  h2,
+  h3 {
+    @apply font-lato leading-[1.2] font-normal;
+  }
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-xl;
+  }
+  p {
+    @apply font-comfortaa;
+  }
+
+  /* Mencegah Tailwind menimpa warna sebaris (inline-styles) dari mesin Shiki */
+  .prose-sekolah pre {
+      @apply p-4 sm:p-5 rounded-xl shadow-inner my-6 border border-gray-200;
+      /* Shiki secara otomatis akan memberikan warna latar (background) di sini */
+    }
+    
+    .prose-sekolah pre code {
+      @apply text-xs sm:text-sm font-mono leading-relaxed;
+      /* Menghapus paksaan warna dari Tailwind tanpa merusak inline-style */
+      color: unset !important; 
+      background-color: transparent !important;
+    }
 }
 
 /*Prose khusus untuk rendering konten berita*/
@@ -64,14 +90,14 @@
     --tw-prose-headings: var(--color-blackcoal);
     --tw-prose-links: var(--color-corporate-blue);
     --tw-prose-bold: var(--color-blackcoal);
-    
+
     @apply text-gray-700 font-comfortaa leading-loose;
   }
 
   /* Modifikasi spesifik untuk setiap elemen HTML (Tag) */
-  .prose-sekolah h1, 
-  .prose-sekolah h2, 
-  .prose-sekolah h3, 
+  .prose-sekolah h1,
+  .prose-sekolah h2,
+  .prose-sekolah h3,
   .prose-sekolah h4 {
     @apply font-lato font-extrabold text-blackcoal mt-10 mb-4 tracking-tight;
   }
@@ -91,7 +117,7 @@
     @apply italic border-l-4 pl-6 py-2 my-6 bg-gray-50/50 rounded-r-xl;
     border-left-color: var(--color-corporate-blue);
   }
-  
+
   .prose-sekolah blockquote p {
     @apply text-gray-600 m-0; /* Menghapus margin bawaan paragraf di dalam kutipan */
   }
@@ -101,17 +127,17 @@
     @apply font-bold no-underline border-b-2 transition-all;
     border-bottom-color: var(--color-corporate-blue);
   }
-  
+
   .prose-sekolah a:hover {
     @apply text-corporate-blue bg-corporate-blue/10;
   }
 
   /* Daftar (Unordered & Ordered Lists) */
-  .prose-sekolah ul, 
+  .prose-sekolah ul,
   .prose-sekolah ol {
     @apply pl-6 my-5 space-y-2;
   }
-  
+
   .prose-sekolah li {
     @apply marker:text-corporate-blue;
   }

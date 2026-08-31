@@ -1,17 +1,21 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { 
-    Search, ArrowLeft, Share2, Link, Check, ArrowDownWideNarrow, ArrowUpNarrowWide 
-  } from '@lucide/svelte';
+  import {
+    Search, ArrowLeft, Share2, Link, Check, ArrowDownWideNarrow, ArrowUpNarrowWide
+  } from '@lucide/svelte'; // Pastikan import path sesuai dengan versi package Anda
 
-  // Properti kontrol (default: 'arsip')
+  // 1. PROPERTI KONTROL UTAMA
   export let mode: 'arsip' | 'detail' = 'arsip';
+
+  // 2. PROPERTI DINAMIS (Injeksi dari luar komponen)
+  export let filterCategories: string[] = ['Semua', 'Berita', 'Pengumuman'];
+  export let backUrl: string = '/berita/arsip';
+  export let backLabel: string = 'Kembali ke Arsip';
 
   // --- STATE MODE ARSIP ---
   let searchQuery = '';
-  let activeCategory = 'Semua';
+  let activeCategory = filterCategories[0] || 'Semua'; // Dinamis mengambil indeks pertama
   let sortOrder: 'terbaru' | 'terlama' = 'terbaru';
-  const categories = ['Semua', 'Berita', 'Pengumuman'];
 
   // Reaktivitas: Memancarkan event ke DOM global setiap kali input berubah
   $: if (mode === 'arsip' && typeof window !== 'undefined') {
@@ -27,7 +31,6 @@
   let isCopied = false;
 
   const handleShare = async () => {
-    // Web Share API: Fitur bawaan peramban untuk memanggil menu berbagi sistem operasi
     if (navigator.share) {
       try {
         await navigator.share({ title: document.title, url: window.location.href });
@@ -56,81 +59,84 @@
   });
 </script>
 
-<!-- Kontainer Utama: Efek kaca (Glassmorphism) untuk modernitas -->
 <div class="relative w-full bg-white/90 backdrop-blur-md border border-gray-200 shadow-sm rounded-xl overflow-hidden transition-all duration-300 z-40">
-  
+
   {#if mode === 'arsip'}
     <!-- ================= MODE ARSIP ================= -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 sm:p-4">
-      
-      <!-- 1. Bilah Pencarian (Kiri) -->
-      <div class="relative w-full sm:max-w-xs">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Search size={16} class="text-gray-400" />
-        </div>
-        <input 
-          type="text" 
-          bind:value={searchQuery}
-          placeholder="Cari judul atau deskripsi..." 
-          class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 text-sm text-blackcoal rounded-lg focus:outline-none focus:ring-2 focus:ring-corporate-blue/50 focus:border-corporate-blue transition-all font-lato"
-        />
-      </div>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 sm:p-4">
 
-      <!-- 2. Kategori Pil & Urutan (Kanan/Bawah) -->
-      <div class="flex items-center w-full sm:w-auto justify-between sm:justify-end gap-2 overflow-x-auto custom-scrollbar pb-1 sm:pb-0">
-        
-        <!-- Pil Kategori -->
-        <div class="flex bg-gray-100 p-1 rounded-lg shrink-0">
-          {#each categories as cat}
-            <button 
-              on:click={() => activeCategory = cat}
-              class="px-3 py-1.5 text-xs font-bold rounded-md transition-all duration-200 {activeCategory === cat ? 'bg-white text-corporate-blue shadow-sm' : 'text-gray-500 hover:text-blackcoal'}"
+          <!-- 1. Bilah Pencarian -->
+          <div class="relative w-full flex-1 max-w-none sm:max-w-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search size={16} class="text-gray-400" />
+            </div>
+            <input
+              type="text"
+              bind:value={searchQuery}
+              placeholder="Cari judul atau deskripsi..."
+              class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 text-sm text-blackcoal rounded-lg focus:outline-none focus:ring-2 focus:ring-corporate-blue/50 focus:border-corporate-blue transition-all font-lato"
+            />
+          </div>
+
+          <!-- 2. Kontrol Filter & Urutan -->
+          <div class="flex items-center w-full sm:w-auto gap-2 shrink-0">
+
+            <!-- PERBAIKAN: Dropdown Kategori -->
+            <div class="relative flex-1 sm:flex-none">
+              <!-- appearance-none: Menghapus panah gaya bawaan peramban agar dapat diganti dengan ikon kustom -->
+              <select
+                bind:value={activeCategory}
+                class="w-full appearance-none bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-bold py-2 pl-3 pr-8 rounded-lg border border-transparent focus:border-corporate-blue focus:ring-2 focus:ring-corporate-blue/30 focus:outline-none transition-all cursor-pointer font-lato truncate"
+              >
+                {#each filterCategories as cat}
+                  <option value={cat}>{cat}</option>
+                {/each}
+              </select>
+              <!-- Ikon Chevron Kustom -->
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-gray-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </div>
+
+            <div class="w-px h-6 bg-gray-300 mx-1 hidden sm:block"></div>
+
+            <!-- Tombol Urutan (Toggle) -->
+            <button
+              on:click={() => sortOrder = sortOrder === 'terbaru' ? 'terlama' : 'terbaru'}
+              class="flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-xs font-bold transition-colors shrink-0 aspect-square sm:aspect-auto"
+              title="Ubah Urutan"
             >
-              {cat}
+              {#if sortOrder === 'terbaru'}
+                <ArrowDownWideNarrow size={16} />
+                <span class="hidden sm:inline">Terbaru</span>
+              {:else}
+                <ArrowUpNarrowWide size={16} />
+                <span class="hidden sm:inline">Terlama</span>
+              {/if}
             </button>
-          {/each}
+
+          </div>
         </div>
-
-        <div class="w-px h-6 bg-gray-300 mx-1 hidden sm:block"></div>
-
-        <!-- Tombol Urutan (Toggle) -->
-        <button 
-          on:click={() => sortOrder = sortOrder === 'terbaru' ? 'terlama' : 'terbaru'}
-          class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-xs font-bold transition-colors shrink-0"
-          title="Ubah Urutan"
-        >
-          {#if sortOrder === 'terbaru'}
-            <ArrowDownWideNarrow size={16} />
-            <span class="hidden sm:inline">Terbaru</span>
-          {:else}
-            <ArrowUpNarrowWide size={16} />
-            <span class="hidden sm:inline">Terlama</span>
-          {/if}
-        </button>
-
-      </div>
-    </div>
 
   {:else}
     <!-- ================= MODE DETAIL ================= -->
-    <!-- Bar Progres Membaca (Garis Tipis di Atas) -->
-    <div 
-      class="absolute top-0 left-0 h-1 bg-corporate-blue transition-all duration-150 ease-out z-10" 
+    <div
+      class="absolute top-0 left-0 h-1 bg-corporate-blue transition-all duration-150 ease-out z-10"
       style="width: {scrollProgress}%"
     ></div>
 
     <div class="flex items-center justify-between p-3 sm:p-4 mt-1">
-      <!-- Tombol Kembali -->
-      <a 
-        href="/berita/arsip" 
+      <!-- Tombol Kembali Dinamis -->
+      <a
+        href={backUrl}
         class="flex items-center gap-2 px-3 py-1.5 text-gray-600 hover:text-corporate-blue hover:bg-corporate-blue/10 rounded-lg transition-colors text-sm font-bold"
       >
         <ArrowLeft size={18} />
-        <span class="hidden sm:inline font-lato">Kembali ke Arsip</span>
+        <span class="hidden sm:inline font-lato">{backLabel}</span>
       </a>
 
       <!-- Aksi Berbagi -->
-      <button 
+      <button
         on:click={handleShare}
         class="flex items-center gap-2 px-4 py-2 bg-blackcoal hover:bg-gray-800 text-white rounded-lg transition-colors text-sm font-bold"
       >

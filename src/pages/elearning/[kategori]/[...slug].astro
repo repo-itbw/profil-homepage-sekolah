@@ -1,0 +1,94 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import SmartDock from '../../../components/SmartDock.svelte';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const semuaMateri = await getCollection('elearning');
+  const buatSlugKategori = (kategori: string) => kategori.toLowerCase().replace(/\s+/g, '-');
+
+  return semuaMateri.map(entry => ({
+    params: { 
+      kategori: buatSlugKategori(entry.data.kategori),
+      slug: entry.id 
+    },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formatTanggal = (tanggal: Date) => {
+  return new Intl.DateTimeFormat('id-ID', {
+    day: '2-digit', month: 'long', year: 'numeric'
+  }).format(tanggal);
+};
+---
+
+<Layout title={`${entry.data.judul} | Modul Pembelajaran`}>
+
+  <!-- 1. INTEGRASI SMARTDOCK (Sesuai asalnya) -->
+  <section class="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sticky top-[72px] lg:top-[84px] z-30">
+    <SmartDock 
+      client:load 
+      mode="detail" 
+      backUrl="/elearning" 
+      backLabel="Kembali ke Pustaka" 
+    />
+  </section>
+
+  <!-- 2. KONTEN MODUL E-LEARNING -->
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 mt-6">
+    
+    <!-- Blok Gambar Sampul -->
+    {entry.data.image && (
+      <figure class="w-full aspect-[21/9] rounded-t-2xl overflow-hidden bg-gray-100 border-x border-t border-gray-200">
+        <img 
+          src={entry.data.image} 
+          alt={entry.data.judul} 
+          class="w-full h-full object-cover"
+        />
+      </figure>
+    )}
+
+    <!-- Blok Header Metadata -->
+    <header class={`bg-white border border-gray-200 p-6 sm:p-8 mb-10 shadow-sm ${entry.data.image ? 'rounded-b-2xl border-t-0' : 'rounded-2xl border-t-4 border-t-corporate-blue'}`}>
+      
+      <div class="flex flex-wrap items-center justify-between gap-y-3 gap-x-4 border-b border-gray-100 pb-4 mb-5">
+        <span class="inline-flex items-center text-[10px] sm:text-xs font-bold uppercase tracking-wider text-corporate-blue bg-corporate-blue/10 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md">
+          Mata Pelajaran: {entry.data.kategori}
+        </span>
+        <span class="text-[10px] sm:text-xs font-comfortaa text-gray-400 whitespace-nowrap">
+          Dirilis: {formatTanggal(entry.data.tanggal)}
+        </span>
+      </div>
+      
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blackcoal leading-tight mb-4">
+        {entry.data.judul}
+      </h1>
+      
+      <!-- Blok Kompetensi / Rangkuman -->
+      <div class="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-100 border-l-4 border-l-accent-yellow">
+        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Kompetensi / Rangkuman</h3>
+        <p class="text-sm font-comfortaa text-gray-700 leading-relaxed">
+          {entry.data.deskripsi}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 text-sm font-comfortaa text-gray-600">
+        <!-- PERBAIKAN: Penambahan atribut width, height absolut dan flex-shrink-0 -->
+        <svg class="w-5 h-5 text-gray-400 flex-shrink-0" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+        </svg>
+        <span class="font-bold text-blackcoal">Penulis:</span> {entry.data.pengajar || 'Guru Mata Pelajaran'}
+      </div>
+    </header>
+
+    <!-- 3. BLOK KONTEN BACAAN (Markdoc) -->
+    <article class="prose prose-sekolah max-w-none">
+      <Content />
+    </article>
+    
+  </main>
+</Layout>

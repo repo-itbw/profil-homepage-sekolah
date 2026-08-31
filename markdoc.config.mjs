@@ -1,6 +1,15 @@
 import { defineMarkdocConfig, component } from "@astrojs/markdoc/config";
 
+// suntik modul khusus shiki
+import shiki from '@astrojs/markdoc/shiki';
+
 export default defineMarkdocConfig({
+  extends: [
+      shiki({
+        theme: 'dracula',
+        wrap: false,
+      })
+    ],
   tags: {
     // Kunci 'embedVideo' harus sama persis dengan nama componentBlocks di Keystatic
     embedVideo: {
