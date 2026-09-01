@@ -12,7 +12,7 @@ import vercel from "@astrojs/vercel"; // Integrasi deployment ke vercel
 
 export default defineConfig({
   site: "",
-  output: "hybrid",
+  output: "static",
   adapter: vercel(),
   devToolbar: {
     enabled: true,
