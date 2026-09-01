@@ -40,7 +40,7 @@ Website ini dibangun dengan skema arsitektur statis, dan hanya bagian berita (Ne
 ```markdown
 sekolah-homepage-web/
 ├── .keystatic/                # Konfigurasi internal & cache Keystatic
-├── content/                   # 🗂️ DIREKTORI KONTEN CMS (Terpisah dari /src)
+├── content/                   # DIREKTORI KONTEN CMS (Terpisah dari /src)
 │   ├── berita/                # Kumpulan file .mdoc untuk Artikel Berita
 │   └── elearning/             # Kumpulan file .mdoc untuk elearning
 ├── public/                    # Aset statis publik (favicon, logo, font, dll)
@@ -49,6 +49,7 @@ sekolah-homepage-web/
 │   ├── ElearningAssets/       # file aset (foto, video, dll) dari uploader untuk Elearning
 │   └── fonts/                 # Kumpulan file font lokal
 ├── src/
+│   ├── icons/                 # Pustaka astro-icon otomatis mencari direktori default penyimpan aset ikon lokal
 │   ├── components/            # Komponen UI modular
 │   │   ├── EmbedExternal/     # Komponen untuk embed konten eksternal
 │   │   │   ├── EmbedImage.astro
@@ -68,16 +69,13 @@ sekolah-homepage-web/
 │   │   │   └── yayasan.astro # Sub-page profil pimpinan & guru
 │   │   ├── akademik/
 │   │   │   └── ekstrakurikuler.astro
-│   │   ├── informasi/
-│   │   │   ├── berita/
-│   │   │   │   ├── arsip.astro       # Daftar arsip berita
-│   │   │   │   └── [...slug].astro   # Detail halaman berita dinamis
-│   │   │   └── pengumuman.astro
-│   │   ├── keystatic/
-│   │   │   └── [...params].astro     # Endpoint dashboard admin Keystatic
-│   │   └── api/
-│   │       └── keystatic    	   	# Endpoint dashboard admin Keystatic
-│   │       	└── [...params].ts
+│   │   ├── berita/
+│   │   │   ├── arsip.astro       # Daftar arsip berita
+│   │   │   └── [...slug].astro   # Detail halaman berita dinamis
+│   │   └── elearning/
+│   │       ├── [kategori]/
+│   │       │   └── [...slug].astro
+│   │       └── index.astro
 │   │
 │   ├── styles/                # Konfigurasi gaya global & Tailwind CSS v4
 │   │   └── global.css
