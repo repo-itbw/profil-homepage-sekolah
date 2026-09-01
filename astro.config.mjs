@@ -11,7 +11,7 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel"; // Integrasi deployment ke vercel
 
 export default defineConfig({
-  site: "",
+  site: "https://profil-homepage-sekolah-5m4uc1crn-hosting-web.vercel.app/",
   output: "static",
   adapter: vercel(),
   devToolbar: {
