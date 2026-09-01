@@ -65,7 +65,7 @@ export default config({
       ? { kind: "local" } 
       : {
           kind: "github",
-          repo: "NAMA_PEMILIK/NAMA_REPOSITORI", // Ganti dengan info repo GitHub sekolah Anda
+          repo: "repo-itbw/profil-homepage-sekolah", // Ganti dengan info repo GitHub sekolah Anda
         },
   collections: {
     
