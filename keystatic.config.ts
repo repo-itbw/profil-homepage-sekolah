@@ -61,7 +61,12 @@ const komponenMultimedia = {
 // 2. KONFIGURASI UTAMA KEYSTATIC
 // ============================================================================
 export default config({
-  storage: { kind: "local" }, // Ubah ke 'github' saat deploy
+  storage: import.meta.env.DEV 
+      ? { kind: "local" } 
+      : {
+          kind: "github",
+          repo: "NAMA_PEMILIK/NAMA_REPOSITORI", // Ganti dengan info repo GitHub sekolah Anda
+        },
   collections: {
     
     // ------------------------------------------------------------------------

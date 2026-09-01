@@ -8,9 +8,12 @@ import keystatic from "@keystatic/astro";
 import react from "@astrojs/react"; // Impor paket react untuk keystatic
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer"; // kompresor otomatis uploader gambar
 import sitemap from "@astrojs/sitemap";
+import vercel from "@astrojs/vercel"; // Integrasi deployment ke vercel
 
 export default defineConfig({
-  site: "https://smksbinawisatalembang.sch.id",
+  site: "",
+  output: "hybrid",
+  adapter: vercel(),
   devToolbar: {
     enabled: true,
   },
@@ -51,5 +54,4 @@ export default defineConfig({
     keystatic(),
     sitemap(),
   ],
-  output: "static",
 });
