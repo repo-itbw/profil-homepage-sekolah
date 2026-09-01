@@ -14,16 +14,18 @@ export async function GET(context: any) {
   // 2. Normalisasi Matriks Data Berita
   const itemBerita = semuaBerita.map((post) => ({
     title: `[Berita] ${post.data.judul}`,
-    pubDate: post.data.tanggal,
+    // PERBAIKAN: Konversi string Keystatic menjadi format objek Date
+    pubDate: new Date(post.data.tanggal), 
     description: post.data.deskripsi,
-    // Normalisasi jalur tautan berdasarkan struktur direktori: src/pages/informasi/berita/
+    // Normalisasi jalur tautan berdasarkan struktur direktori
     link: `/informasi/berita/${post.id}/`, 
   }));
 
   // 3. Normalisasi Matriks Data E-Learning
   const itemElearning = semuaElearning.map((post) => ({
     title: `[Materi] ${post.data.judul}`,
-    pubDate: post.data.tanggal,
+    // PERBAIKAN: Konversi string Keystatic menjadi format objek Date
+    pubDate: new Date(post.data.tanggal), 
     description: post.data.deskripsi,
     link: `/elearning/${buatSlugKategori(post.data.kategori)}/${post.id}/`,
   }));
