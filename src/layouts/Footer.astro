@@ -1,0 +1,126 @@
+---
+// src/layouts/Footer.astro
+import { Icon } from 'astro-icon/components';
+
+const tahunSekarang = new Date().getFullYear();
+
+const tautanNavigasi = [
+  { icon: 'lucide:school', label: 'Profil Sekolah', url: '/profil/sejarah' },
+  { icon: 'lucide:library', label: 'Akademik & Ekskul', url: '/akademik/ekstrakurikuler' },
+  { icon: 'lucide:newspaper', label: 'Berita', url: '/informasi/berita/arsip' },
+  { icon: 'lucide:laptop', label: 'Pustaka E-Learning', url: '/elearning' },
+];
+
+const tautanPendidikan = [
+  { icon: 'lucide:database', label: 'Dapodikdasmen', url: '#' },
+  { icon: 'lucide:users', label: 'Informasi GTK', url: '#' },
+  { icon: 'lucide:id-card', label: 'Informasi NISN', url: '#' },
+  { icon: 'lucide:book-open', label: 'Belajar.id', url: 'https://belajar.id' },
+];
+
+const tautanLayanan = [
+  { icon: 'lucide:graduation-cap', label: 'Portal Alumni', url: '#' },
+  { icon: 'lucide:file-text', label: 'Info PPDB', url: '#' },
+  { icon: 'lucide:instagram', label: 'Instagram Resmi', url: '#' },
+  { icon: 'lucide:youtube', label: 'Kanal YouTube', url: '#' },
+];
+---
+
+<footer class="w-full bg-white border-t border-gray-200 pt-10 sm:pt-12 pb-6 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- FLATTENED GRID ARCHITECTURE -->
+    <!-- Mobile: 2 Kolom mutlak. Desktop: 12 Kolom -->
+    <div class="grid grid-cols-2 lg:grid-cols-12 gap-x-3 gap-y-8 lg:gap-8 mb-10 sm:mb-12">
+      
+      <!-- 1. KOLOM PETA (Mobile: 100% / Desktop: 25%) -->
+      <!-- col-span-2 memaksa peta menempati 2 kolom penuh di layar HP -->
+      <div class="col-span-2 lg:col-span-3 flex flex-col">
+        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Lokasi Sekolah</h3>
+        <div class="w-full h-40 sm:h-56 lg:h-full min-h-[160px] rounded-xl overflow-hidden bg-gray-100 border border-gray-200">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15846.32043353521!2d107.60200151441519!3d-6.820813043175169!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e11cf0b596c1%3A0x61f80770b0d5b5c!2sLokasi%20Parkir%20SMK%20Bina%20wisata%20lembang!5e0!3m2!1sid!2sid!4v1788222971566!5m2!1sid!2sid" 
+            class="w-full h-full border-0" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Peta Lokasi SMKs Bina Wisata Lembang"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- 2. KOLOM NAVIGASI (Mobile: 50% / Desktop: ~16%) -->
+      <div class="col-span-1 lg:col-span-2 flex flex-col">
+        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Navigasi</h3>
+        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-comfortaa text-gray-500">
+          {tautanNavigasi.map((item) => (
+            <li>
+              <!-- whitespace-normal membatalkan nowrap agar teks panjang berbaris rapi alih-alih terpotong -->
+              <a href={item.url} class="group flex items-start sm:items-center gap-1.5 sm:gap-2.5 hover:text-corporate-blue transition-colors whitespace-normal">
+                {item.icon && <Icon name={item.icon} class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 group-hover:text-corporate-blue transition-colors shrink-0 mt-0.5 sm:mt-0" />}
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- 3. KOLOM PENDIDIKAN (Mobile: 50% / Desktop: ~16%) -->
+      <div class="col-span-1 lg:col-span-2 flex flex-col">
+        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Pendidikan</h3>
+        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-comfortaa text-gray-500">
+          {tautanPendidikan.map((item) => (
+            <li>
+              <a href={item.url} class="group flex items-start sm:items-center gap-1.5 sm:gap-2.5 hover:text-corporate-blue transition-colors whitespace-normal">
+                {item.icon && <Icon name={item.icon} class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 group-hover:text-corporate-blue transition-colors shrink-0 mt-0.5 sm:mt-0" />}
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- 4. KOLOM LAYANAN (Mobile: 50% / Desktop: ~16%) -->
+      <div class="col-span-1 lg:col-span-2 flex flex-col">
+        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Layanan</h3>
+        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-comfortaa text-gray-500">
+          {tautanLayanan.map((item) => (
+            <li>
+              <a href={item.url} class="group flex items-start sm:items-center gap-1.5 sm:gap-2.5 hover:text-corporate-blue transition-colors whitespace-normal">
+                {item.icon && <Icon name={item.icon} class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 group-hover:text-corporate-blue transition-colors shrink-0 mt-0.5 sm:mt-0" />}
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- 5. KOLOM KONTAK (Mobile: 50% / Desktop: 25%) -->
+      <div class="col-span-1 lg:col-span-3 flex flex-col lg:items-end lg:text-right">
+        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2 w-full lg:text-right">Alamat</h3>
+        
+        <address class="not-italic text-[9px] sm:text-sm font-comfortaa text-gray-500 leading-relaxed mb-2 sm:mb-3">
+          Jl. Mutiara 1, Situ PPI<br/>
+          Kec. Lembang, Kab. Bandung Barat,<br/>
+          Jawa Barat 40391
+        </address>
+        
+        <p class="text-[9px] sm:text-sm font-comfortaa text-gray-500 leading-relaxed">
+          <strong>Email:</strong><br class="block sm:hidden" /> 
+          <!-- break-all mencegah teks alamat email menembus batas kolom di layar kecil -->
+          <span class="break-all">blabalabla@yahoo.com</span><br/>
+          <strong>Telp:</strong> (022) 1234567
+        </p>
+      </div>
+
+    </div>
+
+    <!-- GARIS BAWAH & HAK CIPTA -->
+    <div class="border-t border-gray-200 pt-6 flex flex-col items-center justify-center text-center">
+      <p class="text-[9px] sm:text-xs font-comfortaa text-gray-400">
+        &copy; {tahunSekarang} Axel Kenshi. All Rights Reserved.
+      </p>
+    </div>
+    
+  </div>
+</footer>

@@ -39,6 +39,20 @@
   --font-lato: "Lato", ui-sans-serif, Roboto, sans-serif;
 }
 
+html {
+  scrollbar-width: none; 
+}
+
+/* Menyembunyikan scrollbar untuk IE dan Edge (Legacy) */
+body {
+  -ms-overflow-style: none; 
+}
+
+/* Menyembunyikan scrollbar untuk Chrome, Safari, Opera, dan Edge (Chromium) */
+html::-webkit-scrollbar {
+  display: none;
+}
+
 /* Pengaturan Dasar Global */
 @layer base {
   html,

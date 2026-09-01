@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
-import Navbar from '../components/Navbar.svelte';
+import Navbar from './Navbar.svelte';
+import Footer from './Footer.astro';
 import { ClientRouter } from "astro:transitions";
 
 // Mendefinisikan tipe data untuk properti (props) yang bisa diterima layout
@@ -37,9 +38,12 @@ const { title, description = "Portfolio & Personal Notes" } = Astro.props;
     
     <!-- 1. NAVBAR GLOBAL: Otomatis ada di setiap halaman -->
     <Navbar client:idle transition:persist />
+    
     <!-- 2. SLOT KONTEN: Tempat masuknya kode unik dari file halaman Anda -->
     <slot />
 
     <!-- 3: Footer -->
+    <Footer />
+    
   </body>
 </html>

@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import svelte from "@astrojs/svelte";
+import icon from 'astro-icon';
 import markdoc from "@astrojs/markdoc";
 import keystatic from "@keystatic/astro";
 import react from "@astrojs/react"; // Impor paket react untuk keystatic
@@ -41,6 +42,7 @@ export default defineConfig({
   },
   // Mendaftarkan integrasi ekosistem Astro
   integrations: [
+    icon(),
     react(),
     svelte(),
     markdoc({
