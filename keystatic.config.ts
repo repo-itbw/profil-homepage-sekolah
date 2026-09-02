@@ -66,7 +66,10 @@ export default config({
       : {
           kind: "github",
           repo: "repo-itbw/profil-homepage-sekolah", // Ganti dengan info repo GitHub sekolah Anda
-        },
+    },
+      clientId: process.env.KEYSTATIC_GITHUB_CLIENT_ID || import.meta.env.KEYSTATIC_GITHUB_CLIENT_ID,
+      clientSecret: process.env.KEYSTATIC_GITHUB_CLIENT_SECRET || import.meta.env.KEYSTATIC_GITHUB_CLIENT_SECRET,
+      secret: process.env.KEYSTATIC_SECRET || import.meta.env.KEYSTATIC_SECRET,
   collections: {
     
     // ------------------------------------------------------------------------
