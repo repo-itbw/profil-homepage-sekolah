@@ -72,10 +72,14 @@ sekolah-homepage-web/
 │   │   ├── berita/
 │   │   │   ├── arsip.astro       # Daftar arsip berita
 │   │   │   └── [...slug].astro   # Detail halaman berita dinamis
-│   │   └── elearning/
-│   │       ├── [kategori]/
-│   │       │   └── [...slug].astro
-│   │       └── index.astro
+│   │   ├── elearning/
+│   │   │   ├── [kategori]/
+│   │   │   │   └── [...slug].astro
+│   │   │   └── index.astro
+│   │   │
+│   │   └── api/
+│   │       └── keystatic/
+│   │           └── [...params].ts
 │   │
 │   ├── styles/                # Konfigurasi gaya global & Tailwind CSS v4
 │   │   └── global.css
