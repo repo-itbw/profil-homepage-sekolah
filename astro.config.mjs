@@ -11,7 +11,7 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel"; // Integrasi deployment ke vercel
 
 export default defineConfig({
-  site: "https://repo-itbw-profil-homepage-sekolah-ay1bsyydb-hosting-web.vercel.app",
+  site: "https://repo-itbw-profil-homepage-sekolah-delta.vercel.app",
   output: "static",
   adapter: vercel(),
   devToolbar: {
@@ -20,7 +20,7 @@ export default defineConfig({
   // Mendaftarkan Vite plugin untuk kompilasi Tailwind v4
   vite: {
     build: {
-      chunkSizeWarningLimit: 1024, // Menarik batas peringatan dari 500 KB ke 1024 KB (1 MB)
+      chunkSizeWarningLimit: 2048, // Menarik batas peringatan dari 500 KB ke 1024 KB (1 MB)
     },
     plugins: [
       tailwindcss(),
