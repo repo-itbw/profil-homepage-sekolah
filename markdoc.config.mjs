@@ -12,15 +12,15 @@ export default defineMarkdocConfig({
     ],
   tags: {
     // Kunci 'embedVideo' harus sama persis dengan nama componentBlocks di Keystatic
-    embedVideo: {
-      render: component("./src/components/EmbedExternal/EmbedVideo.astro"),
+    embedYoutube: {
+      render: component("src/components/EmbedExternal/EmbedYoutube.astro"),
       attributes: {
         // Deklarasi tipe data parameter yang masuk
         youtubeUrl: { type: String, required: true }
       },
     },
     embedWeb: {
-      render: component("./src/components/EmbedExternal/EmbedWeb.astro"),
+      render: component("src/components/EmbedExternal/EmbedWeb.astro"),
       attributes: {
         url: { type: String, required: true },
         title: { type: String, required: false },
@@ -28,7 +28,7 @@ export default defineMarkdocConfig({
     },
 
     embedImage: {
-      render: component("./src/components/EmbedExternal/EmbedImage.astro"),
+      render: component("src/components/EmbedExternal/EmbedImage.astro"),
       attributes: {
         url: { type: String, required: true },
         alt: { type: String, required: true },

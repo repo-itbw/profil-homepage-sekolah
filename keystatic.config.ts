@@ -5,7 +5,7 @@ import { config, fields, collection, component } from "@keystatic/core";
 // ============================================================================
 const komponenMultimedia = {
   // --- A. EMBED YOUTUBE EKSTERNAL ---
-  embedVideo: component({
+  embedYoutube: component({
     label: "Embed YouTube Video",
     schema: {
       youtubeUrl: fields.text({
