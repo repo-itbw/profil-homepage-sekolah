@@ -13,7 +13,9 @@ import vercel from "@astrojs/vercel"; // Integrasi deployment ke vercel
 export default defineConfig({
   site: "https://repo-itbw-profil-homepage-sekolah-delta.vercel.app",
   output: "static",
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: { enabled: true }
+  }),
   devToolbar: {
     enabled: true,
   },
