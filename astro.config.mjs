@@ -11,8 +11,8 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel"; // Integrasi deployment ke vercel
 
 export default defineConfig({
-  site: "https://repo-itbw-profil-homepage-sekolah-delta.vercel.app",
-  output: "static",
+  site: "https://test.axelkenshi.my.id/",
+  output: "static", 
   adapter: vercel({
     webAnalytics: { enabled: true }
   }),
