@@ -62,11 +62,11 @@ const komponenMultimedia = {
 // ============================================================================
 export default config({
   storage: import.meta.env.DEV 
-      ? { kind: "local" } 
-      : {
-          kind: "github",
-          repo: "repo-itbw/profil-homepage-sekolah", // Ganti dengan info repo GitHub sekolah Anda
-        },
+    ? { kind: "local" } 
+    : { kind: "cloud" },
+  cloud: {
+      project: "repo-itbw/homepage-dashboard", // Tempelkan Project Slug dari Keystatic Cloud Dashboard di sini
+    },
   collections: {
     
     // ------------------------------------------------------------------------
