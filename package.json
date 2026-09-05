@@ -1,7 +1,7 @@
 {
   "name": "smk-bw",
   "type": "module",
-  "version": "1.1.1",
+  "version": "1.2.9",
   "engines": {
     "node": "22.x"
   },
@@ -14,18 +14,18 @@
     "untun": "untun tunnel http://127.0.0.1:4321"
   },
   "dependencies": {
-    "@astrojs/markdoc": "^2.0.8",
-    "@astrojs/react": "^6.0.4",
-    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/markdoc": "2.0.9",
+    "@astrojs/react": "6.0.5",
+    "@astrojs/sitemap": "3.7.4",
     "@astrojs/svelte": "^9.0.1",
-    "@astrojs/vercel": "^11.0.9",
+    "@astrojs/vercel": "11.0.10",
     "@iconify-json/lucide": "^1.2.124",
     "@keystatic/astro": "^6.0.0",
     "@keystatic/core": "^0.6.8",
     "@lucide/svelte": "^1.33.0",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.2.4",
+    "astro": "7.3.1",
     "astro-icon": "^1.2.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

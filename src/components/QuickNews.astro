@@ -34,20 +34,20 @@ const formatTanggal = (tanggal: Date) => {
       <a 
         href={`/berita/${berita.id}`} 
         // Padding disusutkan menjadi p-2 agar kartu lebih langsing
-        class="group flex gap-3 p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-colors items-center"
+        class="group flex gap-3 p-2 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/10 border border-white/5 transition-colors items-center"
       >
         <!-- Thumbnail dikecilkan secara ekstrem (64x64 pixel) -->
         <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-800">
           <img 
             src={berita.data.image || '/placeholder-news.jpg'} 
             alt={berita.data.judul} 
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+            class="w-full h-full object-cover group-hover:scale-105 group-active:scale-105 transition-transform duration-300"
             loading="lazy"
           />
         </div>
 
         <div class="flex flex-col flex-grow min-w-0 justify-center">
-          <h3 class="text-alabaster font-bold text-[13px] sm:text-sm line-clamp-1 group-hover:text-success-green transition-colors leading-tight">
+          <h3 class="text-alabaster font-bold text-[13px] sm:text-sm line-clamp-1 group-hover:text-accent-yellow group-active:text-accent-yellow transition-colors leading-tight">
             {berita.data.judul}
           </h3>
           

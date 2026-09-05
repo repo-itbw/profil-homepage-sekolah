@@ -5,10 +5,11 @@ import { Icon } from 'astro-icon/components';
 const tahunSekarang = new Date().getFullYear();
 
 const tautanNavigasi = [
-  { icon: 'lucide:school', label: 'Profil Sekolah', url: '/profil/sejarah' },
-  { icon: 'lucide:library', label: 'Akademik & Ekskul', url: '/akademik/ekstrakurikuler' },
+  { icon: 'lucide:graduation-cap', label: 'Portal Alumni', url: '#' },
+  { icon: 'lucide:file-text', label: 'Info PPDB', url: '#' },
   { icon: 'lucide:newspaper', label: 'Berita', url: '/informasi/berita/arsip' },
-  { icon: 'lucide:laptop', label: 'Pustaka E-Learning', url: '/elearning' },
+  { icon: 'lucide:laptop', label: 'Materi Digital', url: '/elearning' },
+  { icon: 'lucide:origami', label: 'Galeri', url: '/galeri' },
 ];
 
 const tautanPendidikan = [
@@ -16,13 +17,15 @@ const tautanPendidikan = [
   { icon: 'lucide:users', label: 'Informasi GTK', url: '#' },
   { icon: 'lucide:id-card', label: 'Informasi NISN', url: '#' },
   { icon: 'lucide:book-open', label: 'Belajar.id', url: 'https://belajar.id' },
+  { icon: 'lucide:scroll-text', label: 'E-Raport', url: '#' },
 ];
 
-const tautanLayanan = [
-  { icon: 'lucide:graduation-cap', label: 'Portal Alumni', url: '#' },
-  { icon: 'lucide:file-text', label: 'Info PPDB', url: '#' },
+const tautanSosial = [
   { icon: 'lucide:instagram', label: 'Instagram Resmi', url: '#' },
   { icon: 'lucide:youtube', label: 'Kanal YouTube', url: '#' },
+  { icon: 'lucide:facebook', label: 'Facebook', url: '#' },
+  { icon: 'lucide:twitter', label: 'Twitter', url: '#' },
+  { icon: 'lucide:flame', label: 'Tiktok', url: '#' },
 ];
 ---
 
@@ -51,7 +54,7 @@ const tautanLayanan = [
 
       <!-- 2. KOLOM NAVIGASI (Mobile: 50% / Desktop: ~16%) -->
       <div class="col-span-1 lg:col-span-2 flex flex-col">
-        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Navigasi</h3>
+        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Tautan Lainnya</h3>
         <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-comfortaa text-gray-500">
           {tautanNavigasi.map((item) => (
             <li>
@@ -82,9 +85,9 @@ const tautanLayanan = [
 
       <!-- 4. KOLOM LAYANAN (Mobile: 50% / Desktop: ~16%) -->
       <div class="col-span-1 lg:col-span-2 flex flex-col">
-        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Layanan</h3>
+        <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Media Sosial</h3>
         <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-comfortaa text-gray-500">
-          {tautanLayanan.map((item) => (
+          {tautanSosial.map((item) => (
             <li>
               <a href={item.url} class="group flex items-start sm:items-center gap-1.5 sm:gap-2.5 hover:text-corporate-blue transition-colors whitespace-normal">
                 {item.icon && <Icon name={item.icon} class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 group-hover:text-corporate-blue transition-colors shrink-0 mt-0.5 sm:mt-0" />}
@@ -118,7 +121,9 @@ const tautanLayanan = [
     <!-- GARIS BAWAH & HAK CIPTA -->
     <div class="border-t border-gray-200 pt-6 flex flex-col items-center justify-center text-center">
       <p class="text-[9px] sm:text-xs font-comfortaa text-gray-400">
-        &copy; {tahunSekarang} Axel Kenshi. All Rights Reserved.
+        &copy; {tahunSekarang} All rights reserved by, <a class="text-blue-400" href="https://creativecommons.org/licenses/by-nc/4.0/deed.id">CC BY-NC.</a>
+        <br />
+        Dikembangkan oleh <a class="text-gray-300" href="https://axelkenshi.my.id/">axstonedev</a> selanjutnya dipelihara oleh <a class="text-gray-300" href="/contributors">Tim IT</a>
       </p>
     </div>
     

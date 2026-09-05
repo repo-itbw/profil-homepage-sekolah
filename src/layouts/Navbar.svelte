@@ -15,7 +15,8 @@
       sublinks: [
         { label: 'Kurikulum', href: '/akademik/kurikulum' },
         { label: 'Jadwal Pelajaran', href: '/akademik/jadwal' },
-        { label: 'Materi Pembelajaran', href: '/akademik/materi' }
+        { label: 'Materi Pembelajaran', href: '/akademik/materi' },
+        { label: 'Statistik Lulusan', href: '/akademik/lulusan' }
       ]
     },
     {
@@ -26,7 +27,6 @@
         { label: 'Tenaga pendidik', href: '/profil/tendik' },
       ]
     },
-    { label: 'Pencapaian', href: '/pencapaian' },
     {
       label: 'Kegiatan',
       sublinks: [
@@ -38,10 +38,10 @@
     { label: 'Berita',
       sublinks: [
         { label: 'Arsip Berita', href: '/berita/arsip' },
-        { label: 'Galeri Kenangan', href: '/berita/galeri' }
+        { label: 'Mading', href: '/berita/mading' },
+        { label: 'Galeri Media', href: '/berita/galeri' }
       ]
     },
-    { label: 'Kontak', href: '/kontak' },
     { label: 'E-learning', href: '/elearning/' }
   ];
 
@@ -81,25 +81,24 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-20">
 
-      <!-- container Logo & title -->
       <div class="flex-shrink-0 flex items-center z-50">
-        <a href="/" onclick={closeAllMenus} class="flex items-center gap-2.5 sm:gap-3 group">
-          <img 
-            src={logoSrc} 
-            alt="Logo SMK Bina Wisata" 
-            class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
-          />
-          
-          <div class="flex flex-col font-lato font-bold select-none">
-            <span class="text-[10px] sm:text-xs font-bold tracking-widest text-gray-500 uppercase leading-none mb-0.5">
-              SMKs
-            </span>
-            <span class="text-xs sm:text-sm md:text-base font-extrabold tracking-tight text-gray-900 uppercase leading-none">
-              Bina Wisata Lembang
-            </span>
-          </div>
-        </a>
-      </div>
+              <a href="/" onclick={closeAllMenus} class="flex items-center gap-3 sm:gap-4 group">
+                <img
+                  src={logoSrc}
+                  alt="Logo SMK Bina Wisata"
+                  class="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-active:scale-105"
+                />
+
+                <div class="flex flex-col font-lato select-none justify-center">
+                  <span class="text-xs sm:text-sm font-bold tracking-widest text-gray-500 uppercase leading-none mb-1">
+                    SMKs
+                  </span>
+                  <span class="text-sm sm:text-base md:text-lg font-extrabold tracking-tight text-gray-900 uppercase leading-none">
+                    Bina Wisata Lembang
+                  </span>
+                </div>
+              </a>
+            </div>
 
       <!-- PERUBAHAN 1: hidden md:flex diubah menjadi hidden lg:flex -->
       <div class="hidden lg:flex items-center">
@@ -139,7 +138,7 @@
         <button
           type="button"
           onclick={toggleMobileMenu}
-          class="relative flex items-center justify-center w-12 h-12 text-gray-600 hover:text-[#3ba2d5] hover:bg-gray-50 rounded-md transition-colors"
+          class="relative flex items-center justify-center w-12 h-12 text-gray-600 hover:text-[#3ba2d5] active:text-[#3ba2d5] hover:bg-gray-50 active:bg-gray-50 rounded-md transition-colors"
           aria-label="Toggle navigasi seluler"
         >
           {#if isMobileMenuOpen}
@@ -192,7 +191,7 @@
                 <a
                   href={sublink.href}
                   onclick={closeAllMenus}
-                  class="text-sm text-center text-gray-600 hover:text-[#3ba2d5] py-2 px-2 rounded-md hover:bg-slate-50 transition-colors"
+                  class="text-sm text-center text-gray-600 hover:text-[#3ba2d5] active:text-[#3ba2d5] py-2 px-2 rounded-md hover:bg-slate-50 active:bg-slate-50 transition-colors"
                 >
                   {sublink.label}
                 </a>

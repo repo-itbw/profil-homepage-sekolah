@@ -42,7 +42,7 @@ const formatTanggal = (tanggal: Date) => {
       {beritaUrut.map((berita) => (
         <a 
           href={`/berita/${berita.id}`} 
-          class="news-card group flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-1.5 overflow-hidden min-h-[320px]"
+          class="news-card group flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-xl active:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-1.5 active:-translate-y-1.5 overflow-hidden min-h-[320px]"
           // Injeksi atribut data-* untuk dibaca oleh filter Javascript
           data-title={berita.data.judul.toLowerCase()}
           data-desc={berita.data.deskripsi.toLowerCase()}
@@ -57,7 +57,7 @@ const formatTanggal = (tanggal: Date) => {
               </span>
             </div>
             
-            <h2 class="text-lg sm:text-xl font-bold text-blackcoal mb-2 line-clamp-2 group-hover:text-corporate-blue transition-colors leading-tight">
+            <h2 class="text-lg sm:text-xl font-bold text-blackcoal mb-2 line-clamp-2 group-hover:text-corporate-blue group-active:text-corporate-blue transition-colors leading-tight">
               {berita.data.judul}
             </h2>
             
@@ -87,7 +87,7 @@ const formatTanggal = (tanggal: Date) => {
                 src={berita.data.image || '/assets/staticAssets/placeholder.jpg'}
                 alt={berita.data.judul}
                 loading="lazy"
-                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-active:scale-105 transition-transform duration-500"
               />
             </div>
           </div>

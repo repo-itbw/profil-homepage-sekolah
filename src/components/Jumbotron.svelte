@@ -5,7 +5,7 @@
     {
       image: '/assets/banner.jpg',
       title: 'Bangun sekolah impianmu dengan semangat yang keren.',
-      subtitle: 'SMK bina wisata adalah vokasi untuk generasi muda yang ingin tumbuh, inovatif, dan siap bersaing.',
+      subtitle: 'SMK bina wisata adalah sekolah vokasi untuk generasi muda yang ingin tumbuh, inovatif, dan siap bersaing.',
       actions: [
         { label: 'Info PPDB', type: 'primary', link: '#' },
         { label: 'Galeri prestasi', type: 'outline', link: '#' }
@@ -22,8 +22,11 @@
     },
     {
       image: '/assets/industry.jpg',
-      title: 'SMK terbaik di Daerah Lembang.',
-      subtitle: 'Berada di jl. situ ppi no 12 kelurahan lembang, jawabarat.',
+      title: 'Program Prakerin untuk kelas XII',
+      subtitle: 'Dual based learning yang mengintegrasikan PKL sebagai komponen wajib kurikulum industri',
+      actions: [
+        { label: 'Lihat Rincian Program', type: 'primary', link: '#' }
+      ]
     }
   ];
 
@@ -128,7 +131,7 @@
             {#each slide.actions as btn}
               <a 
                 href={btn.link} 
-                class="px-4 py-2 text-sm rounded-md font-semibold transition-transform duration-300 hover:-translate-y-1 
+                class="px-4 py-2 text-sm rounded-md font-semibold transition-transform duration-300 hover:-translate-y-1 active:-translate-y-1 
                   {btn.type === 'primary' 
                     ? 'bg-white text-[#1a365d] border-2 border-white' 
                     : 'bg-transparent text-white border-2 border-white hover:bg-white/10'}"
