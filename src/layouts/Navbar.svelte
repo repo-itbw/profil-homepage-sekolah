@@ -15,8 +15,7 @@
       sublinks: [
         { label: 'Kurikulum', href: '/akademik/kurikulum' },
         { label: 'Jadwal Pelajaran', href: '/akademik/jadwal' },
-        { label: 'Materi Pembelajaran', href: '/akademik/materi' },
-        { label: 'Statistik Lulusan', href: '/akademik/lulusan' }
+        { label: 'Materi Pembelajaran', href: '/akademik/materi' }
       ]
     },
     {
@@ -25,6 +24,7 @@
         { label: 'Ikatan alumni', href: '/profil/ika' },
         { label: 'Bursa kerja khusus', href: '/profil/salum' },
         { label: 'Tenaga pendidik', href: '/profil/tendik' },
+        { label: 'Statistik Lulusan', href: '/akademik/lulusan' }
       ]
     },
     {

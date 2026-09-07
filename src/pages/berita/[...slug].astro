@@ -46,6 +46,12 @@ const formatTanggal = (tanggal: Date) => {
         {entry.data.judul}
       </h1>
 
+      {entry.data.deskripsi && (
+        <p class="text-base sm:text-lg text-gray-600 font-normal leading-relaxed mb-6">
+          {entry.data.deskripsi}
+        </p>
+      )}
+
       <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-sm font-comfortaa text-gray-500 border-y border-gray-100 py-4 mb-8">
         <span class="font-bold text-blackcoal">Oleh: {entry.data.penerbit || 'Admin'}</span>
         <span class="hidden sm:inline">&bull;</span>

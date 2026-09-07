@@ -1,3 +1,4 @@
+<!--banner-->
 <img width="1278" alt="Image" src="https://github.com/user-attachments/assets/033c8ee7-e1db-402a-bf82-e71eac0d3b65" />
 
 ## SC Homepage SMK BINA WISATA
@@ -42,7 +43,7 @@ Website ini dibangun dengan skema arsitektur statis, dan hanya bagian berita (Ne
 - 🚀 Astro
 - ⚡ Svelte
 - 💠 Tailwind CSS
-- 📕 @astrojs/keystatic & layanan cloudnya
+- 📕 @astrojs/keystatic & layanan [cloud CMSnya](https://keystatic.cloud/)
 
 ## Prasyarat Pemahaman
 
@@ -198,7 +199,7 @@ Pengetahuan proyek tidaklah tersimpan di kepala satu orang saja, Guna mencegah p
 
 ```markdown
 sekolah-homepage-web/
-├── .keystatic/                # Konfigurasi internal & cache Keystatic di mode local development
+├── .keystatic/                # cache Keystatic di mode local development
 ├── content/                   # DIREKTORI KONTEN CMS (Terpisah dari /src)
 │   ├── berita/                # Kumpulan file .mdoc untuk Artikel Berita
 │   ├── elearning/             # Kumpulan file .mdoc untuk elearning
@@ -258,7 +259,7 @@ sekolah-homepage-web/
 ### Perintah dasar git untuk kloning SC ke local editor
 
 ```bash
-git clone <url-repo misal https://github.com/repo-itbw/profil-homepage-sekolah> 
+git clone https://github.com/repo-itbw/profil-homepage-sekolah
 cd profil-homepage-sekolah
 ```
 
@@ -291,8 +292,12 @@ jalankan perintah berikut untuk memperbarui versi Dependensi Astro setiap bebera
 ⚠️ hindari update paksa bila yang ada hanya major changes, Dependensi bisa merusak stabilitas aplikasi bila perombakan tidak menyesuaikan paradigma baru dengan baik.
 
 ```text
- bun x @astrojs/upgrade
+bun x @astrojs/upgrade
 ```
+
+---
+
+<img width="1261" height="793" alt="Image" src="https://github.com/user-attachments/assets/d736c38e-3054-4b5e-b3bd-03b8f583f649" />
 
 ## Cara menggunakan keystatic CMS
 
@@ -300,11 +305,13 @@ Saat membuat konten baru di dalam dasbor Keystatic, biasakan menekan tombol Ente
 
 Langkah kecil ini memaksa serializer (pengonversi data) Keystatic untuk membuat node paragraf baru yang terpisah oleh spasi dari pembatas frontmatter
 
+<img width="2244" height="1457" alt="Image" src="https://github.com/user-attachments/assets/dd08e01e-f0ce-40a5-b99f-a5189e4f7f70" />
+
 ### FAQ
 
 <!--faq 1-->
 <details>
-<summary><strong>Apa itu Keystatic?</strong></summary>
+<summary><strong>🤔 Apa itu Keystatic?</strong></summary>
 
 Keystatic adalah CMS berbasis Git (*Git-based Content Management System*) open-source yang memungkinkan Anda mengelola konten (seperti file Markdown, MDX, JSON, atau YAML) melalui antarmuka visual yang intuitif.
 
@@ -313,7 +320,7 @@ Tidak seperti CMS tradisional yang menggunakan database terpisah, Keystatic meny
 
 <!--faq 2-->
 <details>
-<summary><strong>Bagaimana cara mengakses dashboard Keystatic?</strong></summary>
+<summary><strong>💭 Bagaimana cara mengakses dashboard Keystatic?</strong></summary>
 
 <p>Dashboard Keystatic dapat diakses langsung melalui browser dengan menambahkan <code>/keystatic</code> di akhir URL website Anda.</p>
 
@@ -331,7 +338,7 @@ Tidak seperti CMS tradisional yang menggunakan database terpisah, Keystatic meny
 
 <!--faq 3 -->
 <details>
-<summary><strong>Apakah CMS Keystatic memerlukan server backend terpisah? Apakah ada batasannya?</strong></summary>
+<summary><strong>🌐 Apakah CMS Keystatic memerlukan server backend terpisah? Apakah ada batasannya?</strong></summary>
 
 Tidak. Keystatic tidak membutuhkan server database eksternal. Di balik layar, paket `@keystatic/astro` menyimpan dan mengelola data konten langsung di repositori Git Anda. Jika Anda menggunakan Keystatic Cloud untuk otentikasi tim, tidak ada infrastruktur backend yang perlu Anda kelola.
 
@@ -340,7 +347,7 @@ Tidak. Keystatic tidak membutuhkan server database eksternal. Di balik layar, pa
 
 <!--faq 4-->
 <details>
-<summary><strong>Apa hubungan antara integrasi format Markdoc .mdoc dengan Keystatic di proyek ini?</strong></summary>
+<summary><strong>📝 Apa hubungan antara integrasi format Markdoc .mdoc dengan Keystatic di proyek ini?</strong></summary>
 
 Markdoc adalah format penyusunan dokumen yang digunakan oleh Keystatic untuk mengelola konten teks kaya (*rich text*) dan komponen kustom secara aman dan terstruktur.
 
@@ -349,23 +356,23 @@ Melalui integrasi ini, Anda dapat membuat dan mengedit komponen khusus (seperti 
 
 <!--faq 5-->
 <details>
-<summary><strong>Di mana file konten saya disimpan setelah dibuat melalui Keystatic?</strong></summary>
+<summary><strong>📂 Di mana file konten saya disimpan setelah dibuat melalui Keystatic?</strong></summary>
 
 <p>Semua konten disimpan sebagai file lokal (Markdown, MDX, JSON, atau YAML) langsung di dalam folder proyek Anda, sesuai dengan rute <code>path</code> yang Anda tentukan pada file <code>keystatic.config.ts</code> (biasanya di <code>src/content/</code>).</p>
 </details>
 
 <!--faq 6-->
 <details>
-<summary><strong>Apakah Keystatic otomatis terintegrasi dengan Astro Content Collections?</strong></summary>
+<summary><strong>🔗 Apakah Keystatic otomatis terintegrasi dengan Astro Content Collections?</strong></summary>
 
 <p>Ya. Anda cukup menyelaraskan skema yang didefinisikan pada <code>keystatic.config.ts</code> dengan skema koleksi di <code>src/content/config.ts</code> agar tipe data dan pembacaan konten oleh Astro tetap konsisten.</p>
 </details>
 
 <!--faq 7-->
 <details>
-<summary><strong>Ke mana file media/gambar yang diunggah lewat Keystatic akan disimpan?</strong></summary>
+<summary><strong>🌅 Ke mana file media/gambar yang diunggah lewat Keystatic akan disimpan?</strong></summary>
 
-<p>Gambar disimpan ke folder publik proyek Anda (misalnya <code>public/images/posts/</code>) atau relatif terhadap lokasi file MDX. Lokasi ini bisa diatur melalui properti <code>publicPath</code> pada field image di konfigurasi Keystatic.</p>
+<p>Gambar disimpan ke folder publik proyek Anda (misalnya <code>public/...Assets/</code>) atau relatif terhadap lokasi file MDOC. Lokasi ini bisa diatur melalui properti <code>publicPath</code> pada field image di konfigurasi Keystatic.</p>
 
 <pre><code class="language-typescript">image: fields.image({
   label: 'Gambar Utama',
@@ -377,7 +384,7 @@ Melalui integrasi ini, Anda dapat membuat dan mengedit komponen khusus (seperti 
 
 <!--faq 8-->
 <details>
-<summary><strong>Bagaimana cara memberi akses kolaborator di dashboard Keystatic Cloud?</strong></summary>
+<summary><strong>👥 Bagaimana cara memberi akses kolaborator di dashboard Keystatic Cloud?</strong></summary>
 
 <p>Penambahan kolaborator dilakukan langsung melalui dashboard Keystatic Cloud dengan menghubungkan akun GitHub anggota tim Anda.</p>
 
