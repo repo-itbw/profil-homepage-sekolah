@@ -212,19 +212,22 @@ sekolah-homepage-web/
 │   └── fonts/                 # Kumpulan file font lokal
 ├── src/
 │   ├── icons/                 # Pustaka astro-icon otomatis mencari direktori default penyimpan aset ikon lokal
-│   ├── components/            # Komponen UI modular
-│   │   ├── EmbedExternal/     # Komponen untuk embed konten eksternal
+│   ├── components/            # Parent Komponen UI modular
+│   │   ├── EmbedExternal/     # Komponen untuk embed konten eksternal markdoc
 │   │   │   ├── EmbedImage.astro
 │   │   │   ├── EmbedWeb.astro
 │   │   │   └── EmbedYoutube.astro
-│   │   ├── Jumbotron.svelte    # Komponen Isi banner dinamis
-│   │   ├── QuickNews.astro     # Komponen Isi portal berita
-│   │   ├── SmartDock.svelte    # Komponen Navigasi Sekunder untuk (berita, arsip, lms)
-│   │   └── Mading.astro        # Komponen Navigasi Sekunder untuk (berita, arsip, lms)
+│   │   ├── LandingPage/            # Komponen UI milik Landing Page
+│   │   │   ├── Jumbotron.svelte    # Komponen Isi banner dinamis
+│   │   │   ├── QuickNews.astro     # Komponen Isi portal berita
+│   │   │   └── Mading.astro        # Komponen yang merender preview mading inline
+│   │   └── SmartDock.svelte    # Komponen Navigasi Sekunder untuk (berita, arsip, lms)
+│   │
 │   ├── layouts/                # Kerangka tata letak halaman (Layout, Header, Footer)
-│   │   ├── Navbar.svelte
-│   │   ├── Layout.astro
-│   │   └── Footer.astro
+│   │   ├── Navbar.svelte       # Navigasi utama (Jembatan MPA)
+│   │   ├── Layout.astro        # Layout utama pemanggil (Header, Content, Footer)
+│   │   └── Footer.astro        # Footer yang ditampilkan di semua halaman
+│   │
 │   ├── pages/                  # Routing direktori halaman statis & dinamis
 │   │   ├── index.astro         # Homepage (Beranda)
 │   │   ├── profil/
@@ -234,6 +237,8 @@ sekolah-homepage-web/
 │   │   │   └── ekstrakurikuler.astro
 │   │   ├── galeri/
 │   │   │   └── index.astro
+│   │   ├── kesiswaan/
+│   │   │   └── statistik.astro
 │   │   ├── berita/
 │   │   │   ├── arsip.astro       # Daftar arsip berita
 │   │   │   └── [...slug].astro   # Detail halaman berita dinamis
@@ -253,6 +258,9 @@ sekolah-homepage-web/
 ├── bun.lock
 └── .gitignore
 ```
+
+> [!TIP]
+> Dari struktur folder tersebut, Semua komponen UI yang digunakan dalam aplikasi ini diletakkan dalam direktori `src/components/` Maupun komponen utuh halaman sub-page di `src/pages/` menggunakan filosofi satu komponen satu tanggung jawab. Analoginya seperti menyusun rumah balok, Sehingga per komponen cukup di import saja jika ingin dirender. Jadi penghapusan komponen harus dilakukan dengan benar seperti membersihkan jalur importnya di komponen lain yang punya keterikatan dengannya.
 
 ## Protokol Pemeliharaan Rutin
 

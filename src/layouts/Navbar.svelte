@@ -24,7 +24,7 @@
         { label: 'Ikatan alumni', href: '/profil/ika' },
         { label: 'Bursa kerja khusus', href: '/profil/salum' },
         { label: 'Tenaga pendidik', href: '/profil/tendik' },
-        { label: 'Statistik Lulusan', href: '/akademik/lulusan' }
+        { label: 'Statistik & Lulusan', href: '/kesiswaan/statistik' }
       ]
     },
     {

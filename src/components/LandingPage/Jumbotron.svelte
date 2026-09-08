@@ -4,7 +4,7 @@
   export let slides = [
     {
       image: '/assets/banner.jpg',
-      title: 'Bangun sekolah impianmu dengan semangat yang keren.',
+      title: 'Salah satu smk swasta di kota lembang.',
       subtitle: 'SMK bina wisata adalah sekolah vokasi untuk generasi muda yang ingin tumbuh, inovatif, dan siap bersaing.',
       actions: [
         { label: 'Info PPDB', type: 'primary', link: '#' },

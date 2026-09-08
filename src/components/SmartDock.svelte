@@ -9,7 +9,7 @@
   export let mode: 'arsip' | 'detail' = 'arsip';
 
   // 2. PROPERTI DINAMIS (Injeksi dari luar komponen)
-  export let filterCategories: string[] = ['Semua', 'Berita', 'Pengumuman'];
+  export let filterCategories: string[] = ['Semua', 'Berita', 'Pengumuman', 'Prestasi'];
   export let backUrl: string = '/berita/arsip';
   export let backLabel: string = 'Kembali ke Arsip';
 
