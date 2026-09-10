@@ -1,0 +1,162 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components'; // Impor komponen Astro Icon
+
+// Mengambil seluruh data mading dan mengurutkannya dari yang paling baru (Descending)
+const allMading = await getCollection('mading');
+const sortedMading = allMading.sort((a, b) => b.data.tanggal.valueOf() - a.data.tanggal.valueOf());
+---
+
+<Layout title="Mading Digital | SMK Bina Wisata Lembang">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+    
+    <header class="mb-8 sm:mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-3 h-6 sm:w-4 sm:h-10 bg-corporate-blue"></div>
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-blackcoal uppercase tracking-widest m-0">
+          Mading Digital
+        </h1>
+      </div>
+      <p class="text-gray-600 text-xs sm:text-base font-comfortaa border-b border-gray-200 pb-6 sm:pb-8">
+        Ruang ekspresi karya fotografi, poster, dan seni visual dari siswa-siswi kami. Klik pada gambar untuk melihat detail.
+      </p>
+    </header>
+
+    <!-- KISI RESPONSIF: grid-cols-2 mengunci 2 kolom di seluler -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10">
+      {sortedMading.map((item) => (
+        <article class="group flex flex-col">
+          <!-- Pembungkus Gambar dengan pemicu Lightbox -->
+          <button 
+            type="button"
+            class="mading-trigger relative w-full aspect-[4/5] overflow-hidden bg-gray-100 mb-3 rounded-sm cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-corporate-blue focus:ring-offset-2"
+            data-image={item.data.image}
+            aria-label={`Lihat detail ${item.data.judul}`}
+          >
+            {item.data.image ? (
+              <img
+                src={item.data.image}
+                alt={item.data.judul}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center text-gray-400 font-comfortaa text-[10px] sm:text-sm bg-gray-200">
+                Visual Tidak Tersedia
+              </div>
+            )}
+            
+            <!-- Overlay Efek Hover & Ikon Scan -->
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 group-active:bg-black/30 transition-colors duration-300 flex items-center justify-center backdrop-blur-[1px] opacity-0 group-hover:opacity-100 group-active:opacity-100">
+              <Icon name="lucide:scan" class="text-white w-8 h-8 sm:w-10 sm:h-10 drop-shadow-md" />
+            </div>
+          </button>
+
+          <!-- Metadata Tipografi -->
+          <div class="flex flex-col px-1">
+            <h2 class="text-[11px] sm:text-sm font-bold text-blackcoal font-mono uppercase tracking-wide truncate mb-0.5">
+              {item.data.judul}
+            </h2>
+            <div class="flex items-center justify-between text-[9px] sm:text-[11px] text-gray-500 font-mono">
+              <span class="truncate pr-2" title={item.data.author}>{item.data.author}</span>
+              <span class="shrink-0 text-gray-400">
+                {item.data.tanggal.toLocaleDateString('id-ID', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric'
+                }).toUpperCase()}
+              </span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </main>
+
+  <!-- ELEMEN LIGHTBOX (Disembunyikan secara default) -->
+  <div id="mading-lightbox" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm flex-col items-center justify-center p-4 sm:p-8 opacity-0 transition-opacity duration-300">
+    <button id="close-lightbox" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-white hover:text-corporate-blue transition-colors focus:outline-none" aria-label="Tutup popup">
+      <Icon name="lucide:x" class="w-8 h-8 sm:w-10 sm:h-10" />
+    </button>
+    <img id="lightbox-img" src="" alt="Mading Fullscreen" class="max-w-full max-h-full object-contain rounded-md shadow-2xl scale-95 transition-transform duration-300" />
+  </div>
+</Layout>
+
+<!-- LOGIKA JAVASCRIPT LIGHTBOX (VIEW TRANSITIONS READY) -->
+<script>
+  // 1. Variabel penanda untuk mencegah duplikasi pemantauan keyboard
+  let isDocListenerAttached = false;
+  // Deklarasi global fungsi tutup untuk dipanggil dari pembacaan keyboard
+  let globalCloseLightbox: (() => void) | null = null;
+
+  // 2. Pembungkus Logika Inisialisasi
+  const initLightbox = () => {
+    const lightbox = document.getElementById('mading-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const closeBtn = document.getElementById('close-lightbox');
+    const madingItems = document.querySelectorAll('.mading-trigger');
+
+    // Jika sedang berada di halaman yang tidak memiliki lightbox, hentikan eksekusi
+    if (!lightbox || !lightboxImg) return;
+
+    // Fungsi Membuka Popup
+    const openLightbox = (src: string) => {
+      lightboxImg.src = src;
+      lightbox.classList.remove('hidden');
+      
+      requestAnimationFrame(() => {
+        lightbox.classList.remove('opacity-0');
+        lightboxImg.classList.remove('scale-95');
+        lightboxImg.classList.add('scale-100');
+      });
+      
+      document.body.style.overflow = 'hidden'; 
+    };
+
+    // Fungsi Menutup Popup
+    const closeLightboxFn = () => {
+      lightbox.classList.add('opacity-0');
+      lightboxImg.classList.remove('scale-100');
+      lightboxImg.classList.add('scale-95');
+      
+      setTimeout(() => {
+        lightbox.classList.add('hidden');
+        lightboxImg.src = '';
+      }, 300);
+      
+      document.body.style.overflow = ''; 
+    };
+
+    // Menyimpan referensi fungsi tutup ke variabel global untuk event keydown
+    globalCloseLightbox = closeLightboxFn;
+
+    // Memasang Event Listener ke elemen baru hasil perenderan ulang Astro
+    madingItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const imgSrc = item.getAttribute('data-image');
+        if (imgSrc) openLightbox(imgSrc);
+      });
+    });
+
+    closeBtn?.addEventListener('click', closeLightboxFn);
+    
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightboxFn();
+    });
+
+    // 3. Pemasangan Event Document (Hanya dipanggil sekali)
+    if (!isDocListenerAttached) {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+          if (globalCloseLightbox) globalCloseLightbox();
+        }
+      });
+      isDocListenerAttached = true; // Kunci sakelar setelah pemasangan pertama
+    }
+  };
+
+  // 4. Memicu eksekusi ulang setiap kali navigasi internal Astro selesai memuat struktur halaman
+  document.addEventListener('astro:page-load', initLightbox);
+</script>

@@ -1,0 +1,99 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+// 1. Ambil 6 karya galeri terbaru
+const allGaleri = await getCollection('galeri');
+const bentoGaleri = allGaleri
+  .sort((a, b) => b.data.tanggal.valueOf() - a.data.tanggal.valueOf())
+  .slice(0, 6);
+
+// 2. Fungsi Logika Injeksi Kelas Grid (Bento Layout)
+// Menciptakan ilusi masonry dengan memanipulasi rentang kolom & baris
+const getGridClasses = (index: number) => {
+  switch(index) {
+    case 0:
+      // Item 1: Paling besar. Mobile -> Lebar penuh. Desktop -> Kotak besar 2x2 di kiri atas.
+      return "col-span-2 md:col-span-2 row-span-1 md:row-span-2";
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      // Item 2-5: Standar 1x1
+      return "col-span-1 md:col-span-1 row-span-1";
+    case 5:
+      // Item 6: Mobile -> Lebar penuh di bawah. Desktop -> Kotak standar 1x1 di kanan bawah.
+      return "col-span-2 md:col-span-1 row-span-1";
+    default:
+      return "col-span-1 row-span-1";
+  }
+};
+---
+
+<section class="py-16 sm:py-24 bg-alabaster border-b border-gray-200/60 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- HEADER: Tipografi Rata Tengah (Center Aligned) -->
+    <div class="flex flex-col items-center text-center mb-10 sm:mb-14">
+      
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blackcoal font-lato uppercase tracking-tight mb-4">
+        Galeri Sekolah
+      </h2>
+      
+      <p class="text-gray-500 font-comfortaa text-sm sm:text-base max-w-2xl mb-8">
+        Eksplorasi jejak rekam kegiatan, fasilitas, dan memori berharga. Setiap bingkai visual memiliki ceritanya sendiri.
+      </p>
+
+      <a 
+        href="/galeri" 
+        class="inline-flex items-center gap-2 px-6 py-3 bg-blackcoal hover:bg-corporate-blue text-white rounded-xl font-bold text-xs sm:text-sm font-lato uppercase tracking-wider transition-all duration-300 shadow-md hover:-translate-y-0.5 group"
+      >
+        Lihat Seluruh Galeri
+        <Icon name="lucide:arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+      </a>
+    </div>
+
+    <!-- FLAT BENTO GRID (Symmetrical Masonry) -->
+    <!-- auto-rows memaksa tinggi setiap baris absolut, membentuk persegi panjang sempurna -->
+    <div class="grid grid-cols-2 md:grid-cols-3 auto-rows-[200px] sm:auto-rows-[250px] md:auto-rows-[280px] gap-3 sm:gap-4 md:gap-5">
+      
+      {bentoGaleri.map((item, index) => (
+        <a 
+          href="/galeri" 
+          class={`group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gray-200 border border-gray-200/80 shadow-sm hover:shadow-xl transition-all duration-500 ${getGridClasses(index)} focus:outline-none focus:ring-4 focus:ring-corporate-blue/50`}
+          title={item.data.judul}
+        >
+          <!-- Gambar Fleksibel yang Selalu Memenuhi Kontainer -->
+          {item.data.image ? (
+            <img 
+              src={item.data.image} 
+              alt={item.data.judul} 
+              class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              loading="lazy"
+            />
+          ) : (
+            <div class="w-full h-full flex items-center justify-center text-gray-400 font-comfortaa text-xs bg-gray-100">Visual Hilang</div>
+          )}
+
+          <!-- Overlay Gelap Tipis & Efek Transisi -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500"></div>
+          
+          <!-- Metadata Teks -->
+          <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5 md:p-6 flex flex-col justify-end">
+            <!-- Badge Kategori -->
+            <span class="inline-block px-2.5 py-1 bg-white/20 backdrop-blur-md text-[9px] sm:text-[10px] font-bold font-mono text-white uppercase tracking-wider rounded-lg mb-2 w-fit border border-white/30">
+              {item.data.kategori}
+            </span>
+            
+            <!-- Judul -->
+            <h3 class="text-sm sm:text-base md:text-lg font-extrabold font-lato text-white line-clamp-2 uppercase tracking-tight drop-shadow-md group-hover:text-corporate-blue transition-colors">
+              {item.data.judul}
+            </h3>
+          </div>
+        </a>
+      ))}
+      
+    </div>
+
+  </div>
+</section>

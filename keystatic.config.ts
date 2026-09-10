@@ -183,5 +183,90 @@ export default config({
         }),
       },
     }),
+
+    // ------------------------------------------------------------------------
+    // KOLEKSI C: MADING DIGITAL (KARYA & POSTER)
+    // ------------------------------------------------------------------------
+    mading: collection({
+      label: "Mading Digital",
+      slugField: "slug",
+      path: "content/mading/*",
+      format: { contentField: "konten" },
+      schema: {
+        slug: fields.text({
+          label: "Format Nama File (Slug)",
+          description: "Wajib gunakan format: tahun-namakarya (Contoh: 2026-poster-lingkungan)",
+          validation: { length: { min: 3 } },
+        }),
+        judul: fields.text({ 
+          label: "Judul Karya", 
+          description: "Maksimal 25 karakter agar tata letak grid tetap rapi",
+          validation: { length: { max: 25 } } 
+        }),
+        image: fields.image({
+          label: "Gambar Karya Utama",
+          directory: "public/MadingAssets/",
+          publicPath: "/MadingAssets/",
+        }),
+        tanggal: fields.date({ 
+          label: "Tanggal Publikasi", 
+          defaultValue: { kind: "today" } 
+        }),
+        author: fields.text({ 
+          label: "Nama Kreator / Pembuat", 
+          defaultValue: "Jurnalis" 
+        }),
+        // Field konten dipertahankan sebagai syarat mesin markdoc (.mdoc), 
+        // namun bisa dibiarkan kosong oleh penulis.
+        konten: fields.document({
+          label: "Deskripsi Opsional (Gausah di isi)",
+          formatting: true,
+        }),
+      },
+    }),
+
+    // ------------------------------------------------------------------------
+    // KOLEKSI D: GALERI & MEMORI SEKOLAH
+    // ------------------------------------------------------------------------
+    galeri: collection({
+      label: "Galeri & Memori",
+      slugField: "slug",
+      path: "content/galeri/*",
+      format: { contentField: "konten" },
+      schema: {
+        slug: fields.text({
+          label: "Format Nama File (Slug)",
+          description: "Wajib gunakan format: tahun-kategori-namasingkat (Contoh: kegiatan-karnaval-2026)",
+          validation: { length: { min: 3 } },
+        }),
+        judul: fields.text({ 
+          label: "Judul Momen/Foto", 
+          validation: { length: { max: 150 } } 
+        }),
+        image: fields.image({
+          label: "Berkas Gambar",
+          directory: "public/GaleriAssets", // Penulisan presisi tanpa trailing slash
+          publicPath: "/GaleriAssets",
+        }),
+        tanggal: fields.date({ 
+          label: "Tanggal Pengambilan", 
+          defaultValue: { kind: "today" } 
+        }),
+        kategori: fields.select({
+          label: "Kategori Visual",
+          options: [
+            { label: "Kegiatan Siswa", value: "Kegiatan Siswa" },
+            { label: "Kenangan & Alumni", value: "Kenangan & Alumni" },
+            { label: "Fasilitas Sekolah", value: "Fasilitas Sekolah" },
+            { label: "Prestasi", value: "Prestasi" },
+          ],
+          defaultValue: "Kegiatan Siswa",
+        }),
+        konten: fields.document({
+          label: "Deskripsi Ekstra (Opsional)",
+          formatting: { inlineMarks: true, listTypes: true },
+        }),
+      },
+    }),
   },
 });

@@ -199,7 +199,7 @@ Pengetahuan proyek tidaklah tersimpan di kepala satu orang saja, Guna mencegah p
 
 ```markdown
 sekolah-homepage-web/
-├── .keystatic/                # cache Keystatic di mode local development
+│
 ├── content/                   # DIREKTORI KONTEN CMS (Terpisah dari /src)
 │   ├── berita/                # Kumpulan file .mdoc untuk Artikel Berita
 │   ├── elearning/             # Kumpulan file .mdoc untuk elearning
@@ -217,10 +217,10 @@ sekolah-homepage-web/
 │   │   │   ├── EmbedImage.astro
 │   │   │   ├── EmbedWeb.astro
 │   │   │   └── EmbedYoutube.astro
-│   │   ├── LandingPage/            # Komponen UI milik Landing Page
-│   │   │   ├── Jumbotron.svelte    # Komponen Isi banner dinamis
-│   │   │   ├── QuickNews.astro     # Komponen Isi portal berita
-│   │   │   └── Mading.astro        # Komponen yang merender preview mading inline
+│   │   ├── LandingPage/                # Komponen UI milik Landing Page
+│   │   │   ├── Jumbotron.svelte        # Komponen Isi banner dinamis
+│   │   │   ├── QuickNews.astro         # Komponen Isi portal berita
+│   │   │   └── MadingPreview.astro     # Komponen yang merender preview mading inline
 │   │   └── SmartDock.svelte    # Komponen Navigasi Sekunder untuk (berita, arsip, lms)
 │   │
 │   ├── layouts/                # Kerangka tata letak halaman (Layout, Header, Footer)
@@ -240,8 +240,9 @@ sekolah-homepage-web/
 │   │   ├── kesiswaan/
 │   │   │   └── statistik.astro
 │   │   ├── berita/
-│   │   │   ├── arsip.astro       # Daftar arsip berita
-│   │   │   └── [...slug].astro   # Detail halaman berita dinamis
+│   │   │   ├── arsip.astro       # Sub-page Daftar arsip berita
+│   │   │   ├── [...slug].astro   # Sub-page Detail halaman berita dinamis
+│   │   │   └── mading.astro      # Sub-page mading
 │   │   └── elearning/
 │   │       ├── [kategori]/
 │   │       │   └── [...slug].astro

@@ -1,0 +1,291 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+// 1. Ekstraksi dan Perenderan Konten Markdoc (Astro 5.x)
+const allGaleri = await getCollection('galeri');
+const renderedGaleri = await Promise.all(allGaleri.map(async (item) => {
+  const { Content } = await render(item);
+  return { ...item, Content };
+}));
+
+// 2. Mengurutkan berdasarkan tanggal secara menurun (Descending / Terbaru)
+const sortedGaleri = renderedGaleri.sort((a, b) => b.data.tanggal.valueOf() - a.data.tanggal.valueOf());
+
+// 3. Ekstraksi daftar kategori dinamis unik untuk elemen Dropdown
+const uniqueCategories = ['Semua', ...new Set(sortedGaleri.map(item => item.data.kategori))];
+---
+
+<Layout title="Galeri & Memori | SMK Bina Wisata Lembang">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+
+    <!-- HEADER: Judul & Navigasi Pencarian Terintegrasi -->
+    <header class="mb-10 sm:mb-14">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-blackcoal uppercase tracking-widest mb-3">Galeri Memori</h1>
+          <p class="text-gray-600 font-comfortaa text-sm sm:text-base max-w-xl">
+            Arsip visual kegiatan, fasilitas, dan kenangan berharga perjalanan sekolah kami.
+          </p>
+        </div>
+
+        <!-- Bilah Navigasi Filter (Interaktif via JavaScript) -->
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <!-- Input Cari -->
+          <div class="relative flex-1 md:w-48">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Icon name="lucide:search" class="text-gray-400 w-4 h-4" />
+            </div>
+            <input type="text" id="search-galeri" placeholder="Cari foto..." class="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 text-sm rounded-xl focus:ring-2 focus:ring-corporate-blue focus:border-corporate-blue transition-all font-lato shadow-sm" />
+          </div>
+
+          <!-- Pilihan Kategori -->
+          <div class="relative flex-1 md:w-40">
+            <select id="cat-galeri" class="w-full appearance-none bg-white text-gray-700 text-sm py-2.5 pl-4 pr-8 rounded-xl border border-gray-200 focus:ring-2 focus:ring-corporate-blue focus:outline-none transition-all cursor-pointer font-lato shadow-sm truncate">
+              {uniqueCategories.map(cat => <option value={cat}>{cat}</option>)}
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-400">
+              <Icon name="lucide:chevron-down" class="w-4 h-4" />
+            </div>
+          </div>
+
+          <!-- Tombol Urutan Terbaru/Terlama -->
+          <button id="sort-galeri" class="flex items-center justify-center gap-2 px-4 py-2.5 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 rounded-xl text-sm font-bold transition-colors shadow-sm shrink-0">
+            <Icon name="lucide:arrow-down-wide-narrow" id="sort-icon-desc" class="w-4 h-4 text-corporate-blue" />
+            <Icon name="lucide:arrow-up-narrow-wide" id="sort-icon-asc" class="w-4 h-4 text-corporate-blue hidden" />
+            <span id="sort-text">Terbaru</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- GRID MASONRY (Ala Unsplash) -->
+    <!-- columns-X mengatur jumlah partisi; break-inside-avoid mencegah gambar terbelah -->
+    <div id="gallery-grid" class="columns-2 md:columns-3 lg:columns-4 gap-2 sm:gap-4 md:gap-6 space-y-2 sm:space-y-4 md:space-y-6">
+      {sortedGaleri.map((item) => (
+        <article
+          class="gallery-item relative group break-inside-avoid overflow-hidden rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 bg-gray-50 cursor-pointer"
+          data-title={item.data.judul}
+          data-category={item.data.kategori}
+          data-timestamp={item.data.tanggal.valueOf()}
+          data-image={item.data.image}
+          data-date-str={item.data.tanggal.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
+        >
+          <!-- Gambar Fleksibel -->
+          {item.data.image ? (
+            <img
+              src={item.data.image}
+              alt={item.data.judul}
+              class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+              loading="lazy"
+            />
+          ) : (
+            <div class="w-full aspect-square flex items-center justify-center text-gray-400 font-comfortaa text-[10px] sm:text-xs">Visual Hilang</div>
+          )}
+
+          <!-- Overlay Interaktif -->
+          <button type="button" class="galeri-trigger absolute inset-0 w-full h-full bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-corporate-blue/50 focus:ring-inset">
+            <!-- PERBAIKAN 2: Ikon scan diubah menjadi w-6 h-6 di seluler agar proporsional dengan gambar yang mengecil -->
+            <Icon name="lucide:scan" class="text-white w-6 h-6 sm:w-10 sm:h-10 opacity-0 group-hover:opacity-100 drop-shadow-lg transform scale-50 group-hover:scale-100 transition-all duration-300" />
+          </button>
+
+          <!-- Render Konten Markdoc Tersembunyi (Disuntikkan ke JavaScript) -->
+          <div class="desc-html hidden"><item.Content /></div>
+        </article>
+      ))}
+    </div>
+
+    <!-- State Kosong jika Filter tidak menemukan hasil -->
+    <div id="empty-state" class="hidden py-20 text-center">
+      <Icon name="lucide:image-off" class="w-16 h-16 mx-auto text-gray-300 mb-4" />
+      <h3 class="text-xl font-bold text-gray-500 font-lato">Tidak ada momen yang cocok</h3>
+    </div>
+  </main>
+
+  <!-- KARTU POPUP DETAIL GAMBAR (#F3E3D0) -->
+    <!-- PERBAIKAN 1: overflow-y-auto dipindah ke pembungkus utama agar scrollbar menyatu dengan tepi layar -->
+    <div id="galeri-popup" class="fixed inset-0 z-[100] hidden overflow-y-auto bg-black/85 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+
+      <!-- PERBAIKAN 2: Tombol tutup dibuat fixed & diberi latar agar selalu terlihat stabil saat halaman digulir -->
+      <button id="close-popup" class="fixed top-4 right-4 sm:top-6 sm:right-6 z-[110] bg-black/40 hover:bg-black text-white p-2 rounded-full backdrop-blur-md transition-all focus:outline-none" aria-label="Tutup popup">
+        <Icon name="lucide:x" class="w-6 h-6 sm:w-8 sm:h-8" />
+      </button>
+
+      <!-- Kontainer Pembantu untuk pemusatan vertikal dinamis (Vertical Centering) -->
+      <div class="min-h-full flex items-center justify-center p-4 sm:p-6 py-16 sm:py-20" id="popup-backdrop">
+
+        <!-- Struktur Kartu Pop-Up -->
+        <!-- PERBAIKAN 3: max-w-2xl untuk lebar proporsional (desktop), max-h dihapus agar kartu bisa memanjang ke bawah -->
+        <div class="popup-card w-full max-w-2xl bg-[#F3E3D0] rounded-[2rem] shadow-2xl flex flex-col scale-95 transition-transform duration-300 transform-gpu">
+
+          <!-- PERBAIKAN 4: w-full h-auto (tanpa object-cover) menjamin gambar portrait/landscape di-render utuh sesuai rasio piksel aslinya -->
+          <img id="popup-img" src="" alt="Detail Momen" class="w-full h-auto rounded-t-[2rem]" />
+
+          <div class="p-6 sm:p-8 flex flex-col">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span id="popup-cat" class="px-3 py-1 bg-corporate-blue text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full">Kategori</span>
+              <div class="flex items-center gap-1.5 text-gray-600 text-xs sm:text-sm font-mono font-bold">
+                <Icon name="lucide:calendar" class="w-4 h-4" />
+                <span id="popup-date">Tanggal</span>
+              </div>
+            </div>
+
+            <h2 id="popup-title" class="text-2xl sm:text-3xl font-extrabold text-blackcoal font-lato uppercase tracking-tight mb-2">Judul Foto</h2>
+
+            <div id="popup-desc" class="prose-sekolah prose-sm sm:prose-base border-t border-blackcoal/10 pt-4 mt-2">
+              <!-- HTML Markdoc akan diinjeksikan di sini -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</Layout>
+
+<!-- LOGIKA JAVASCRIPT: FILTER & LIGHTBOX (VIEW TRANSITIONS READY) -->
+<script>
+  let isGaleriInitialized = false;
+  let globalCloseGaleri: (() => void) | null = null;
+
+  const initGaleri = () => {
+    const grid = document.getElementById('gallery-grid');
+    if (!grid) return;
+
+    // Node Referensi UI
+    const items = Array.from(grid.querySelectorAll('.gallery-item')) as HTMLElement[];
+    const searchInput = document.getElementById('search-galeri') as HTMLInputElement;
+    const catSelect = document.getElementById('cat-galeri') as HTMLSelectElement;
+    const sortBtn = document.getElementById('sort-galeri');
+    const sortText = document.getElementById('sort-text');
+    const emptyState = document.getElementById('empty-state');
+
+    // Node Referensi Popup
+    const popup = document.getElementById('galeri-popup');
+    const popupImg = document.getElementById('popup-img') as HTMLImageElement;
+    const popupBackdrop = document.getElementById('popup-backdrop');
+    const popupTitle = document.getElementById('popup-title');
+    const popupCat = document.getElementById('popup-cat');
+    const popupDate = document.getElementById('popup-date');
+    const popupDesc = document.getElementById('popup-desc');
+    const closeBtn = document.getElementById('close-popup');
+
+    let currentSort = 'terbaru';
+
+    // 1. Fungsi Kalkulasi Grid (Pencarian & Penyortiran Dinamis)
+    const updateGrid = () => {
+      const query = searchInput.value.toLowerCase();
+      const cat = catSelect.value;
+      let visibleCount = 0;
+
+      // Fase Filter
+      items.forEach(item => {
+        const title = item.getAttribute('data-title')?.toLowerCase() || '';
+        const itemCat = item.getAttribute('data-category');
+        const matchQuery = title.includes(query);
+        const matchCat = cat === 'Semua' || itemCat === cat;
+
+        if (matchQuery && matchCat) {
+          item.style.display = 'inline-block'; // Wajib inline-block untuk layout CSS Columns
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Menampilkan peringatan jika kosong
+      if(emptyState) emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+
+      // Fase Sorting (Memanipulasi urutan DOM Array)
+      const visibleItems = items.filter(item => item.style.display !== 'none');
+      const hiddenItems = items.filter(item => item.style.display === 'none');
+
+      visibleItems.sort((a, b) => {
+        const dateA = parseInt(a.getAttribute('data-timestamp') || '0');
+        const dateB = parseInt(b.getAttribute('data-timestamp') || '0');
+        return currentSort === 'terbaru' ? dateB - dateA : dateA - dateB;
+      });
+
+      // Bersihkan dan pasang kembali urutan HTML terbaru ke grid
+      grid.innerHTML = '';
+      visibleItems.forEach(item => grid.appendChild(item));
+      hiddenItems.forEach(item => grid.appendChild(item));
+    };
+
+    // Pemicu Pendengar Event Navigasi
+    searchInput?.addEventListener('input', updateGrid);
+    catSelect?.addEventListener('change', updateGrid);
+
+    sortBtn?.addEventListener('click', () => {
+      currentSort = currentSort === 'terbaru' ? 'terlama' : 'terbaru';
+      if(sortText) sortText.textContent = currentSort === 'terbaru' ? 'Terbaru' : 'Terlama';
+      document.getElementById('sort-icon-desc')?.classList.toggle('hidden');
+      document.getElementById('sort-icon-asc')?.classList.toggle('hidden');
+      updateGrid();
+    });
+
+    // 2. Logika Siklus Buka-Tutup Kartu Popup
+    const openPopup = (item: HTMLElement) => {
+          if(!popup || !popupImg || !popupTitle || !popupCat || !popupDate || !popupDesc) return;
+
+          popupImg.src = item.getAttribute('data-image') || '';
+          popupTitle.textContent = item.getAttribute('data-title');
+          popupCat.textContent = item.getAttribute('data-category');
+          popupDate.textContent = item.getAttribute('data-date-str');
+
+          const htmlContent = item.querySelector('.desc-html')?.innerHTML || '';
+          popupDesc.innerHTML = htmlContent;
+
+          // PERBAIKAN JS 1: Mengembalikan posisi gulir (scroll) kontainer popup ke paling atas sebelum ditampilkan
+          popup.scrollTop = 0;
+
+          popup.classList.remove('hidden');
+          requestAnimationFrame(() => {
+            popup.classList.remove('opacity-0');
+            popup.querySelector('.popup-card')?.classList.replace('scale-95', 'scale-100');
+          });
+          document.body.style.overflow = 'hidden'; // Kunci scroll halaman utama di latar belakang
+        };
+
+    const closePopupFn = () => {
+      if(!popup || !popupImg) return;
+      popup.classList.add('opacity-0');
+      popup.querySelector('.popup-card')?.classList.replace('scale-100', 'scale-95');
+
+      setTimeout(() => {
+        popup.classList.add('hidden');
+        popupImg.src = '';
+      }, 300);
+      document.body.style.overflow = '';
+    };
+
+    globalCloseGaleri = closePopupFn;
+
+    // Delegasi Trigger Popup
+    items.forEach(item => {
+      const trigger = item.querySelector('.galeri-trigger');
+      trigger?.addEventListener('click', () => openPopup(item));
+    });
+
+    closeBtn?.addEventListener('click', closePopupFn);
+
+    popup?.addEventListener('click', (e) => {
+      if (e.target === popup || e.target === popupBackdrop) closePopupFn();
+    });
+
+    // Pendaftaran Kunci Sakelar Global
+    if (!isGaleriInitialized) {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !popup?.classList.contains('hidden')) {
+          if (globalCloseGaleri) globalCloseGaleri();
+        }
+      });
+      isGaleriInitialized = true;
+    }
+
+    // Inisialisasi susunan pertama saat halaman berhasil dimuat
+    updateGrid();
+  };
+
+  // Menangkap injeksi DOM dari Astro View Transitions
+  document.addEventListener('astro:page-load', initGaleri);
+</script>

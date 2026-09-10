@@ -29,6 +29,28 @@ const elearning = defineCollection({
   })
 });
 
-// 3. REGISTRASI KOLEKSI
+// 3. KOLEKSI MADING
+const mading = defineCollection({
+  loader: glob({ base: './content/mading', pattern: '**/*.mdoc' }),
+  schema: z.object({
+    judul: z.string().max(25, "Judul maksimal 25 karakter"),
+    image: z.string().optional(),
+    tanggal: z.date(),
+    author: z.string().default('Siswa'),
+  })
+});
+
+// 4. KOLEKSI GALERI
+const galeri = defineCollection({
+  loader: glob({ base: './content/galeri', pattern: '**/*.mdoc' }),
+  schema: z.object({
+    judul: z.string().max(150),
+    image: z.string().optional(),
+    tanggal: z.date(),
+    kategori: z.string().default('Kegiatan Siswa'),
+  })
+});
+
+// 5. REGISTRASI KOLEKSI
 // Wajib mengekspor seluruh variabel koleksi agar mesin Astro dapat mendaftarkannya ke tipe global (astro:content)
-export const collections = { berita, elearning };
+export const collections = { berita, elearning, mading, galeri };

@@ -1,6 +1,7 @@
 <script>
   import { Menu, X, ChevronDown } from '@lucide/svelte';
 
+  // Kumpulan link navigasi
   const navItems = [
     { label: 'Profil',
       sublinks: [
@@ -8,22 +9,25 @@
         { label: 'Struktur Organisasi', href: '/profil/organigram' },
         { label: 'Yayasan', href: '/kegiatan/ypbw' },
         { label: 'Sertifikasi', href: '/profil/sertifikasi' },
+        { label: 'Fasilitas', href: '/profil/fasilitas' },
+        { label: 'Mitra Industri', href: '/profil/mitra_industri' }
       ]
     },
     {
       label: 'Akademik',
       sublinks: [
         { label: 'Kurikulum', href: '/akademik/kurikulum' },
-        { label: 'Jadwal Pelajaran', href: '/akademik/jadwal' },
-        { label: 'Materi Pembelajaran', href: '/akademik/materi' }
+        { label: 'Program Studi', href: '/akademik/prodi' },
+        { label: 'E-Raport', href: '/akademik/eraport' },
+        { label: 'Tenaga pendidik', href: '/profil/tendik' },
       ]
     },
     {
       label: 'Kesiswaan',
       sublinks: [
-        { label: 'Ikatan alumni', href: '/profil/ika' },
-        { label: 'Bursa kerja khusus', href: '/profil/salum' },
-        { label: 'Tenaga pendidik', href: '/profil/tendik' },
+        { label: 'Ikatan alumni', href: '/kesiswaan/ika' },
+        { label: 'Bursa kerja khusus', href: '/kesiswaan/salum' },
+        { label: 'Administrasi', href: '/kesiswaan/administrasi' },
         { label: 'Statistik & Lulusan', href: '/kesiswaan/statistik' }
       ]
     },
@@ -39,7 +43,7 @@
       sublinks: [
         { label: 'Arsip Berita', href: '/berita/arsip' },
         { label: 'Mading', href: '/berita/mading' },
-        { label: 'Galeri Media', href: '/berita/galeri' }
+        { label: 'Galeri Media', href: '/galeri' }
       ]
     },
     { label: 'E-learning', href: '/elearning/' }

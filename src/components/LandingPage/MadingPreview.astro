@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+// 1. PENGAMBILAN & PENYARINGAN DATA
+// Mengambil seluruh data mading, urutkan dari yang terbaru, lalu potong (slice) hanya 4 item teratas.
+const allMading = await getCollection('mading');
+const latestMading = allMading
+  .sort((a, b) => b.data.tanggal.valueOf() - a.data.tanggal.valueOf())
+  .slice(0, 4);
+---
+
+<section class="py-12 sm:py-20 bg-white border-y border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Header Bagian Pratinjau -->
+    <div class="flex items-end justify-between mb-8 sm:mb-10">
+      <div>
+        <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+          <div class="w-2 h-6 sm:w-3 sm:h-8 bg-corporate-blue rounded-sm"></div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-blackcoal font-lato uppercase tracking-tight m-0">
+            Karya Visual
+          </h2>
+        </div>
+        <p class="text-gray-500 font-comfortaa text-xs sm:text-sm pl-4 sm:pl-6">
+          Sorotan karya poster, fotografi, dan seni digital siswa terbaru.
+        </p>
+      </div>
+
+      <!-- Tombol Eksplorasi Khusus Desktop -->
+      <a 
+        href="/berita/mading" 
+        class="hidden sm:flex items-center gap-2 text-sm font-bold text-corporate-blue hover:text-blackcoal transition-colors font-lato uppercase tracking-wider group"
+      >
+        Eksplorasi Galeri 
+        <Icon name="lucide:arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+      </a>
+    </div>
+
+    <!-- Grid Pratinjau Karya -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+      {latestMading.map((item) => (
+        <a href="/berita/mading" class="group flex flex-col focus:outline-none" aria-label={`Lihat karya ${item.data.judul}`}>
+          
+          <!-- Bungkus Gambar Rasio 4:5 -->
+          <div class="relative w-full aspect-[4/5] overflow-hidden bg-gray-50 rounded-lg sm:rounded-xl mb-3 shadow-sm border border-gray-200">
+            {item.data.image ? (
+              <img 
+                src={item.data.image} 
+                alt={item.data.judul} 
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                loading="lazy" 
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center text-gray-400 font-comfortaa text-[10px] sm:text-xs bg-gray-100">
+                Visual Tidak Tersedia
+              </div>
+            )}
+            
+            <!-- Efek Gradien Bawah Melayang (Hover) -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          
+          <!-- Informasi Metadata Ringkas -->
+          <div class="px-1">
+             <h3 class="text-[11px] sm:text-sm font-bold text-blackcoal font-mono uppercase tracking-wide truncate mb-0.5 group-hover:text-corporate-blue transition-colors">
+               {item.data.judul}
+             </h3>
+             <p class="text-[9px] sm:text-[11px] text-gray-500 font-mono truncate">
+               Oleh: <span class="text-gray-700 font-bold">{item.data.author}</span>
+             </p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Tombol Eksplorasi Khusus Seluler -->
+    <div class="mt-8 sm:hidden flex justify-center">
+      <a 
+        href="/berita/mading" 
+        class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-white hover:bg-gray-100 text-corporate-blue font-bold text-xs rounded-lg border border-gray-200 transition-colors uppercase tracking-wider"
+      >
+        Lihat Seluruh Karya <Icon name="lucide:arrow-right" class="w-4 h-4" />
+      </a>
+    </div>
+
+  </div>
+</section>
