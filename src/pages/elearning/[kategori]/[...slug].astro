@@ -1,6 +1,9 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import SmartDock from '../../../components/SmartDock.svelte';
+import Ikhtisar from '../../../components/ElearningCard/ikhtisar.astro';
+import Miniquiz from '../../../components/ElearningCard/miniquiz.astro';
+import 'katex/dist/katex.min.css';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -17,7 +20,9 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+
+// 2. EKSTRAKSI HEADINGS: Menarik struktur sub-judul berdampingan dengan Content
+const { Content, headings } = await render(entry);
 
 const formatTanggal = (tanggal: Date) => {
   return new Intl.DateTimeFormat('id-ID', {
@@ -28,17 +33,18 @@ const formatTanggal = (tanggal: Date) => {
 
 <Layout title={`${entry.data.judul} | Modul Pembelajaran`}>
 
-  <!-- 1. INTEGRASI SMARTDOCK (Sesuai asalnya) -->
+  <!-- INTEGRASI SMARTDOCK -->
   <section class="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sticky top-[72px] lg:top-[84px] z-30">
     <SmartDock 
       client:load 
       mode="detail" 
+      contentType="elearning"
       backUrl="/elearning" 
       backLabel="Kembali ke Pustaka" 
     />
   </section>
 
-  <!-- 2. KONTEN MODUL E-LEARNING -->
+  <!-- KONTEN MODUL E-LEARNING -->
   <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 mt-6">
     
     <!-- Blok Gambar Sampul -->
@@ -77,7 +83,6 @@ const formatTanggal = (tanggal: Date) => {
       </div>
 
       <div class="flex items-center gap-2 text-sm font-comfortaa text-gray-600">
-        <!-- PERBAIKAN: Penambahan atribut width, height absolut dan flex-shrink-0 -->
         <svg class="w-5 h-5 text-gray-400 flex-shrink-0" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
         </svg>
@@ -85,10 +90,40 @@ const formatTanggal = (tanggal: Date) => {
       </div>
     </header>
 
-    <!-- 3. BLOK KONTEN BACAAN (Markdoc) -->
-    <article class="prose prose-sekolah max-w-none">
+    <!-- BLOK KONTEN BACAAN (Markdoc) -->
+    <article class="prose prose-sekolah max-w-none relative">
       <Content />
     </article>
     
   </main>
+
+  <!-- 4. PEMANGGILAN DRAWER IKHTISAR -->
+  <!-- Komponen ini diinjeksi di luar tag <main> agar terhindar dari benturan Z-index atau DOM flow -->
+  <Ikhtisar headings={headings} />
+  <!-- 5. PEMANGGILAN DRAWER MINI QUIZ -->
+  <!-- Injeksi data kuis frontmatter -->
+  <Miniquiz dataKuis={entry.data.kuis || []} /> 
+
+  <!-- Skrip Rendering KaTeX -->
+  <script>
+    import renderMathInElement from 'katex/dist/contrib/auto-render.js';
+  
+    const renderMath = () => {
+      const contentArea = document.querySelector('.prose-sekolah') || document.body;
+      
+      if (renderMathInElement) {
+        renderMathInElement(contentArea, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false,
+          errorColor: '#eab308' 
+        });
+      }
+    };
+  
+    document.addEventListener('DOMContentLoaded', renderMath);
+    document.addEventListener('astro:page-load', renderMath);
+  </script>
 </Layout>

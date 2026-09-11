@@ -26,6 +26,17 @@ const elearning = defineCollection({
     kategori: z.string().default('Umum'),
     // Menggunakan opsional untuk mengantisipasi field kosong dari input admin
     pengajar: z.string().optional(), 
+    kuis: z.array(
+      z.object({
+      pertanyaan: z.string(),
+      opsiA: z.string(),
+      opsiB: z.string(),
+      opsiC: z.string(),
+      opsiD: z.string(),
+      jawabanBenar: z.enum(['A', 'B', 'C', 'D']),
+      pembahasan: z.string().optional(),
+    })
+  ).optional().default([]),
   })
 });
 

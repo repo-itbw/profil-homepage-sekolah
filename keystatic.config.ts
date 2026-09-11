@@ -55,6 +55,19 @@ const komponenMultimedia = {
     },
     preview: (props) => `[ Gambar Eksternal: ${props.fields.alt.value || "Tanpa alt"} ]`,
   }),
+
+  // --- D. EMBED MATEMATIKA (LATEX) ---
+    embedMath: component({
+      label: "Rumus Matematika (LaTeX)",
+      schema: {
+        formula: fields.text({
+          label: "Sintaks LaTeX",
+          description: "Contoh: E = mc^2 atau \\frac{a}{b}",
+          multiline: true,
+        }),
+      },
+      preview: (props) => `[ Rumus Matematika: ${props.fields.formula.value} ]`,
+    }),
 };
 
 // ============================================================================
@@ -181,6 +194,36 @@ export default config({
           },
           componentBlocks: komponenMultimedia, // <--- Pemanggilan modular digunakan kembali
         }),
+        // PENAMBAHAN TAHAP 2: Array Objek untuk Mini Kuis
+         kuis: fields.array(
+          fields.object({
+            pertanyaan: fields.text({ label: "Pertanyaan Kuis", multiline: true }),
+            opsiA: fields.text({ label: "Opsi A" }),
+            opsiB: fields.text({ label: "Opsi B" }),
+            opsiC: fields.text({ label: "Opsi C" }),
+            opsiD: fields.text({ label: "Opsi D" }),
+            jawabanBenar: fields.select({
+              label: "Kunci Jawaban",
+              options: [
+                { label: "Opsi A", value: "A" },
+                { label: "Opsi B", value: "B" },
+                { label: "Opsi C", value: "C" },
+                { label: "Opsi D", value: "D" },
+              ],
+              defaultValue: "A"
+            }),
+            pembahasan: fields.text({ 
+              label: "Pembahasan Singkat (Opsional)", 
+              description: "Muncul setelah siswa menjawab",
+              multiline: true 
+              })
+            }),
+          {
+            label: "Mini Quiz (Evaluasi Materi)",
+            description: "Tambahkan beberapa pertanyaan untuk menguji pemahaman siswa. Kosongkan jika tidak ada kuis.",
+            itemLabel: props => props.fields.pertanyaan.value || "Pertanyaan Baru"
+          }
+        ),
       },
     }),
 

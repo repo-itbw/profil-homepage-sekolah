@@ -1,0 +1,16 @@
+---
+interface Props {
+  formula: string;
+}
+
+const { formula } = Astro.props;
+---
+
+<!-- 
+  Bungkus dengan pembatas $$ agar dikenali oleh auto-render KaTeX.
+  Ditambahkan kelas overflow-x-auto agar jika rumus terlalu panjang, 
+  tidak merusak layout di layar seluler.
+-->
+<div class="my-6 py-4 overflow-x-auto text-center text-lg sm:text-xl text-blackcoal">
+  $$ {formula} $$
+</div>

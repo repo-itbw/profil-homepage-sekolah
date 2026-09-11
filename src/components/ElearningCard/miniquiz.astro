@@ -1,0 +1,232 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface KuisData {
+  pertanyaan: string;
+  opsiA: string;
+  opsiB: string;
+  opsiC: string;
+  opsiD: string;
+  jawabanBenar: string;
+  pembahasan: string;
+}
+
+interface Props {
+  dataKuis: readonly KuisData[];
+}
+
+const { dataKuis } = Astro.props;
+// Konversi ke string JSON agar bisa dibaca utuh oleh skrip JavaScript di sisi Klien (Browser)
+const stringifiedData = JSON.stringify(dataKuis);
+---
+
+<!-- LAYAR GELAP KUIS -->
+<div id="kuis-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+
+<!-- LACI KIRI: MINI QUIZ -->
+<!-- Menggunakan -translate-x-full agar bersembunyi di kiri -->
+<aside 
+  id="kuis-drawer" 
+  class="fixed top-0 left-0 z-[70] w-full sm:w-96 h-full bg-white shadow-2xl border-r border-gray-200 transform -translate-x-full transition-transform duration-300 ease-out flex flex-col"
+>
+  <!-- Header Kuis -->
+  <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-alabaster shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="p-1.5 bg-accent-yellow/20 rounded-md text-accent-yellow">
+        <Icon name="lucide:help-circle" class="w-5 h-5" />
+      </div>
+      <h3 class="text-lg font-extrabold text-blackcoal font-lato uppercase tracking-tight m-0 mt-1">Uji Pemahaman</h3>
+    </div>
+    <button id="close-kuis" class="p-2 -mr-2 text-gray-400 hover:text-white hover:bg-corporate-blue rounded-lg transition-colors focus:outline-none">
+      <Icon name="lucide:x" class="w-5 h-5" />
+    </button>
+  </div>
+
+  <!-- Kontainer Dinamis Render Kuis -->
+  <div id="kuis-container" class="flex-1 overflow-y-auto p-6 custom-scrollbar bg-white" data-raw={stringifiedData}>
+    <!-- UI akan disuntikkan secara dinamis oleh JavaScript -->
+  </div>
+</aside>
+
+<script>
+  let isKuisReady = false;
+
+  const initKuis = () => {
+    const drawer = document.getElementById('kuis-drawer');
+    const overlay = document.getElementById('kuis-overlay');
+    const closeBtn = document.getElementById('close-kuis');
+    const container = document.getElementById('kuis-container');
+    
+    if (!drawer || !overlay || !closeBtn || !container) return;
+
+    let isOpen = false;
+    
+    // Status Data Kuis
+    const rawData = container.getAttribute('data-raw');
+    const kuisData = rawData ? JSON.parse(rawData) : [];
+    let currentIndex = 0;
+    let score = 0;
+
+    // --- FUNGSI UI TOGGLE ---
+    const toggleDrawer = (forceState?: boolean) => {
+      isOpen = forceState !== undefined ? forceState : !isOpen;
+      
+      if (isOpen) {
+        drawer.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+        requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
+        document.body.style.overflow = 'hidden';
+        
+        // Reset kuis jika dibuka kembali setelah selesai
+        if (currentIndex >= kuisData.length && kuisData.length > 0) {
+          currentIndex = 0;
+          score = 0;
+          renderSoal();
+        }
+      } else {
+        drawer.classList.add('-translate-x-full');
+        overlay.classList.add('opacity-0');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+        document.body.style.overflow = '';
+      }
+    };
+
+    // --- LOGIKA RENDER SOAL ---
+    const renderSoal = () => {
+      if (kuisData.length === 0) {
+        container.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-center text-gray-400 opacity-60">
+            <svg class="w-12 h-12 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p class="text-sm font-comfortaa">Tidak ada kuis<br/>untuk modul ini.</p>
+          </div>
+        `;
+        return;
+      }
+
+      if (currentIndex >= kuisData.length) {
+        // Layar Hasil Akhir
+        container.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-center">
+            <div class="w-20 h-20 bg-success-green/10 text-success-green rounded-full flex items-center justify-center mb-4">
+              <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h3 class="text-2xl font-extrabold font-lato text-blackcoal mb-2">Selesai!</h3>
+            <p class="text-gray-600 font-comfortaa mb-6">Skor Anda: <span class="font-bold text-corporate-blue">${score} / ${kuisData.length}</span></p>
+            <button id="btn-tutup-hasil" class="w-full py-3 bg-blackcoal hover:bg-corporate-blue text-white font-bold font-lato rounded-xl transition-colors">Tutup Kuis</button>
+          </div>
+        `;
+        document.getElementById('btn-tutup-hasil')?.addEventListener('click', () => toggleDrawer(false));
+        return;
+      }
+
+      const soal = kuisData[currentIndex];
+      
+      // Template Soal
+      container.innerHTML = `
+        <div class="mb-6 flex justify-between items-center text-xs font-bold font-mono text-gray-400">
+          <span>Pertanyaan ${currentIndex + 1} dari ${kuisData.length}</span>
+          <span class="text-accent-yellow">Skor: ${score}</span>
+        </div>
+        
+        <p class="text-base font-bold font-lato text-blackcoal mb-6 leading-relaxed">
+          ${soal.pertanyaan}
+        </p>
+
+        <div class="space-y-3" id="opsi-container">
+          ${['A', 'B', 'C', 'D'].map(opsi => `
+            <label class="opsi-label cursor-pointer flex items-start gap-3 p-4 rounded-xl border border-gray-200 hover:border-corporate-blue hover:bg-corporate-blue/5 transition-all">
+              <input type="radio" name="kuis-jawaban" value="${opsi}" class="mt-1 text-corporate-blue focus:ring-corporate-blue border-gray-300">
+              <span class="text-sm font-comfortaa text-gray-700">${soal['opsi' + opsi]}</span>
+            </label>
+          `).join('')}
+        </div>
+
+        <div id="feedback-area" class="hidden mt-6 p-4 rounded-xl text-sm font-comfortaa"></div>
+
+        <button id="btn-cek" class="w-full py-3 mt-8 bg-corporate-blue hover:bg-blue-600 text-white font-bold font-lato rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+          Cek Jawaban
+        </button>
+      `;
+
+      // Logika Interaksi Kuis
+      const opsiLabels = container.querySelectorAll('.opsi-label');
+      const radioBtns = container.querySelectorAll('input[type="radio"]');
+      const btnCek = document.getElementById('btn-cek') as HTMLButtonElement;
+      const feedbackArea = document.getElementById('feedback-area');
+      let sudahDijawab = false;
+
+      // Pantau pemilihan opsi
+      radioBtns.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (sudahDijawab) return;
+          btnCek.disabled = false;
+          // Hapus efek terpilih dari semua label
+          opsiLabels.forEach(l => l.classList.remove('border-corporate-blue', 'bg-corporate-blue/5', 'ring-2', 'ring-corporate-blue/20'));
+          // Tambahkan efek ke label yang dipilih
+          const label = (radio as HTMLInputElement).closest('label');
+          label?.classList.add('border-corporate-blue', 'bg-corporate-blue/5', 'ring-2', 'ring-corporate-blue/20');
+        });
+      });
+
+      // Aksi Cek Jawaban
+      btnCek?.addEventListener('click', () => {
+        if (sudahDijawab) {
+          // Jika sudah menjawab, tombol berubah fungsi jadi 'Lanjut'
+          currentIndex++;
+          renderSoal();
+          return;
+        }
+
+        const jawabanDipilih = (container.querySelector('input[name="kuis-jawaban"]:checked') as HTMLInputElement)?.value;
+        if (!jawabanDipilih) return;
+
+        sudahDijawab = true;
+        const benar = jawabanDipilih === soal.jawabanBenar;
+        if (benar) score++;
+
+        // Kunci semua radio button
+        radioBtns.forEach(r => (r as HTMLInputElement).disabled = true);
+
+        // Warnai jawaban yang benar dan salah
+        opsiLabels.forEach(label => {
+          const radio = label.querySelector('input') as HTMLInputElement;
+          label.classList.remove('border-corporate-blue', 'bg-corporate-blue/5', 'ring-2', 'ring-corporate-blue/20');
+          
+          if (radio.value === soal.jawabanBenar) {
+            label.classList.add('border-success-green', 'bg-success-green/10'); // Hijau (Benar)
+          } else if (radio.checked && !benar) {
+            label.classList.add('border-red-500', 'bg-red-50'); // Merah (Salah pilih)
+          }
+        });
+
+        // Tampilkan Feedback & Pembahasan
+        if (feedbackArea) {
+          feedbackArea.classList.remove('hidden');
+          feedbackArea.classList.add(benar ? 'bg-success-green/10' : 'bg-red-50');
+          feedbackArea.innerHTML = `
+            <span class="font-bold block mb-1 ${benar ? 'text-success-green' : 'text-red-600'}">
+              ${benar ? 'Tepat Sekali!' : 'Kurang Tepat.'}
+            </span>
+            ${soal.pembahasan ? `<p class="text-gray-600 mt-2 border-t border-gray-200/60 pt-2">${soal.pembahasan}</p>` : ''}
+          `;
+        }
+
+        // Ubah tombol jadi "Lanjut"
+        btnCek.textContent = currentIndex === kuisData.length - 1 ? "Lihat Hasil Akhir" : "Pertanyaan Selanjutnya";
+        btnCek.classList.replace('bg-corporate-blue', 'bg-blackcoal');
+        btnCek.classList.replace('hover:bg-blue-600', 'hover:bg-gray-800');
+      });
+    };
+
+    // --- INITIALIZATION ---
+    if (!isKuisReady) {
+      window.addEventListener('toggle-quiz', () => toggleDrawer());
+      closeBtn.addEventListener('click', () => toggleDrawer(false));
+      overlay.addEventListener('click', () => toggleDrawer(false));
+      renderSoal(); // Persiapkan soal pertama di balik layar
+      isKuisReady = true;
+    }
+  };
+
+  document.addEventListener('astro:page-load', initKuis);
+</script>

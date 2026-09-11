@@ -1,0 +1,147 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  // Tipe data bawaan Astro untuk ekstraksi heading dari Markdoc
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+---
+
+<!-- 1. LAYAR GELAP (BACKDROP) -->
+<!-- Hanya muncul saat laci aktif, memberi fokus penuh pada menu navigasi -->
+<div id="ikhtisar-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+
+<!-- 2. LACI IKHTISAR (OFF-CANVAS DRAWER) -->
+<!-- Responsif: Memakan layar penuh (w-full) di HP, dan lebar proporsional (sm:w-80) di Desktop -->
+<aside 
+  id="ikhtisar-drawer" 
+  class="fixed top-0 right-0 z-[70] w-full sm:w-80 h-full bg-white shadow-2xl border-l border-gray-200 transform translate-x-full transition-transform duration-300 ease-out flex flex-col"
+>
+  
+  <!-- Header Drawer -->
+  <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-alabaster shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-1.5 h-6 bg-corporate-blue rounded-full"></div>
+      <h3 class="text-lg font-extrabold text-blackcoal font-lato uppercase tracking-tight m-0 leading-none mt-1">
+        Ikhtisar Materi
+      </h3>
+    </div>
+    
+    <!-- Tombol Tutup -->
+    <button id="close-ikhtisar" class="p-2 -mr-2 text-gray-400 hover:text-white hover:bg-corporate-blue rounded-lg transition-colors focus:outline-none">
+      <Icon name="lucide:x" class="w-5 h-5" />
+    </button>
+  </div>
+
+  <!-- Daftar Isi Dinamis -->
+  <!-- Hierarki Visual: Margin kiri bertambah berdasarkan kedalaman heading (H2, H3, H4) -->
+  <div class="flex-1 overflow-y-auto p-6 custom-scrollbar bg-white">
+    {headings.length > 0 ? (
+      <ul class="space-y-4">
+        {headings.map((heading) => (
+          <li class={`
+            ${heading.depth === 1 || heading.depth === 2 ? 'ml-0' : ''}
+            ${heading.depth === 3 ? 'ml-4' : ''}
+            ${heading.depth >= 4 ? 'ml-8' : ''}
+          `}>
+            <a 
+              href={`#${heading.slug}`} 
+              class="ikhtisar-link group flex items-start gap-2.5 text-sm font-comfortaa text-gray-600 hover:text-corporate-blue transition-colors focus:outline-none"
+            >
+              <!-- Ornamen Hashtag Interaktif -->
+              <span class="text-gray-300 group-hover:text-corporate-blue/50 mt-0.5 shrink-0 transition-colors font-mono text-xs">#</span>
+              <span class="line-clamp-2 leading-relaxed font-bold group-hover:translate-x-1 transition-transform duration-300">{heading.text}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="flex flex-col items-center justify-center h-full text-center text-gray-400 opacity-60">
+        <!-- Kondisi Kosong (Empty State) -->
+        <Icon name="lucide:list-x" class="w-12 h-12 mb-3" />
+        <p class="text-sm font-comfortaa">Tidak ada sub-judul<br/>pada materi ini.</p>
+      </div>
+    )}
+  </div>
+  
+  <!-- Footer Drawer (Opsional, untuk sentuhan branding) -->
+  <div class="p-4 bg-gray-50 border-t border-gray-100 text-center shrink-0">
+    <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Navigasi E-Learning</span>
+  </div>
+</aside>
+
+<script>
+  let isIkhtisarReady = false;
+
+  const initIkhtisar = () => {
+    const drawer = document.getElementById('ikhtisar-drawer');
+    const overlay = document.getElementById('ikhtisar-overlay');
+    const closeBtn = document.getElementById('close-ikhtisar');
+    const links = document.querySelectorAll('.ikhtisar-link');
+
+    let isOpen = false;
+
+    // Fungsi Pengendali Status UI
+    const toggleDrawer = (forceState?: boolean) => {
+      isOpen = forceState !== undefined ? forceState : !isOpen;
+      
+      if (isOpen) {
+        drawer?.classList.remove('translate-x-full');
+        overlay?.classList.remove('hidden');
+        requestAnimationFrame(() => overlay?.classList.remove('opacity-0'));
+        document.body.style.overflow = 'hidden'; // Mengunci scroll body
+      } else {
+        drawer?.classList.add('translate-x-full');
+        overlay?.classList.add('opacity-0');
+        setTimeout(() => overlay?.classList.add('hidden'), 300); // Sinkron dengan durasi CSS
+        document.body.style.overflow = ''; // Membuka kunci scroll
+      }
+    };
+
+    // Pemasangan Event Listener (Diperiksa agar tidak ganda saat View Transitions)
+    if (!isIkhtisarReady) {
+      window.addEventListener('toggle-ikhtisar', () => toggleDrawer());
+      closeBtn?.addEventListener('click', () => toggleDrawer(false));
+      overlay?.addEventListener('click', () => toggleDrawer(false));
+      
+    // Auto-Close & Smooth Scroll dengan Offset
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        // 1. Mencegah peramban melakukan lompatan instan bawaan
+        e.preventDefault();
+
+        // 2. Tutup laci ikhtisar
+        toggleDrawer(false);
+
+        // 3. Ekstraksi ID target dari atribut href (menghapus tanda #)
+        const targetId = link.getAttribute('href')?.substring(1);
+        if (!targetId) return;
+
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          // 4. Kalkulasi Offset Matematis
+          // Jarak SmartDock dari atas (84px) + Tinggi SmartDock (~60px) + Ruang napas (16px) = ~160px
+          const offset = 160;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - offset;
+
+          // 5. Eksekusi gulir mulus
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+
+          // 6. Sinkronisasi URL tanpa memicu lompatan ulang
+          history.pushState(null, '', `#${targetId}`);
+        }
+      });
+    });
+      isIkhtisarReady = true;
+    }
+  };
+
+  // Injeksi life-cycle Astro View Transitions
+  document.addEventListener('astro:page-load', initIkhtisar);
+</script>

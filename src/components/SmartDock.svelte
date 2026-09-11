@@ -2,11 +2,14 @@
   import { onMount } from 'svelte';
   import { slide } from 'svelte/transition'; // Menambahkan fungsi animasi slide
   import {
-    Search, ArrowLeft, Share2, Link, Check, ArrowDownWideNarrow, ArrowUpNarrowWide, EyeOff
+    Search, ArrowLeft, Share2, Link, Check, ArrowDownWideNarrow, ArrowUpNarrowWide, EyeOff, ListOrdered, HelpCircle
   } from '@lucide/svelte'; // Menambahkan ikon EyeOff
 
   // 1. PROPERTI KONTROL UTAMA
   export let mode: 'arsip' | 'detail' = 'arsip';
+
+  // PENAMBAHAN: Klasifikasi spesifik untuk mode detail
+  export let contentType: 'berita' | 'elearning' | 'umum' = 'umum';
 
   // 2. PROPERTI DINAMIS (Injeksi dari luar komponen)
   export let filterCategories: string[] = ['Semua', 'Berita', 'Pengumuman', 'Prestasi'];
@@ -115,7 +118,7 @@
 
   {:else}
     <!-- ================= MODE DETAIL ================= -->
-    
+
     <!-- Trek Indikator & Area Klik (Tampil penuh saat hide, menempel di atas saat show) -->
     <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
     <div
@@ -143,31 +146,56 @@
 
         <!-- Grup Aksi Kanan -->
         <div class="flex items-center gap-1 sm:gap-2">
-          
-          <!-- Tombol Hide Navigasi -->
+
+          <!-- DIRENDER KHUSUS UNTUK E-LEARNING -->
+          {#if contentType === 'elearning'}
+
+          <!-- TOMBOL TAHAP 2: Toggle Mini Quiz -->
           <button
-            on:click={() => isHidden = true}
+            on:click={() => window.dispatchEvent(new CustomEvent('toggle-quiz'))}
             class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue hover:bg-corporate-blue/10 rounded-lg transition-colors"
-            title="Sembunyikan navigasi"
-          >
-            <EyeOff size={20} />
+            title="Mini Quiz"
+            >
+            <HelpCircle size={20} />
           </button>
 
-          <!-- Aksi Berbagi -->
+          <!-- TOMBOL TAHAP 1: Toggle Ikhtisar -->
           <button
-            on:click={handleShare}
-            class="flex items-center gap-2 px-4 py-2 bg-blackcoal hover:bg-gray-800 text-white rounded-lg transition-colors text-sm font-bold"
-          >
-            {#if isCopied}
-              <Check size={16} class="text-success-green" />
-              <span class="font-lato">Tersalin!</span>
-            {:else}
-              <Share2 size={16} class="hidden sm:block" />
-              <Link size={16} class="block sm:hidden" />
-              <span class="font-lato">Bagikan</span>
-            {/if}
+            on:click={() => window.dispatchEvent(new CustomEvent('toggle-ikhtisar'))}
+            class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue hover:bg-corporate-blue/10 rounded-lg transition-colors"
+            title="Daftar Isi / Ikhtisar"
+            >
+            <ListOrdered size={20} />
           </button>
-        </div>
+
+          <div class="w-px h-5 bg-gray-200 mx-0.5 hidden sm:block"></div>
+            {/if}
+
+              <!-- TOMBOL UMUM: (Berita & Elearning) -->
+              <!-- Tombol Hide Navigasi -->
+              <button
+                on:click={() => isHidden = true}
+                class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue hover:bg-corporate-blue/10 rounded-lg transition-colors"
+                title="Sembunyikan navigasi"
+              >
+              <EyeOff size={20} />
+              </button>
+
+              <!-- Aksi Berbagi -->
+              <button
+                on:click={handleShare}
+                class="flex items-center gap-2 px-4 py-2 bg-blackcoal hover:bg-gray-800 text-white rounded-lg transition-colors text-sm font-bold"
+              >
+              {#if isCopied}
+                <Check size={16} class="text-success-green" />
+                <span class="font-lato">Tersalin!</span>
+              {:else}
+                <Share2 size={16} class="hidden sm:block" />
+                <Link size={16} class="block sm:hidden" />
+                <span class="font-lato">Bagikan</span>
+              {/if}
+              </button>
+            </div>
       </div>
     {/if}
   {/if}

@@ -35,5 +35,12 @@ export default defineMarkdocConfig({
         caption: { type: String, required: false },
       },
     },
+
+    embedMath: {
+      render: component('./src/components/EmbedExternal/EmbedMath.astro'), // Rute menuju komponen Langkah 1
+      attributes: {
+        formula: { type: String, required: true }, // Menangkap data dari CMS
+      },
+    },
   },
 });
