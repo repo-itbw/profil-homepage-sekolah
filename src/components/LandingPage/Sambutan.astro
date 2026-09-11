@@ -1,0 +1,131 @@
+---
+import { Icon } from 'astro-icon/components';
+
+// ============================================================================
+// DATA FRONTMATTER (Pusat Kendali Konten)
+// Pastikan aset gambar diletakkan di direktori: public/assets/
+// ============================================================================
+const profilKepsek = {
+  nama: "Dede Budiman S.pd., M.Si",
+  jabatan: "Kepala SMK Bina Wisata Lembang",
+  nuptk: "NUPTK. 4148773674130223",
+  foto: "/assets/sambutan.jpg", // Disarankan menggunakan format webp tanpa latar (cutout transparent)
+  ttd: "/assets/test_ttd.png",  // Gambar tanda tangan digital (transparan)
+  
+  // Kutipan hook (Fokal utama)
+  kutipan: "Pendidikan vokasi bukan sekadar mencetak pekerja, melainkan mengasah inovator yang siap menantang masa depan.",
+  
+  // Teks sambutan (Maksimal 2 paragraf agar clean dalam 1 viewport)
+  paragraf1: "Selamat datang di SMK Bina Wisata Lembang. Di era disrupsi teknologi dan transformasi industri saat ini, kami berkomitmen untuk tidak hanya menjadi tempat belajar, tetapi menjadi ekosistem pembentuk karakter dan kompetensi. Tantangan global menuntut lulusan yang adaptif, tangguh, dan memiliki etos kerja profesional.",
+  paragraf2: "Melalui kurikulum yang diselaraskan langsung dengan industri (Link & Match), fasilitas laboratorium modern, serta tenaga pendidik tersertifikasi, kami bertekad mengantarkan putra-putri Anda menjadi talenta unggul yang siap memimpin di dunia usaha dan dunia industri (DUDI).",
+  
+  // Lencana ekstra di atas foto
+  highlight: "Sekolah Pusat Keunggulan 2026"
+};
+---
+
+<section class="relative w-full bg-alabaster py-16 lg:py-24 border-b border-gray-200/60 overflow-hidden">
+  <!-- Elemen Dekoratif Latar Belakang -->
+  <div class="absolute top-0 right-0 w-1/3 h-full bg-corporate-blue/5 rounded-bl-[100px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+      
+      <!-- KOLOM KIRI: Visual Editorial (5 Kolom Desktop) -->
+      <div class="lg:col-span-5 relative flex justify-center lg:justify-start">
+              
+              <!-- Wadah pembungkus ketat (tight wrapper) untuk mengunci posisi absolute lencana ke foto -->
+              <div class="relative w-full max-w-[340px] sm:max-w-sm lg:max-w-md">
+                
+                <!-- Bingkai Foto Asimetris -->
+                <div class="relative w-full aspect-[4/5] rounded-3xl overflow-hidden bg-gray-200 shadow-xl border border-white/50">
+                  <!-- Fallback ilustrasi jika gambar gagal dimuat -->
+                  <div class="absolute inset-0 bg-gradient-to-tr from-gray-300 to-gray-100 flex items-center justify-center">
+                     <Icon name="lucide:user" class="w-20 h-20 text-gray-400" />
+                  </div>
+                  
+                  <img 
+                    src={profilKepsek.foto} 
+                    alt={`Foto ${profilKepsek.nama}`} 
+                    class="absolute inset-0 w-full h-full object-cover object-top z-10 transition-transform duration-700 hover:scale-105"
+                    loading="lazy"
+                  />
+                  
+                  <!-- Overlay Gradien Lembut di Bawah -->
+                  <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent z-10 pointer-events-none"></div>
+                </div>
+      
+                <!-- Lencana Sorotan Melayang (Floating Badge - Diposisikan ke tengah bawah foto) -->
+                <div class="absolute -bottom-5 sm:-bottom-6 left-1/2 -translate-x-1/2 z-20 w-max max-w-[95%] bg-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center gap-2 sm:gap-3">
+                  <div class="p-1.5 sm:p-2 bg-accent-yellow/10 rounded-full text-accent-yellow shrink-0">
+                    <Icon name="lucide:award" class="w-4 h-4 sm:w-5 sm:h-5" />
+                  </div>
+                  <span class="text-[10px] sm:text-xs md:text-sm font-extrabold text-blackcoal font-lato uppercase tracking-wide truncate">
+                    {profilKepsek.highlight}
+                  </span>
+                </div>
+                
+              </div>
+              
+              <!-- Ornamen Titik (Dot Pattern) -->
+              <div class="absolute -top-6 -left-6 z-0 hidden sm:grid grid-cols-5 gap-2 opacity-30 text-corporate-blue">
+                {Array.from({ length: 25 }).map(() => (
+                  <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
+                ))}
+              </div>
+            </div>
+
+      <!-- KOLOM KANAN: Narasi & Tipografi (7 Kolom Desktop) -->
+      <div class="lg:col-span-7 flex flex-col pt-8 lg:pt-0">
+        
+        <!-- Lencana Kecil -->
+        <div class="flex items-center gap-2 mb-6">
+          <div class="w-6 h-[2px] bg-corporate-blue"></div>
+          <span class="text-[11px] font-bold font-mono uppercase tracking-widest text-corporate-blue">Sambutan Pimpinan</span>
+        </div>
+
+        <!-- Kutipan Utama (Pull-Quote) -->
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blackcoal font-lato leading-[1.3] mb-8 relative">
+          <Icon name="lucide:quote" class="absolute -top-4 -left-3 sm:-left-6 w-8 h-8 sm:w-12 sm:h-12 text-gray-200 -z-10 rotate-180" />
+          "{profilKepsek.kutipan}"
+        </h2>
+
+        <!-- Teks Tubuh (Body Copy) -->
+        <div class="space-y-4 mb-10 border-l-2 border-gray-200 pl-4 sm:pl-6 text-sm sm:text-base text-gray-600 font-comfortaa leading-relaxed">
+          <p>{profilKepsek.paragraf1}</p>
+          <p>{profilKepsek.paragraf2}</p>
+        </div>
+
+        <!-- Area Identitas & Tanda Tangan -->
+        <div class="flex items-center gap-6 pt-4 border-t border-gray-200/60">
+          
+          <!-- Avatar Tanda Tangan Digital -->
+          <div class="w-20 h-auto sm:w-28 shrink-0">
+            <img 
+              src={profilKepsek.ttd} 
+              alt="Tanda Tangan Kepala Sekolah" 
+              class="w-full h-auto drop-shadow-sm opacity-80"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Metadata Nama & nuptk -->
+          <div class="flex flex-col">
+            <span class="text-base sm:text-lg font-extrabold text-blackcoal font-lato tracking-tight">
+              {profilKepsek.nama}
+            </span>
+            <span class="text-xs font-bold font-comfortaa text-corporate-blue mb-0.5">
+              {profilKepsek.jabatan}
+            </span>
+            <span class="text-[10px] sm:text-[11px] font-mono text-gray-500 uppercase tracking-wider">
+              {profilKepsek.nuptk}
+            </span>
+          </div>
+          
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>

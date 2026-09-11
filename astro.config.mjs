@@ -17,7 +17,7 @@ export default defineConfig({
     webAnalytics: { enabled: true }
   }),
   devToolbar: {
-    enabled: true,
+    enabled: false,
   },
   // Mendaftarkan Vite plugin untuk kompilasi Tailwind v4
   vite: {
