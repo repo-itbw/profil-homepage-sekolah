@@ -112,7 +112,7 @@
 -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <section 
-  class="relative w-full lg:w-[65%] h-[60vh] lg:h-[65vh] min-h-[380px] overflow-hidden rounded-[1.5rem] lg:rounded-[2rem] bg-slate-900 shadow-sm shrink-0"
+  class="relative w-full lg:w-[65%] min-h-[380px] overflow-hidden rounded-[1.5rem] lg:rounded-[2rem] bg-slate-900 shadow-sm shrink-0"
   on:touchstart={handleTouchStart}
   on:touchend={handleTouchEnd}
 >

@@ -22,7 +22,7 @@ const formatTanggal = (tanggal: Date) => {
     Memaksa kontainer berhenti tumbuh setelah ~250px (cukup untuk 2 kartu).
     Sisa kartu ke-3 hingga ke-5 akan disembunyikan dalam scrollbar.
   -->
-  <div class="overflow-y-auto flex flex-col gap-2.5 pr-1.5 custom-scrollbar max-h-[250px] lg:max-h-[280px]">
+  <div class="overflow-y-auto flex flex-col gap-2.5 custom-scrollbar max-h-[250px] lg:max-h-[280px]">
     
     {beritaTerbaru.length === 0 && (
       <div class="text-center py-4 text-gray-400 text-xs border border-dashed border-gray-600 rounded-lg">
@@ -34,14 +34,14 @@ const formatTanggal = (tanggal: Date) => {
       <a 
         href={`/berita/${berita.id}`} 
         // Padding disusutkan menjadi p-2 agar kartu lebih langsing
-        class="group flex gap-3 p-2 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/10 border border-white/5 transition-colors items-center"
+        class="group flex gap-2 p-2 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/10 border border-white/5 transition-colors items-center"
       >
         <!-- Thumbnail dikecilkan secara ekstrem (64x64 pixel) -->
-        <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-800">
+        <div class="w-24 sm:w-28 self-stretch min-h-[80px] -ml-2 -my-2 flex-shrink-0 overflow-hidden rounded-l-xl bg-gray-800 relative">
           <img 
             src={berita.data.image || '/placeholder-news.jpg'} 
             alt={berita.data.judul} 
-            class="w-full h-full object-cover group-hover:scale-105 group-active:scale-105 transition-transform duration-300"
+            class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-active:scale-105 transition-transform duration-300"
             loading="lazy"
           />
         </div>
