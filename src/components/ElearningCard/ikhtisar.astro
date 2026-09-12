@@ -73,7 +73,8 @@ const { headings } = Astro.props;
 </aside>
 
 <script>
-  let isIkhtisarReady = false;
+  // 1. Variabel global untuk menyimpan referensi event window saat ini
+  let currentToggleIkhtisar = null;
 
   const initIkhtisar = () => {
     const drawer = document.getElementById('ikhtisar-drawer');
@@ -81,67 +82,59 @@ const { headings } = Astro.props;
     const closeBtn = document.getElementById('close-ikhtisar');
     const links = document.querySelectorAll('.ikhtisar-link');
 
+    // Mencegah error jika komponen tidak dirender di halaman
+    if (!drawer || !overlay) return; 
+
     let isOpen = false;
 
-    // Fungsi Pengendali Status UI
     const toggleDrawer = (forceState?: boolean) => {
       isOpen = forceState !== undefined ? forceState : !isOpen;
       
       if (isOpen) {
-        drawer?.classList.remove('translate-x-full');
-        overlay?.classList.remove('hidden');
-        requestAnimationFrame(() => overlay?.classList.remove('opacity-0'));
-        document.body.style.overflow = 'hidden'; // Mengunci scroll body
+        drawer.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
+        document.body.style.overflow = 'hidden';
       } else {
-        drawer?.classList.add('translate-x-full');
-        overlay?.classList.add('opacity-0');
-        setTimeout(() => overlay?.classList.add('hidden'), 300); // Sinkron dengan durasi CSS
-        document.body.style.overflow = ''; // Membuka kunci scroll
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('opacity-0');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+        document.body.style.overflow = '';
       }
     };
 
-    // Pemasangan Event Listener (Diperiksa agar tidak ganda saat View Transitions)
-    if (!isIkhtisarReady) {
-      window.addEventListener('toggle-ikhtisar', () => toggleDrawer());
-      closeBtn?.addEventListener('click', () => toggleDrawer(false));
-      overlay?.addEventListener('click', () => toggleDrawer(false));
-      
-    // Auto-Close & Smooth Scroll dengan Offset
+    // 2. LOGIKA PEMBERSIHAN (CLEANUP): Cabut listener lama sebelum memasang yang baru
+    if (currentToggleIkhtisar) {
+      window.removeEventListener('toggle-ikhtisar', currentToggleIkhtisar);
+    }
+    // Simpan referensi fungsi yang baru ke memori global
+    currentToggleIkhtisar = () => toggleDrawer();
+    // Pasang ulang ke window
+    window.addEventListener('toggle-ikhtisar', currentToggleIkhtisar);
+
+    // 3. Listener DOM Statis (Otomatis hancur saat navigasi pasif, jadi aman dipasang ulang)
+    closeBtn?.addEventListener('click', () => toggleDrawer(false));
+    overlay?.addEventListener('click', () => toggleDrawer(false));
+    
     links.forEach(link => {
       link.addEventListener('click', (e) => {
-        // 1. Mencegah peramban melakukan lompatan instan bawaan
         e.preventDefault();
-
-        // 2. Tutup laci ikhtisar
         toggleDrawer(false);
-
-        // 3. Ekstraksi ID target dari atribut href (menghapus tanda #)
         const targetId = link.getAttribute('href')?.substring(1);
         if (!targetId) return;
 
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
-          // 4. Kalkulasi Offset Matematis
-          // Jarak SmartDock dari atas (84px) + Tinggi SmartDock (~60px) + Ruang napas (16px) = ~160px
-          const offset = 160;
+          const offset = 160; 
           const elementPosition = targetElement.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.scrollY - offset;
-
-          // 5. Eksekusi gulir mulus
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-
-          // 6. Sinkronisasi URL tanpa memicu lompatan ulang
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
           history.pushState(null, '', `#${targetId}`);
         }
       });
     });
-      isIkhtisarReady = true;
-    }
   };
 
-  // Injeksi life-cycle Astro View Transitions
+  // Eksekusi ulang mutlak setiap kali pergantian DOM (View Transitions) terjadi
   document.addEventListener('astro:page-load', initIkhtisar);
 </script>

@@ -1,16 +1,21 @@
 ---
+import katex from 'katex';
+
 interface Props {
   formula: string;
 }
 
 const { formula } = Astro.props;
+
+// Merender string murni secara langsung di peladen (Server-Side)
+const htmlOutput = katex.renderToString(formula, {
+  displayMode: true,
+  throwOnError: false, // Outputkan error kustom, bukan crash
+  errorColor: '#eab308'
+});
 ---
 
-<!-- 
-  Bungkus dengan pembatas $$ agar dikenali oleh auto-render KaTeX.
-  Ditambahkan kelas overflow-x-auto agar jika rumus terlalu panjang, 
-  tidak merusak layout di layar seluler.
--->
+<!-- Tampilkan HTML matang (sudah berbentuk DOM KaTeX) -->
 <div class="my-6 py-4 overflow-x-auto text-center text-lg sm:text-xl text-blackcoal">
-  $$ {formula} $$
+  <Fragment set:html={htmlOutput} />
 </div>

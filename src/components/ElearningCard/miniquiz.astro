@@ -1,5 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 interface KuisData {
   pertanyaan: string;
@@ -16,8 +18,62 @@ interface Props {
 }
 
 const { dataKuis } = Astro.props;
-// Konversi ke string JSON agar bisa dibaca utuh oleh skrip JavaScript di sisi Klien (Browser)
-const stringifiedData = JSON.stringify(dataKuis);
+
+// Fungsi utilitas keamanan untuk mengubah sintaks kode menjadi kebal manipulasi DOM (Mencegah XSS)
+const escapeHtml = (unsafe: string) => {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
+
+// Fungsi utilitas utama untuk menerjemahkan LaTeX, Code Block, dan Inline Code di sisi peladen
+const renderRichTextServer = (text: string) => {
+  if (!text) return text;
+  
+  // 1. Eksekusi Blok Kode (Triple Backticks)
+  // Menangkap teks di antara ``` dan membungkusnya dengan UI balok kode
+  let rendered = text.replace(/```([\s\S]+?)```/g, (match, code) => {
+    return `<pre class="font-mono text-xs sm:text-sm bg-gray-50 text-blackcoal p-3 sm:p-4 rounded-xl overflow-x-auto my-3 border border-gray-200 shadow-inner"><code>${escapeHtml(code.trim())}</code></pre>`;
+  });
+
+  // 2. Eksekusi Kode Sebaris (Single Backtick)
+  // Menangkap teks di antara ` dan membungkusnya dengan sorotan warna biru korporat
+  rendered = rendered.replace(/`([^`\n]+)`/g, (match, code) => {
+    return `<code class="font-mono text-[13px] bg-gray-100 text-corporate-blue px-1.5 py-0.5 rounded-md border border-gray-200">${escapeHtml(code)}</code>`;
+  });
+
+  // 3. Eksekusi Blok Matematika ($$...$$)
+  rendered = rendered.replace(/\$\$([\s\S]+?)\$\$/g, (match, formula) => {
+    try {
+      return katex.renderToString(formula, { displayMode: true, throwOnError: false });
+    } catch (e) { return match; }
+  });
+  
+  // 4. Eksekusi Matematika Sebaris ($...$)
+  rendered = rendered.replace(/\$([^\n$]+?)\$/g, (match, formula) => {
+    try {
+      return katex.renderToString(formula, { displayMode: false, throwOnError: false });
+    } catch (e) { return match; }
+  });
+  
+  return rendered;
+};
+
+// PRE-PROSES: Bersihkan dan render semua data (Kode + Matematika) sebelum dilempar ke Klien
+const processedKuis = dataKuis.map(soal => ({
+  ...soal,
+  pertanyaan: renderRichTextServer(soal.pertanyaan),
+  opsiA: renderRichTextServer(soal.opsiA),
+  opsiB: renderRichTextServer(soal.opsiB),
+  opsiC: renderRichTextServer(soal.opsiC),
+  opsiD: renderRichTextServer(soal.opsiD),
+  pembahasan: renderRichTextServer(soal.pembahasan)
+}));
+
+const stringifiedData = JSON.stringify(processedKuis);
 ---
 
 <!-- LAYAR GELAP KUIS -->
@@ -49,7 +105,8 @@ const stringifiedData = JSON.stringify(dataKuis);
 </aside>
 
 <script>
-  let isKuisReady = false;
+  // 1. Variabel memori untuk listener Kuis
+  let currentToggleQuiz = null;
 
   const initKuis = () => {
     const drawer = document.getElementById('kuis-drawer');
@@ -60,14 +117,11 @@ const stringifiedData = JSON.stringify(dataKuis);
     if (!drawer || !overlay || !closeBtn || !container) return;
 
     let isOpen = false;
-    
-    // Status Data Kuis
     const rawData = container.getAttribute('data-raw');
     const kuisData = rawData ? JSON.parse(rawData) : [];
     let currentIndex = 0;
     let score = 0;
 
-    // --- FUNGSI UI TOGGLE ---
     const toggleDrawer = (forceState?: boolean) => {
       isOpen = forceState !== undefined ? forceState : !isOpen;
       
@@ -77,7 +131,6 @@ const stringifiedData = JSON.stringify(dataKuis);
         requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
         document.body.style.overflow = 'hidden';
         
-        // Reset kuis jika dibuka kembali setelah selesai
         if (currentIndex >= kuisData.length && kuisData.length > 0) {
           currentIndex = 0;
           score = 0;
@@ -91,7 +144,13 @@ const stringifiedData = JSON.stringify(dataKuis);
       }
     };
 
-    // --- LOGIKA RENDER SOAL ---
+    // 2. LOGIKA PEMBERSIHAN (CLEANUP):
+    if (currentToggleQuiz) {
+      window.removeEventListener('toggle-quiz', currentToggleQuiz);
+    }
+    currentToggleQuiz = () => toggleDrawer();
+    window.addEventListener('toggle-quiz', currentToggleQuiz);
+
     const renderSoal = () => {
       if (kuisData.length === 0) {
         container.innerHTML = `
@@ -104,7 +163,6 @@ const stringifiedData = JSON.stringify(dataKuis);
       }
 
       if (currentIndex >= kuisData.length) {
-        // Layar Hasil Akhir
         container.innerHTML = `
           <div class="flex flex-col items-center justify-center h-full text-center">
             <div class="w-20 h-20 bg-success-green/10 text-success-green rounded-full flex items-center justify-center mb-4">
@@ -121,7 +179,6 @@ const stringifiedData = JSON.stringify(dataKuis);
 
       const soal = kuisData[currentIndex];
       
-      // Template Soal
       container.innerHTML = `
         <div class="mb-6 flex justify-between items-center text-xs font-bold font-mono text-gray-400">
           <span>Pertanyaan ${currentIndex + 1} dari ${kuisData.length}</span>
@@ -148,30 +205,24 @@ const stringifiedData = JSON.stringify(dataKuis);
         </button>
       `;
 
-      // Logika Interaksi Kuis
       const opsiLabels = container.querySelectorAll('.opsi-label');
       const radioBtns = container.querySelectorAll('input[type="radio"]');
       const btnCek = document.getElementById('btn-cek') as HTMLButtonElement;
       const feedbackArea = document.getElementById('feedback-area');
       let sudahDijawab = false;
 
-      // Pantau pemilihan opsi
       radioBtns.forEach(radio => {
         radio.addEventListener('change', () => {
           if (sudahDijawab) return;
           btnCek.disabled = false;
-          // Hapus efek terpilih dari semua label
           opsiLabels.forEach(l => l.classList.remove('border-corporate-blue', 'bg-corporate-blue/5', 'ring-2', 'ring-corporate-blue/20'));
-          // Tambahkan efek ke label yang dipilih
           const label = (radio as HTMLInputElement).closest('label');
           label?.classList.add('border-corporate-blue', 'bg-corporate-blue/5', 'ring-2', 'ring-corporate-blue/20');
         });
       });
 
-      // Aksi Cek Jawaban
       btnCek?.addEventListener('click', () => {
         if (sudahDijawab) {
-          // Jika sudah menjawab, tombol berubah fungsi jadi 'Lanjut'
           currentIndex++;
           renderSoal();
           return;
@@ -184,22 +235,19 @@ const stringifiedData = JSON.stringify(dataKuis);
         const benar = jawabanDipilih === soal.jawabanBenar;
         if (benar) score++;
 
-        // Kunci semua radio button
         radioBtns.forEach(r => (r as HTMLInputElement).disabled = true);
 
-        // Warnai jawaban yang benar dan salah
         opsiLabels.forEach(label => {
           const radio = label.querySelector('input') as HTMLInputElement;
           label.classList.remove('border-corporate-blue', 'bg-corporate-blue/5', 'ring-2', 'ring-corporate-blue/20');
           
           if (radio.value === soal.jawabanBenar) {
-            label.classList.add('border-success-green', 'bg-success-green/10'); // Hijau (Benar)
+            label.classList.add('border-success-green', 'bg-success-green/10');
           } else if (radio.checked && !benar) {
-            label.classList.add('border-red-500', 'bg-red-50'); // Merah (Salah pilih)
+            label.classList.add('border-red-500', 'bg-red-50');
           }
         });
 
-        // Tampilkan Feedback & Pembahasan
         if (feedbackArea) {
           feedbackArea.classList.remove('hidden');
           feedbackArea.classList.add(benar ? 'bg-success-green/10' : 'bg-red-50');
@@ -211,21 +259,17 @@ const stringifiedData = JSON.stringify(dataKuis);
           `;
         }
 
-        // Ubah tombol jadi "Lanjut"
         btnCek.textContent = currentIndex === kuisData.length - 1 ? "Lihat Hasil Akhir" : "Pertanyaan Selanjutnya";
         btnCek.classList.replace('bg-corporate-blue', 'bg-blackcoal');
         btnCek.classList.replace('hover:bg-blue-600', 'hover:bg-gray-800');
       });
     };
 
-    // --- INITIALIZATION ---
-    if (!isKuisReady) {
-      window.addEventListener('toggle-quiz', () => toggleDrawer());
-      closeBtn.addEventListener('click', () => toggleDrawer(false));
-      overlay.addEventListener('click', () => toggleDrawer(false));
-      renderSoal(); // Persiapkan soal pertama di balik layar
-      isKuisReady = true;
-    }
+    closeBtn.addEventListener('click', () => toggleDrawer(false));
+    overlay.addEventListener('click', () => toggleDrawer(false));
+    
+    // Inisialisasi awal UI kuis
+    renderSoal(); 
   };
 
   document.addEventListener('astro:page-load', initKuis);

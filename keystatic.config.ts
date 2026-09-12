@@ -141,7 +141,7 @@ export default config({
       schema: {
         slug: fields.text({
           label: "Format Nama File (Slug)",
-          description: "Wajib gunakan format: mapel-kelas-topik (Contoh: fisika-10-hukum-newton)",
+          description: "Wajib gunakan format: mapel-kelas-topik (Contoh: fisika-10-hukum-newton) supaya nanti url webnya bagus",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({ 
@@ -183,6 +183,7 @@ export default config({
         }),
         konten: fields.document({
           label: "Isi Materi Pembelajaran",
+          description: "Tuliskan ilmu yang akan dituangkan disini",
           tables: true, dividers: true, links: true,
           formatting: {
             inlineMarks: { bold: true, italic: true, strikethrough: true, code: true },
@@ -194,7 +195,7 @@ export default config({
           },
           componentBlocks: komponenMultimedia, // <--- Pemanggilan modular digunakan kembali
         }),
-        // PENAMBAHAN TAHAP 2: Array Objek untuk Mini Kuis
+        // Array Objek untuk Mini Kuis
          kuis: fields.array(
           fields.object({
             pertanyaan: fields.text({ label: "Pertanyaan Kuis", multiline: true }),
@@ -238,7 +239,7 @@ export default config({
       schema: {
         slug: fields.text({
           label: "Format Nama File (Slug)",
-          description: "Wajib gunakan format: tahun-namakarya (Contoh: 2026-poster-lingkungan)",
+          description: "Wajib gunakan format: tahun-namakarya (Contoh: 2026-poster-lingkungan) supaya nanti url webnya bagus",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({ 
@@ -262,7 +263,8 @@ export default config({
         // Field konten dipertahankan sebagai syarat mesin markdoc (.mdoc), 
         // namun bisa dibiarkan kosong oleh penulis.
         konten: fields.document({
-          label: "Deskripsi Opsional (Gausah di isi)",
+          label: " Bagian ini (Gausah di isi)",
+          description: "Abaikan saja! Jangan di isi karena bagian ini tidak akan dirender",
           formatting: true,
         }),
       },
@@ -307,7 +309,12 @@ export default config({
         }),
         konten: fields.document({
           label: "Deskripsi Ekstra (Opsional)",
-          formatting: { inlineMarks: true, listTypes: true },
+          description: "Silahkan isi untuk menceritakan kegiatan apa yang pernah terjadi dibalik gambar tersebut",
+          tables: true, dividers: true, links: true,
+          formatting: {
+            inlineMarks: { bold: true, italic: true, strikethrough: true },
+            listTypes: true, headingLevels: true, blockTypes: true,
+          },
         }),
       },
     }),

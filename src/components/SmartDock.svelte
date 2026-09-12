@@ -102,7 +102,7 @@
 
         <button
           on:click={() => sortOrder = sortOrder === 'terbaru' ? 'terlama' : 'terbaru'}
-          class="flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-xs font-bold transition-colors shrink-0 aspect-square sm:aspect-auto"
+          class="flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 hover:bg-gray-200 active:bg-gray-200 text-gray-600 rounded-lg text-xs font-bold transition-colors shrink-0 aspect-square sm:aspect-auto"
           title="Ubah Urutan"
         >
           {#if sortOrder === 'terbaru'}
@@ -138,7 +138,7 @@
         <!-- Tombol Kembali Dinamis -->
         <a
           href={backUrl}
-          class="flex items-center gap-2 px-3 py-1.5 text-gray-600 hover:text-corporate-blue hover:bg-corporate-blue/10 rounded-lg transition-colors text-sm font-bold"
+          class="flex items-center gap-2 px-3 py-1.5 text-gray-600 hover:text-corporate-blue active:text-corporate-blue hover:bg-corporate-blue/10 active:bg-corporate-blue/10 rounded-lg transition-colors text-sm font-bold"
         >
           <ArrowLeft size={18} />
           <span class="hidden sm:inline font-lato">{backLabel}</span>
@@ -153,7 +153,7 @@
           <!-- TOMBOL TAHAP 2: Toggle Mini Quiz -->
           <button
             on:click={() => window.dispatchEvent(new CustomEvent('toggle-quiz'))}
-            class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue hover:bg-corporate-blue/10 rounded-lg transition-colors"
+            class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue active:text-corporate-blue hover:bg-corporate-blue/10 active:bg-corporate-blue/10 rounded-lg transition-colors"
             title="Mini Quiz"
             >
             <HelpCircle size={20} />
@@ -162,7 +162,7 @@
           <!-- TOMBOL TAHAP 1: Toggle Ikhtisar -->
           <button
             on:click={() => window.dispatchEvent(new CustomEvent('toggle-ikhtisar'))}
-            class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue hover:bg-corporate-blue/10 rounded-lg transition-colors"
+            class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue active:text-corporate-blue hover:bg-corporate-blue/10 active:bg-corporate-blue/10 rounded-lg transition-colors"
             title="Daftar Isi / Ikhtisar"
             >
             <ListOrdered size={20} />
@@ -175,7 +175,7 @@
               <!-- Tombol Hide Navigasi -->
               <button
                 on:click={() => isHidden = true}
-                class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue hover:bg-corporate-blue/10 rounded-lg transition-colors"
+                class="flex items-center justify-center p-2 text-gray-400 hover:text-corporate-blue active:text-corporate-blue hover:bg-corporate-blue/10 active:bg-corporate-blue/10 rounded-lg transition-colors"
                 title="Sembunyikan navigasi"
               >
               <EyeOff size={20} />
