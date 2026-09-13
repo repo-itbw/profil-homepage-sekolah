@@ -1,0 +1,30 @@
+slides:
+  - image: /JumbotronAssets/slides/0/image.jpg
+    title: SMK swasta di lembang, Kab. Bandung Barat
+    subtitle: 'Hadir dengan 4 jurusan: PPLG, OTKP, Tata Boga, Perhotelan.'
+    actions:
+      - label: Info PPDB
+        link: https://example.com
+        type: primary
+      - label: Galeri Prestasi
+        link: /galeri
+        type: outline
+  - image: /JumbotronAssets/slides/1/image.jpg
+    title: Program PRAKERIN untuk siswa akhir tahun
+    subtitle: >-
+      Kelas 12/XII akan diberangkatkan pada dunia industri menjelang pertengahan
+      semester ganjil.
+    actions:
+      - label: Lihat Detail
+        link: https://example.com
+        type: primary
+      - label: Apa saja Persiapannya
+        link: https://example.com
+        type: outline
+  - image: /JumbotronAssets/slides/2/image.jpg
+    title: Dukungan fasilitas praktek yang memadai
+    subtitle: Kunjungi fasilitas fisik serta penunjang pembelajaran
+    actions:
+      - label: Lihat Fasilitas
+        link: /profil/fasilitas
+        type: primary

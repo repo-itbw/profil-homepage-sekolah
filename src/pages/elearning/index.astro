@@ -19,7 +19,7 @@ const buatSlugKategori = (kategori: string) => kategori.toLowerCase().replace(/\
 
 // Definisi array kategori untuk disuntikkan ke SmartDock
 const kategoriElearning = [
-  'Semua', 'Matematika', 'IPA', 'Bahasa Indonesia', 'Bahasa Inggris', 
+  'Semua', 'Matematika', 'IPA', 'PKWU', 'PPKN', 'PAI', 'Bahasa Indonesia', 'Bahasa Inggris', 
   'Kejuruan PPLG', 'Kejuruan OTKP', 'Kejuruan Tata Boga', 'Kejuruan Perhotelan', 'Umum'
 ];
 ---
@@ -29,9 +29,10 @@ const kategoriElearning = [
   <!-- INTEGRASI SMARTDOCK (Dengan injeksi kategori dinamis) -->
   <section class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 mb-8 sticky top-[72px] lg:top-[76px] z-30">
     <SmartDock 
-      client:load 
+      client:only="svelte"
+      transition:persist="elearning-smartdock" 
       mode="arsip" 
-      filterCategories={kategoriElearning} 
+      filterCategories={kategoriElearning}
     />
   </section>
 

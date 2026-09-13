@@ -62,6 +62,26 @@ const galeri = defineCollection({
   })
 });
 
-// 5. REGISTRASI KOLEKSI
+const jumbotron = defineCollection({
+  loader: glob({ base: './content/jumbotron', pattern: 'index.yaml' }),
+  schema: z.object({
+    slides: z.array(
+      z.object({
+        image: z.string(),
+        title: z.string(),
+        subtitle: z.string(),
+        actions: z.array(
+          z.object({
+            label: z.string(),
+            link: z.string(),
+            type: z.enum(['primary', 'outline']),
+          })
+        ),
+      })
+    ),
+  }),
+});
+
+// 6. REGISTRASI KOLEKSI
 // Wajib mengekspor seluruh variabel koleksi agar mesin Astro dapat mendaftarkannya ke tipe global (astro:content)
-export const collections = { berita, elearning, mading, galeri };
+export const collections = { berita, elearning, mading, galeri, jumbotron };

@@ -306,7 +306,7 @@ bun x @astrojs/upgrade
 
 ---
 
-<img width="1261" height="793" alt="Image" src="https://github.com/user-attachments/assets/d736c38e-3054-4b5e-b3bd-03b8f583f649" />
+<img width="1279" height="635" alt="Image" src="https://github.com/user-attachments/assets/68d3181e-e932-468d-b694-b90911666b11" />
 
 ## Cara menggunakan keystatic CMS
 
@@ -315,6 +315,11 @@ Saat membuat konten baru di dalam dasbor Keystatic, biasakan menekan tombol Ente
 Langkah kecil ini memaksa serializer (pengonversi data) Keystatic untuk membuat node paragraf baru yang terpisah oleh spasi dari pembatas frontmatter
 
 <img width="2244" height="1457" alt="Image" src="https://github.com/user-attachments/assets/dd08e01e-f0ce-40a5-b99f-a5189e4f7f70" />
+
+### Tatacara operator CMS
+
+Kalau mau upload image, usahakan compress dulu supaya sizenya kecil, lalu upload ke Keystatic.
+Gunakan tool ini untuk kompres gambar: [imagecompressor.com](https://imagecompressor.com/) atau [squoosh.app](https://squoosh.app/)
 
 ### FAQ
 

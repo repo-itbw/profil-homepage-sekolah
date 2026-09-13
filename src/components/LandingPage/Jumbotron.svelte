@@ -1,43 +1,8 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
 
-  export let slides = [
-    {
-      image: '/assets/banner.jpg',
-      title: 'Salah satu smk swasta di kota lembang.',
-      subtitle: 'SMK bina wisata adalah sekolah vokasi untuk generasi muda yang ingin tumbuh, inovatif, dan siap bersaing.',
-      actions: [
-        { label: 'Info PPDB', type: 'primary', link: '#' },
-        { label: 'Galeri prestasi', type: 'outline', link: '#' }
-      ]
-    },
-    {
-      image: '/assets/tka.jpg',
-      title: 'Persiapan TKA Oktober 2026 untuk kelas XII.',
-      subtitle: 'Lihat rincian informasi tes kemampuan akademik berikut dengan simulasinya',
-      actions: [
-        { label: 'Rincian TKA', type: 'primary', link: '#' },
-        { label: 'Coba simulasinya', type: 'outline', link: '#' }
-      ]
-    },
-    // Tambahkan slide kedua untuk menguji indikator dan swipe
-    {
-      image: '/assets/edu.jpg',
-      title: 'Fasilitas modern untuk pendidikan vokasi terdepan.',
-      subtitle: 'Praktik langsung di laboratorium berstandar industri dengan pengajar profesional.',
-      actions: [
-        { label: 'Jelajahi Fasilitas', type: 'primary', link: 'https://example.com' }
-      ]
-    },
-    {
-      image: '/assets/industry.jpg',
-      title: 'Program Prakerin untuk kelas XII',
-      subtitle: 'Dual based learning yang mengintegrasikan PKL sebagai komponen wajib kurikulum industri',
-      actions: [
-        { label: 'Lihat Rincian Program', type: 'primary', link: '#' }
-      ]
-    }
-  ];
+  // Menerima data dinamis dari Astro Props
+  export let slides = [];
 
   // Interval diubah menjadi 10 detik (10.000 ms)
   export let intervalMs = 10000;

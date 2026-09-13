@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Axel Kenshi dev
+Copyright (c) 2026 Axelkenshi dev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

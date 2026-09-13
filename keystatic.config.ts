@@ -1,4 +1,4 @@
-import { config, fields, collection, component } from "@keystatic/core";
+import { config, fields, singleton, collection, component } from "@keystatic/core";
 
 // ============================================================================
 // 1. MODULARISASI KOMPONEN EMBED (DRY Principle)
@@ -93,7 +93,7 @@ export default config({
       schema: {
         slug: fields.text({
           label: "Format Nama File (Slug)",
-          description: "Wajib gunakan format: kategori-tanggal-namasingkat (Contoh: pengumuman-2026-08-25-rapat)",
+          description: "Wajib gunakan format: tanggal-kategori-namasingkat (Contoh: 2026-08-25-pengumuman_rapat) supaya nanti url webnya bagus (Harus ya gunakan underscore atau strip sebagai separator penamaan disini)",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({ label: "Judul Berita", validation: { length: { max: 150 } } }),
@@ -141,7 +141,7 @@ export default config({
       schema: {
         slug: fields.text({
           label: "Format Nama File (Slug)",
-          description: "Wajib gunakan format: mapel-kelas-topik (Contoh: fisika-10-hukum-newton) supaya nanti url webnya bagus",
+          description: "Wajib gunakan format: kelas-mapel-topik (Contoh: 10-fisika-hukum_newton) supaya nanti url webnya bagus (Harus ya gunakan underscore atau strip sebagai separator penamaan disini)",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({ 
@@ -156,6 +156,7 @@ export default config({
           label: "Gambar Sampul Materi",
           directory: "public/ElearningAssets/",
           publicPath: "/ElearningAssets/",
+          validation: { isRequired: true },
         }),
         tanggal: fields.date({ 
           label: "Tanggal Rilis Materi", 
@@ -167,6 +168,9 @@ export default config({
           options: [
             { label: "Matematika", value: "Matematika" },
             { label: "IPA", value: "IPA" },
+            { label: "PKWU", value: "PKWU" },
+            { label: "PPKN", value: "PPKN" },
+            { label: "PAI", value: "PAI" },
             { label: "Bahasa Indonesia", value: "Bahasa Indonesia" },
             { label: "Bahasa Inggris", value: "Bahasa Inggris" },
             { label: "Kejuruan PPLG", value: "Kejuruan PPLG" },
@@ -239,7 +243,7 @@ export default config({
       schema: {
         slug: fields.text({
           label: "Format Nama File (Slug)",
-          description: "Wajib gunakan format: tahun-namakarya (Contoh: 2026-poster-lingkungan) supaya nanti url webnya bagus",
+          description: "Wajib gunakan format: tahun-namakarya (Contoh: 2026-poster_lingkungan) supaya nanti url webnya bagus (Harus ya gunakan underscore atau strip sebagai separator penamaan disini)",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({ 
@@ -251,6 +255,7 @@ export default config({
           label: "Gambar Karya Utama",
           directory: "public/MadingAssets/",
           publicPath: "/MadingAssets/",
+          validation: { isRequired: true },
         }),
         tanggal: fields.date({ 
           label: "Tanggal Publikasi", 
@@ -281,7 +286,7 @@ export default config({
       schema: {
         slug: fields.text({
           label: "Format Nama File (Slug)",
-          description: "Wajib gunakan format: tahun-kategori-namasingkat (Contoh: kegiatan-karnaval-2026)",
+          description: "Wajib gunakan format: tahun-kategori-namasingkat (Contoh: 2026-kegiatan-karnaval) supaya nanti url webnya bagus (Harus ya gunakan underscore atau strip sebagai separator penamaan disini)",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({ 
@@ -292,6 +297,7 @@ export default config({
           label: "Berkas Gambar",
           directory: "public/GaleriAssets", // Penulisan presisi tanpa trailing slash
           publicPath: "/GaleriAssets",
+          validation: { isRequired: true },
         }),
         tanggal: fields.date({ 
           label: "Tanggal Pengambilan", 
@@ -319,4 +325,46 @@ export default config({
       },
     }),
   },
+  singletons: {
+      jumbotron: singleton({
+        label: 'Jumbotron Slide',
+        path: './content/jumbotron/',
+        schema: {
+          slides: fields.array(
+            fields.object({
+              image: fields.image({
+                label: 'Gambar Slide',
+                directory: 'public/JumbotronAssets',
+                publicPath: '/JumbotronAssets/',
+                validation: { isRequired: true },
+              }),
+              title: fields.text({ label: 'Judul Utama', validation: { length: { min: 3 } }, }),
+              subtitle: fields.text({ label: 'Sub-judul / Deskripsi', multiline: true, validation: { length: { min: 3 } }, }, ),
+              actions: fields.array(
+                fields.object({
+                  label: fields.text({ label: 'Teks Tombol' }),
+                  link: fields.text({ label: 'Tautan (URL)' }),
+                  type: fields.select({
+                    label: 'Tipe Tombol',
+                    options: [
+                      { label: 'Utama (Primary)', value: 'primary' },
+                      { label: 'Garis Luar (Outline)', value: 'outline' },
+                    ],
+                    defaultValue: 'primary',
+                  }),
+                }),
+                {
+                  label: 'Daftar Tombol Aksi',
+                  itemLabel: (props) => props.fields.label.value || 'Tombol Baru',
+                }
+              ),
+            }),
+            {
+              label: 'Daftar Slide Banner',
+              itemLabel: (props) => props.fields.title.value || 'Slide Baru',
+            }
+          ),
+        },
+      }),
+    },
 });

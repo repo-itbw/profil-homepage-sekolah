@@ -36,7 +36,8 @@ const formatTanggal = (tanggal: Date) => {
   <!-- INTEGRASI SMARTDOCK -->
   <section class="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sticky top-[72px] lg:top-[84px] z-30">
     <SmartDock 
-      client:load 
+      client:only="svelte"
+      transition:persist="elearning-smartdock" 
       mode="detail" 
       contentType="elearning"
       backUrl="/elearning" 
