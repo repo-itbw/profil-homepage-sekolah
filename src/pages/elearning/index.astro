@@ -27,10 +27,12 @@ const kategoriElearning = [
 <Layout title="E-Learning & Materi | SMKs Bina Wisata Lembang">
   
   <!-- INTEGRASI SMARTDOCK (Dengan injeksi kategori dinamis) -->
-  <section class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 mb-8 sticky top-[72px] lg:top-[76px] z-30">
+  <section 
+    class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 mb-8 sticky top-[72px] lg:top-[76px] z-30"
+    transition:persist="elearning-smartdock-wrapper"
+    transition:animate="none">
     <SmartDock 
-      client:only="svelte"
-      transition:persist="elearning-smartdock" 
+      client:only="svelte" 
       mode="arsip" 
       filterCategories={kategoriElearning}
     />

@@ -2,55 +2,28 @@
 // Import Layout Utama
 import Layout from '../../../layouts/Layout.astro';
 import { Users, GraduationCap, Trophy, PieChart, Briefcase, TrendingUp } from '@lucide/svelte';
+import { getCollection } from 'astro:content';
 
 // ============================================================================
 // PERINGATAN !
 // JANGAN SEMENA-MENA MEMANIPULASI DATA TANPA FAKTA DATA RIIL
 // ============================================================================
 // ============================================================================
-// 1. DATA FRONTMATTER (Objek Statis Statistik)
+// 1. DATA FETCHING (Mengambil dari Keystatic CMS YAML)
 // ============================================================================
-const statistikData = {
-  demografi: { tahun: 2026, total: 945, putra: 480, putri: 465 },
-  distribusiKelas: [
-    { tingkat: 'Kelas X', jumlah: 350, warna: 'bg-corporate-blue' },
-    { tingkat: 'Kelas XI', jumlah: 310, warna: 'bg-accent-yellow' },
-    { tingkat: 'Kelas XII', jumlah: 285, warna: 'bg-success-green' },
-  ],
-  serapanAlumni: [
-    { status: 'Bekerja (Industri)', persentase: 65, warna: 'bg-corporate-blue' },
-    { status: 'Melanjutkan Kuliah', persentase: 20, warna: 'bg-success-green' },
-    { status: 'Wirausaha Mandiri', persentase: 15, warna: 'bg-accent-yellow' },
-    { status: 'Tidak Diketahui', persentase: 5, warna: 'bg-gray-400' },
-  ],
-  prestasi: { nasional: 12, provinsi: 34, kabupaten: 89 },
+const statistikEntries = await getCollection('statistik');
 
-  // DATA BARU: Staff GTK
-  staffGtk: [
-    { peran: 'Guru Tetap', jumlah: 22, warna: '#3ba2d5' }, // corporate-blue
-    { peran: 'Guru Honorer', jumlah: 14, warna: '#eab308' }, // accent-yellow
-    { peran: 'Staf Administrasi & Tata Usaha', jumlah: 9, warna: '#16a34a' }, // success-green
-  ],
-
-  // DATA BARU: Pertumbuhan Siswa (5 Tahun Terakhir)
-  pertumbuhanSiswa: [
-    { tahun: '2015', jumlah: 1050 },
-    { tahun: '2016', jumlah: 1100 },
-    { tahun: '2017', jumlah: 1180 },
-    { tahun: '2018', jumlah: 1210 },
-    { tahun: '2019', jumlah: 1245 },
-    { tahun: '2020', jumlah: 1050 },
-    { tahun: '2021', jumlah: 1100 },
-    { tahun: '2022', jumlah: 1180 },
-    { tahun: '2023', jumlah: 1210 },
-    { tahun: '2024', jumlah: 1245 },
-    { tahun: '2025', jumlah: 1050 },
-    { tahun: '2026', jumlah: 1100 },
-  ]
-};
+// JARING PENGAMAN: Hentikan eksekusi dan berikan pesan jelas jika fail belum ada
+if (statistikEntries.length === 0) {
+  throw new Error("Data CMS Kosong: Fail content/statistik/index.yaml belum dibuat. Silakan buka dashboard Keystatic, navigasi ke 'Statistik Kesiswaan', lalu klik 'Save' untuk memproduksi fail pertama.");
+}
+// Mengambil indeks 0 karena ini adalah data singleton (entitas tunggal)
+const statistikData = statistikEntries[0].data;
 
 // ============================================================================
 // 2. KALKULASI MATEMATIKA SERVER-SIDE
+// (Kode kalkulasi di bawah ini TIDAK PERLU DIUBAH sama sekali karena 
+// struktur JSON dari Keystatic sudah dipaksa identik oleh Zod)
 // ============================================================================
 // A. Demografi Umum
 const persenPutra = Math.round((statistikData.demografi.putra / statistikData.demografi.total) * 100);
@@ -69,28 +42,21 @@ const pieGradient = statistikData.staffGtk.map(item => {
 
 // C. Kalkulasi Koordinat Line Chart (SVG Dinamis)
 const dataLength = statistikData.pertumbuhanSiswa.length;
-
-// Menetapkan jarak minimum 110px antar tahun
 const minSpacing = 110; 
-// Melebarkan batas ruang aman (padding) kiri & kanan menjadi 50px
 const padX = 50; 
 const padY = 30;
 
-// Kalkulasi dinamis: Jika data sedikit, lebar minimal 500px. 
-// Jika data banyak, lebar dikali minSpacing.
 const svgWidth = Math.max(500, (dataLength - 1) * minSpacing + (padX * 2)); 
-const svgHeight = 240; // Ditinggikan menjadi 240px agar puncak grafik tidak terpotong
+const svgHeight = 240; 
 
 const maxPertumbuhan = Math.max(...statistikData.pertumbuhanSiswa.map(d => d.jumlah));
 const minPertumbuhan = Math.min(...statistikData.pertumbuhanSiswa.map(d => d.jumlah));
 
-// Pembulatan batas atas dan bawah grafik
 const chartMax = Math.ceil(maxPertumbuhan / 100) * 100;
 const chartMin = Math.floor(minPertumbuhan / 100) * 100;
 const rangeY = chartMax - chartMin;
 const rangeX = dataLength - 1;
 
-// Membuat string titik kordinat (X,Y) untuk polyline SVG
 const svgPoints = statistikData.pertumbuhanSiswa.map((d, i) => {
   const x = padX + (i * (svgWidth - 2 * padX) / rangeX);
   const y = svgHeight - padY - ((d.jumlah - chartMin) / rangeY) * (svgHeight - 2 * padY);

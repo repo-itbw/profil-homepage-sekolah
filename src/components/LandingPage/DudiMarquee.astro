@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+
+// Ekstraksi & Filter Data
+const mitraEntries = await getCollection('mitra');
+
+if (mitraEntries.length === 0) {
+  throw new Error("Data Mitra Industri gagal dimuat di komponen DudiMarquee.");
+}
+
+const data = mitraEntries[0].data;
+const mitraPrioritas = data.daftarMitra.filter(mitra => mitra.prioritas);
+const marqueeItems = [...mitraPrioritas, ...mitraPrioritas];
+---
+
+{mitraPrioritas.length > 0 && (
+  <section class="w-full max-w-[100vw] py-12 sm:py-16 overflow-hidden">
+    
+    <!-- Judul Marquee -->
+    <div class="text-center mb-8 sm:mb-12 px-4">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blackcoal font-lato tracking-tight">
+        Jaringan Mitra Industri
+      </h2>
+    </div>
+
+    <!-- Area Pita Berjalan (Marquee Wrapper) -->
+    <div class="relative w-full">
+      
+      <!-- Efek Fading Kiri & Kanan (Vignette Kaca) -->
+      <div class="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-alabaster to-transparent z-20 pointer-events-none"></div>
+      <div class="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-alabaster to-transparent z-20 pointer-events-none"></div>
+
+      <!-- Kontainer Animasi -->
+      <div class="marquee-container flex gap-6 sm:gap-8 w-max px-4">
+        {marqueeItems.map(mitra => (
+          <div class="group flex items-center justify-center bg-white border border-gray-100 shadow-sm rounded-2xl w-40 h-24 sm:w-48 sm:h-28 px-6 py-4 shrink-0 transition-transform duration-300 hover:-translate-y-1 active:-translate-y-1">
+            
+            {mitra.logo ? (
+              <img 
+                src={mitra.logo} 
+                alt={`Logo ${mitra.namaPerusahaan}`} 
+                class="max-w-full max-h-full object-contain grayscale opacity-60 group-hover:grayscale-0 group-active:grayscale-0 group-hover:opacity-100 group-active:opacity-100 transition-all duration-500"
+                loading="lazy"
+              />
+            ) : (
+              <span class="font-lato font-extrabold text-gray-400 group-hover:text-corporate-blue group-active:text-corporate-blue text-center text-sm transition-colors duration-500">
+                {mitra.namaPerusahaan}
+              </span>
+            )}
+            
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+)}
+
+<style>
+  .marquee-container {
+    animation: marquee 30s linear infinite;
+  }
+  .marquee-container:hover {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>

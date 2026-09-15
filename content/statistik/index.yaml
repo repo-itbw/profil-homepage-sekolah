@@ -1,0 +1,49 @@
+demografi:
+  tahun: 2026
+  total: 640
+  putra: 341
+  putri: 299
+distribusiKelas:
+  - tingkat: Kelas X
+    jumlah: 140
+    warna: bg-corporate-blue
+  - tingkat: Kelas XI
+    jumlah: 232
+    warna: bg-success-green
+  - tingkat: Kelas XII
+    jumlah: 127
+    warna: bg-yellow-400
+serapanAlumni:
+  - status: Bekerja (Industri)
+    persentase: 55
+    warna: bg-success-green
+  - status: Kuliah
+    persentase: 25
+    warna: bg-yellow-400
+  - status: tidak diketahui
+    persentase: 20
+    warna: bg-gray-400
+prestasi:
+  nasional: 14
+  provinsi: 30
+  kabupaten: 76
+staffGtk:
+  - peran: Staff Administratif
+    jumlah: 10
+    warna: '#3ba2d5'
+  - peran: Guru
+    jumlah: 24
+    warna: '#1F1629'
+pertumbuhanSiswa:
+  - tahun: '2020'
+    jumlah: 460
+  - tahun: '2021'
+    jumlah: 312
+  - tahun: '2022'
+    jumlah: 398
+  - tahun: '2024'
+    jumlah: 560
+  - tahun: '2025'
+    jumlah: 672
+  - tahun: '2026'
+    jumlah: 436

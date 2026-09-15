@@ -28,3 +28,13 @@ slides:
       - label: Lihat Fasilitas
         link: /profil/fasilitas
         type: primary
+  - image: /JumbotronAssets/slides/3/image.jpg
+    title: Rencana Keuangan yang transparan
+    subtitle: Lihat bagaimana kami memaparkan rencana biaya pendidikan untuk siswa
+    actions:
+      - label: Rincian Pokok Pendidikan
+        link: /keuangan
+        type: primary
+      - label: Biaya kegiatan ekstra
+        link: /keuangan
+        type: outline

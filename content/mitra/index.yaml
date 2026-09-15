@@ -1,0 +1,52 @@
+hero:
+  judul: Mitra penyelenggaraan Prakerin
+  deskripsi: >-
+    Beberapa Perusahaan dan Instansi yang telah menjalin kerja sama kami untuk
+    membekali siswa dalam kurikulum program praktek kerja industri
+statistikBanner:
+  - angka: '50'
+    label: Institusi Mitra Program PKL
+  - angka: '9'
+    label: Perusahaan serapan lulusan
+daftarMitra:
+  - namaPerusahaan: Universitas Pendidikan Indonesia
+    logo: /MitraAssets/daftarMitra/0/logo.png
+    kategori: UPI Bandung
+    prioritas: true
+  - namaPerusahaan: Travello
+    logo: /MitraAssets/daftarMitra/1/logo.png
+    kategori: Perhotelan
+    prioritas: true
+  - namaPerusahaan: Bandung Electronic Center
+    logo: /MitraAssets/daftarMitra/2/logo.jpg
+    kategori: Retail
+    prioritas: true
+  - namaPerusahaan: Pullman Bandung
+    logo: /MitraAssets/daftarMitra/3/logo.png
+    kategori: Perhotelan
+    prioritas: true
+  - namaPerusahaan: MBG
+    logo: /MitraAssets/daftarMitra/4/logo.png
+    kategori: SPPG
+    prioritas: true
+  - namaPerusahaan: Ibis hotel
+    logo: /MitraAssets/daftarMitra/5/logo.png
+    kategori: Perhotelan
+    prioritas: true
+  - namaPerusahaan: mercure
+    logo: /MitraAssets/daftarMitra/6/logo.png
+    kategori: Perhotelan
+    prioritas: true
+  - namaPerusahaan: Hilton
+    logo: /MitraAssets/daftarMitra/7/logo.png
+    kategori: Perhotelan
+    prioritas: true
+testimoni:
+  - kutipan: Mantap banget ini anak rajin sekali, respect!
+    namaTokoh: alexa S.T
+    jabatan: Departemen IT
+    fotoTokoh: /MitraAssets/testimoni/0/fotoTokoh.jpg
+  - kutipan: Teruskan semangat belajarnya
+    namaTokoh: laxer
+    jabatan: CEO
+    fotoTokoh: /MitraAssets/testimoni/1/fotoTokoh.jpeg

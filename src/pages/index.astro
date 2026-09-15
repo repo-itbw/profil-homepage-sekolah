@@ -6,6 +6,8 @@ import QuickNews from '../components/LandingPage/QuickNews.astro';
 import MadingPreview from '../components/LandingPage/MadingPreview.astro';
 import GaleriPreview from '../components/LandingPage/GaleriPreview.astro';
 import Sambutan from '../components/LandingPage/Sambutan.astro';
+import StatistikRibbon from '../components/LandingPage/StatistikRibbon.astro';
+import DudiMarquee from '../components/LandingPage/DudiMarquee.astro';
 
 // Ambil data jumbotron dari content collection 
 import { getCollection } from 'astro:content';
@@ -41,7 +43,8 @@ const slides = jumbotronData[0]?.data.slides || [];
     <!-- 2. konten -->
     <!-- Section Sambutan Kepsek -->
     <Sambutan />
-    
+    <DudiMarquee />
+    <StatistikRibbon />
     <!-- Section Mading Preview -->
     <MadingPreview />
 

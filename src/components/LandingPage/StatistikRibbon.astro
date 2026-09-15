@@ -1,0 +1,188 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+// 1. Ekstraksi Data
+const statistikEntries = await getCollection('statistik');
+
+if (statistikEntries.length === 0) {
+  throw new Error("Data Statistik gagal dimuat: Fail CMS belum ada.");
+}
+
+const data = statistikEntries[0].data;
+
+// 2. Kalkulasi Matematika Server-Side
+const arrayTahun = data.pertumbuhanSiswa.map(item => parseInt(item.tahun));
+const tahunBerdiri = Math.min(...arrayTahun);
+const totalGenerasiSiswa = data.pertumbuhanSiswa.reduce((acc, curr) => acc + curr.jumlah, 0);
+const totalSiswaAktif = data.demografi.total;
+const persentaseSerapan = data.serapanAlumni
+  .filter(item => item.status.toLowerCase() !== 'tidak diketahui')
+  .reduce((acc, curr) => acc + curr.persentase, 0);
+const totalStaff = data.staffGtk.reduce((acc, curr) => acc + curr.jumlah, 0);
+const totalPrestasi = data.prestasi.nasional + data.prestasi.provinsi + data.prestasi.kabupaten;
+---
+
+<div class="relative w-full z-20 mt-[-30px] sm:mt-[-40px]">
+  <div class="w-full bg-white/95 backdrop-blur-md border-y border-gray-200 shadow-sm py-6 sm:py-8 xl:py-6">
+    
+    <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- 
+        ARSITEKTUR RESPONSIF BARU: 
+        - Mobile (< 768px): grid 2 kolom simetris
+        - Tablet (768px - 1279px): grid 3 kolom simetris 
+        - Desktop (>= 1280px): flexbox sebaris utuh (nowrap)
+      -->
+      <div class="grid grid-cols-2 md:grid-cols-3 xl:flex xl:flex-nowrap items-center justify-between gap-y-8 gap-x-2 sm:gap-x-6 xl:gap-4">
+        
+        <!-- Item 1: Rekam Jejak -->
+        <div class="flex items-center gap-2.5 sm:gap-3 justify-start xl:justify-center">
+          <div class="p-2 sm:p-2.5 bg-gray-100 rounded-full text-blackcoal shrink-0">
+            <Icon name="lucide:landmark" class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+          </div>
+          <div class="flex flex-col">
+            <div class="text-lg sm:text-xl md:text-2xl font-extrabold font-lato text-blackcoal leading-none">
+              <!-- Atribut data-is-year="true" ditambahkan untuk mencegah format titik ribuan -->
+              Sejak <span class="counter-value" data-target={tahunBerdiri} data-is-year="true">0</span>
+            </div>
+            <span class="text-[9px] sm:text-[10px] md:text-xs font-bold font-comfortaa text-gray-500 uppercase tracking-wider mt-1 sm:mt-1.5">
+              Tahun Berdiri
+            </span>
+          </div>
+        </div>
+
+        <div class="hidden xl:block w-px h-10 bg-gray-200 shrink-0"></div>
+
+        <!-- Item 2: Total Generasi -->
+        <div class="flex items-center gap-2.5 sm:gap-3 justify-start xl:justify-center">
+          <div class="p-2 sm:p-2.5 bg-corporate-blue/10 rounded-full text-corporate-blue shrink-0">
+            <Icon name="lucide:graduation-cap" class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+          </div>
+          <div class="flex flex-col">
+            <div class="text-lg sm:text-xl md:text-2xl font-extrabold font-lato text-blackcoal leading-none">
+              <span class="counter-value" data-target={totalGenerasiSiswa}>0</span>+
+            </div>
+            <span class="text-[9px] sm:text-[10px] md:text-xs font-bold font-comfortaa text-gray-500 uppercase tracking-wider mt-1 sm:mt-1.5">
+              Siswa Terdidik
+            </span>
+          </div>
+        </div>
+
+        <div class="hidden xl:block w-px h-10 bg-gray-200 shrink-0"></div>
+
+        <!-- Item 3: Siswa Aktif -->
+        <div class="flex items-center gap-2.5 sm:gap-3 justify-start xl:justify-center">
+          <div class="p-2 sm:p-2.5 bg-accent-yellow/15 rounded-full text-accent-yellow shrink-0">
+            <Icon name="lucide:users" class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+          </div>
+          <div class="flex flex-col">
+            <div class="text-lg sm:text-xl md:text-2xl font-extrabold font-lato text-blackcoal leading-none">
+              <span class="counter-value" data-target={totalSiswaAktif}>0</span>
+            </div>
+            <span class="text-[9px] sm:text-[10px] md:text-xs font-bold font-comfortaa text-gray-500 uppercase tracking-wider mt-1 sm:mt-1.5">
+              Siswa Aktif
+            </span>
+          </div>
+        </div>
+
+        <div class="hidden xl:block w-px h-10 bg-gray-200 shrink-0"></div>
+
+        <!-- Item 4: Total Staff -->
+        <div class="flex items-center gap-2.5 sm:gap-3 justify-start xl:justify-center">
+          <div class="p-2 sm:p-2.5 bg-purple-100 rounded-full text-purple-600 shrink-0">
+            <Icon name="lucide:id-card" class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+          </div>
+          <div class="flex flex-col">
+            <div class="text-lg sm:text-xl md:text-2xl font-extrabold font-lato text-blackcoal leading-none">
+              <span class="counter-value" data-target={totalStaff}>0</span>
+            </div>
+            <span class="text-[9px] sm:text-[10px] md:text-xs font-bold font-comfortaa text-gray-500 uppercase tracking-wider mt-1 sm:mt-1.5">
+              Pendidik & Staf
+            </span>
+          </div>
+        </div>
+
+        <div class="hidden xl:block w-px h-10 bg-gray-200 shrink-0"></div>
+
+        <!-- Item 5: Serapan Lulusan -->
+        <div class="flex items-center gap-2.5 sm:gap-3 justify-start xl:justify-center">
+          <div class="p-2 sm:p-2.5 bg-success-green/10 rounded-full text-success-green shrink-0">
+            <Icon name="lucide:briefcase" class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+          </div>
+          <div class="flex flex-col">
+            <div class="text-lg sm:text-xl md:text-2xl font-extrabold font-lato text-blackcoal leading-none">
+              <span class="counter-value" data-target={persentaseSerapan}>0</span>%
+            </div>
+            <span class="text-[9px] sm:text-[10px] md:text-xs font-bold font-comfortaa text-gray-500 uppercase tracking-wider mt-1 sm:mt-1.5">
+              Serapan Lulusan
+            </span>
+          </div>
+        </div>
+
+        <div class="hidden xl:block w-px h-10 bg-gray-200 shrink-0"></div>
+
+        <!-- Item 6: Total Prestasi -->
+        <div class="flex items-center gap-2.5 sm:gap-3 justify-start xl:justify-center">
+          <div class="p-2 sm:p-2.5 bg-rose-100 rounded-full text-rose-500 shrink-0">
+            <Icon name="lucide:trophy" class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+          </div>
+          <div class="flex flex-col">
+            <div class="text-lg sm:text-xl md:text-2xl font-extrabold font-lato text-blackcoal leading-none">
+              <span class="counter-value" data-target={totalPrestasi}>0</span>
+            </div>
+            <span class="text-[9px] sm:text-[10px] md:text-xs font-bold font-comfortaa text-gray-500 uppercase tracking-wider mt-1 sm:mt-1.5">
+              Prestasi Diraih
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const counters = document.querySelectorAll('.counter-value');
+    if (!counters.length) return;
+
+    const duration = 5000;
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const target = parseInt(el.getAttribute('data-target') || '0', 10);
+          
+          // Deteksi apakah elemen ini adalah angka tahun
+          const isYear = el.hasAttribute('data-is-year');
+          
+          let startTime: number | null = null;
+
+          const step = (timestamp: number) => {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            
+            const easeOut = 1 - Math.pow(1 - progress, 4);
+            const current = Math.floor(easeOut * target);
+
+            // Logika format: Jika tahun, gunakan teks mentah. Jika bukan, beri titik ribuan.
+            el.innerText = isYear ? current.toString() : current.toLocaleString('id-ID');
+
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              el.innerText = isYear ? target.toString() : target.toLocaleString('id-ID'); 
+              obs.unobserve(el);
+            }
+          };
+
+          requestAnimationFrame(step);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    counters.forEach(counter => observer.observe(counter));
+  });
+</script>

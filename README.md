@@ -20,6 +20,8 @@ keuntungan yang diperoleh :
 - CMS yang Ramah Non-Teknis (Keystatic), bikin konten seperti blogging
 - Punya mekanisme bawaan yang meminimalisir memory leak akibat komputasi javascript
 
+UI nya harus developer yang custom, namun end-user nya harus bisa mengelola kontennya sendiri tanpa perlu mengedit kode, Akses di dashboard https://urlweb/keystatic (admin bisa kontrol isi konten).
+
 ## Perawatan Pengembangan
 
 Banyak sekolah membuat website mahal ke vendor luar, lalu kebingungan saat butuh update kecil karena biayanya mahal atau vendornya menghilang. 
@@ -203,12 +205,18 @@ sekolah-homepage-web/
 ├── content/                   # DIREKTORI KONTEN CMS (Terpisah dari /src)
 │   ├── berita/                # Kumpulan file .mdoc untuk Artikel Berita
 │   ├── elearning/             # Kumpulan file .mdoc untuk elearning
-│   └── mading/                # Kumpulan file .mdoc untuk mading
+│   ├── mading/                # Kumpulan file .mdoc untuk mading
+│   ├── galeri/
+│   └── jumbotron/
+│       └── index.yaml
 ├── public/                    # Aset statis publik (favicon, logo, font, dll)
 │   ├── assets/                # file aset statis inti untuk banner & internal web
 │   ├── BeritaAssets/          # file aset (foto, video, dll) dari uploader untuk berita
 │   ├── ElearningAssets/       # file aset (foto, video, dll) dari uploader untuk Elearning
 │   ├── MadingAssets/          # file aset (foto, video, dll) dari uploader untuk Mading
+│   ├── GaleriAssets/
+│   ├── JumbotronAssets/
+│   │   └── slides/
 │   └── fonts/                 # Kumpulan file font lokal
 ├── src/
 │   ├── icons/                 # Pustaka astro-icon otomatis mencari direktori default penyimpan aset ikon lokal
@@ -220,7 +228,14 @@ sekolah-homepage-web/
 │   │   ├── LandingPage/                # Komponen UI milik Landing Page
 │   │   │   ├── Jumbotron.svelte        # Komponen Isi banner dinamis
 │   │   │   ├── QuickNews.astro         # Komponen Isi portal berita
-│   │   │   └── MadingPreview.astro     # Komponen yang merender preview mading inline
+│   │   │   ├── MadingPreview.astro     # Komponen yang merender preview mading inline
+│   │   │   ├── GaleriPreview.astro
+│   │   │   ├── Sambutan.astro
+│   │   │   └── StatistikRibbon.astro
+│   │   ├── ElearningCard/
+│   │   │   ├── ikhtisar.astro  # Sidecard untuk menampilkan ikhtisar elearning & aktivasi smartdock
+│   │   │   └── miniquiz.astro  # Sidecard untuk menampilkan miniquiz elearning & aktivasi smartdock
+│   │   │
 │   │   └── SmartDock.svelte    # Komponen Navigasi Sekunder untuk (berita, arsip, lms)
 │   │
 │   ├── layouts/                # Kerangka tata letak halaman (Layout, Header, Footer)
@@ -416,3 +431,7 @@ Melalui integrasi ini, Anda dapat membuat dan mengedit komponen khusus (seperti 
   <li>Pada paket gratis (Free Tier), Keystatic Cloud membatasi maksimal <strong>3 kolaborator</strong> per repositori.</li>
 </ul>
 </details>
+
+TODO:
+Program keahlian
+Mitra industri marquee

@@ -62,6 +62,7 @@ const galeri = defineCollection({
   })
 });
 
+// 5. Koleksi Jumbotron singletons
 const jumbotron = defineCollection({
   loader: glob({ base: './content/jumbotron', pattern: 'index.yaml' }),
   schema: z.object({
@@ -82,6 +83,64 @@ const jumbotron = defineCollection({
   }),
 });
 
-// 6. REGISTRASI KOLEKSI
+// 6. Koleksi statistik singletons
+const statistik = defineCollection({
+  loader: glob({ base: './content/statistik', pattern: 'index.yaml' }),
+  schema: z.object({
+    demografi: z.object({
+      tahun: z.number(),
+      total: z.number(),
+      putra: z.number(),
+      putri: z.number(),
+    }),
+    distribusiKelas: z.array(
+      z.object({ tingkat: z.string(), jumlah: z.number(), warna: z.string() })
+    ),
+    serapanAlumni: z.array(
+      z.object({ status: z.string(), persentase: z.number(), warna: z.string() })
+    ),
+    prestasi: z.object({
+      nasional: z.number(), provinsi: z.number(), kabupaten: z.number(),
+    }),
+    staffGtk: z.array(
+      z.object({ peran: z.string(), jumlah: z.number(), warna: z.string() })
+    ),
+    pertumbuhanSiswa: z.array(
+      z.object({ tahun: z.string(), jumlah: z.number() })
+    ),
+  }),
+});
+
+// Definisikan koleksi mitra
+const mitra = defineCollection({
+  loader: glob({ base: './content/mitra', pattern: 'index.yaml' }),
+  schema: z.object({
+    hero: z.object({
+      judul: z.string(),
+      deskripsi: z.string(),
+    }),
+    statistikBanner: z.array(
+      z.object({ angka: z.string(), label: z.string() })
+    ),
+    daftarMitra: z.array(
+      z.object({
+        namaPerusahaan: z.string(),
+        logo: z.string().optional().nullable(),
+        kategori: z.string(),
+        prioritas: z.boolean(),
+      })
+    ),
+    testimoni: z.array(
+      z.object({
+        kutipan: z.string(),
+        namaTokoh: z.string(),
+        jabatan: z.string(),
+        fotoTokoh: z.string().optional().nullable(),
+      })
+    ),
+  }),
+});
+
+// 8. REGISTRASI KOLEKSI
 // Wajib mengekspor seluruh variabel koleksi agar mesin Astro dapat mendaftarkannya ke tipe global (astro:content)
-export const collections = { berita, elearning, mading, galeri, jumbotron };
+export const collections = { berita, elearning, mading, galeri, jumbotron, statistik, mitra };
