@@ -66,13 +66,13 @@ const getGridClasses = (index: number) => {
           <!-- Gambar Fleksibel yang Selalu Memenuhi Kontainer -->
           {item.data.image ? (
             <img 
-              src={item.data.image} 
+              src={item.data.image?.value || '/assets/placeholder.svg'} 
               alt={item.data.judul} 
               class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               loading="lazy"
             />
           ) : (
-            <div class="w-full h-full flex items-center justify-center text-gray-400 font-comfortaa text-xs bg-gray-100">Visual Hilang</div>
+            <div class="w-full h-full flex items-center justify-center text-gray-400 font-comfortaa text-xs bg-gray-100">Visual Tidak ada</div>
           )}
 
           <!-- Overlay Gelap Tipis & Efek Transisi -->

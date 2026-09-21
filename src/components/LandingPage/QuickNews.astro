@@ -39,7 +39,7 @@ const formatTanggal = (tanggal: Date) => {
         <!-- Thumbnail dikecilkan secara ekstrem (64x64 pixel) -->
         <div class="w-24 sm:w-28 self-stretch min-h-[80px] -ml-2 -my-2 flex-shrink-0 overflow-hidden rounded-l-xl bg-gray-800 relative">
           <img 
-            src={berita.data.image || '/placeholder-news.jpg'} 
+            src={berita.data.image?.value || '/assets/placeholder.svg'} 
             alt={berita.data.judul} 
             class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-active:scale-105 transition-transform duration-300"
             loading="lazy"
@@ -53,7 +53,7 @@ const formatTanggal = (tanggal: Date) => {
           
           <div class="flex items-center gap-1.5 mt-0.5 mb-1 text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
             <!-- Langsung panggil variabel kategori -->
-            <span class="text-success-green flex-shrink-0">{berita.data.kategori || 'Umum'}</span>
+            <span class="text-corporate-blue flex-shrink-0">{berita.data.kategori || 'Umum'}</span>
             <span class="text-gray-500">&bull;</span>
             <span class="truncate">{formatTanggal(berita.data.tanggal)}</span>
           </div>

@@ -8,6 +8,7 @@ import GaleriPreview from '../components/LandingPage/GaleriPreview.astro';
 import Sambutan from '../components/LandingPage/Sambutan.astro';
 import StatistikRibbon from '../components/LandingPage/StatistikRibbon.astro';
 import DudiMarquee from '../components/LandingPage/DudiMarquee.astro';
+import NavIsland from '../components/LandingPage/NavIsland.astro';
 
 // Ambil data jumbotron dari content collection 
 import { getCollection } from 'astro:content';
@@ -40,6 +41,7 @@ const slides = jumbotronData[0]?.data.slides || [];
         </div>
       </main>
 
+    <NavIsland />
     <!-- 2. konten -->
     <!-- Section Sambutan Kepsek -->
     <Sambutan />

@@ -69,13 +69,13 @@ const uniqueCategories = ['Semua', ...new Set(sortedGaleri.map(item => item.data
           data-title={item.data.judul}
           data-category={item.data.kategori}
           data-timestamp={item.data.tanggal.valueOf()}
-          data-image={item.data.image}
+          data-image={item.data.image?.value || ''}
           data-date-str={item.data.tanggal.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
         >
           <!-- Gambar Fleksibel -->
           {item.data.image ? (
             <img
-              src={item.data.image}
+              src={item.data.image?.value || '/assets/placeholder.svg'}
               alt={item.data.judul}
               class="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               loading="lazy"
@@ -227,7 +227,7 @@ const uniqueCategories = ['Semua', ...new Set(sortedGaleri.map(item => item.data
     const openPopup = (item: HTMLElement) => {
           if(!popup || !popupImg || !popupTitle || !popupCat || !popupDate || !popupDesc) return;
 
-          popupImg.src = item.getAttribute('data-image') || '';
+          popupImg.src = item.getAttribute('data-image') || '/assets/placeholder.svg';
           popupTitle.textContent = item.getAttribute('data-title');
           popupCat.textContent = item.getAttribute('data-category');
           popupDate.textContent = item.getAttribute('data-date-str');

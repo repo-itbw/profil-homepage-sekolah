@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Navbar from './Navbar.svelte';
 import Footer from './Footer.astro';
+import GlobalLoader from '../components/GlobalLoader.astro'
 import { ClientRouter } from "astro:transitions";
 
 // Mendefinisikan tipe data untuk properti (props) yang bisa diterima layout
@@ -11,7 +12,7 @@ interface Props {
 }
 
 // Menangkap data title dan description yang dikirim oleh halaman penyeru
-const { title, description = "Portfolio & Personal Notes" } = Astro.props;
+const { title, description = "Homepage resmi sekolah" } = Astro.props;
 ---
 
 <!doctype html>
@@ -35,6 +36,7 @@ const { title, description = "Portfolio & Personal Notes" } = Astro.props;
 
   </head>
   <body class="antialiased" transition:animate="none">
+    <GlobalLoader />
     
     <!-- 1. NAVBAR GLOBAL: Otomatis ada di setiap halaman -->
     <Navbar client:idle transition:persist />

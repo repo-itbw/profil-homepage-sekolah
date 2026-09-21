@@ -1,0 +1,51 @@
+---
+// src/components/GlobalLoader.astro
+---
+
+<div 
+  id="global-loader" 
+  class="fixed inset-0 z-[9999] bg-white/70 backdrop-blur-md flex flex-col items-center justify-center transition-opacity duration-500"
+>
+  <div class="w-12 h-12 border-4 border-gray-200 border-t-corporate-blue rounded-full animate-spin mb-4"></div>
+  <span class="font-mono text-xs font-bold text-corporate-blue tracking-widest uppercase animate-pulse">
+    Memuat Anatomi...
+  </span>
+</div>
+
+<script>
+  let failsafeTimer: ReturnType<typeof setTimeout>;
+
+  const hideLoader = () => {
+    // Kueri dieksekusi SECARA DINAMIS di dalam fungsi untuk mencegah Stale Reference
+    const loader = document.getElementById('global-loader');
+    if (loader) {
+      loader.classList.add('opacity-0');
+      loader.classList.add('pointer-events-none');
+      document.body.style.overflow = 'auto';
+    }
+    // Bersihkan memori timer saat berhasil dimuat
+    if (failsafeTimer) clearTimeout(failsafeTimer);
+  };
+
+  const showLoader = () => {
+    const loader = document.getElementById('global-loader');
+    if (loader) {
+      loader.classList.remove('opacity-0');
+      loader.classList.remove('pointer-events-none');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // Failsafe: Jika navigasi halaman macet lebih dari 3 detik, paksa buka tirai
+    failsafeTimer = setTimeout(hideLoader, 3000);
+  };
+
+  // 1. Eksekusi pada Pemuatan Awal (Hard Refresh)
+  window.addEventListener('load', hideLoader);
+  
+  // Failsafe Pemuatan Awal: Paksa buka setelah 3 detik jika window.load gagal terpicu
+  failsafeTimer = setTimeout(hideLoader, 3000);
+
+  // 2. Eksekusi pada Navigasi SPA Astro
+  document.addEventListener('astro:before-preparation', showLoader);
+  document.addEventListener('astro:page-load', hideLoader);
+</script>

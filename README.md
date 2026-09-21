@@ -431,7 +431,3 @@ Melalui integrasi ini, Anda dapat membuat dan mengedit komponen khusus (seperti 
   <li>Pada paket gratis (Free Tier), Keystatic Cloud membatasi maksimal <strong>3 kolaborator</strong> per repositori.</li>
 </ul>
 </details>
-
-TODO:
-Program keahlian
-Mitra industri marquee

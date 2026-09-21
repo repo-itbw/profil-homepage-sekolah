@@ -9,36 +9,44 @@ statistikBanner:
   - angka: '9'
     label: Perusahaan serapan lulusan
 daftarMitra:
-  - namaPerusahaan: Universitas Pendidikan Indonesia
-    logo: /MitraAssets/daftarMitra/0/logo.png
-    kategori: UPI Bandung
+  - namaPerusahaan: UPI Bandung
+    logo: /MitraAssets/daftarMitra/0/logo.webp
+    kategori: Universitas
     prioritas: true
-  - namaPerusahaan: Travello
-    logo: /MitraAssets/daftarMitra/1/logo.png
+  - namaPerusahaan: Istana Bec
+    logo: /MitraAssets/daftarMitra/1/logo.webp
+    kategori: Teknologi
+    prioritas: true
+  - namaPerusahaan: Kemnaker
+    logo: /MitraAssets/daftarMitra/2/logo.webp
+    kategori: BPVP Lembang
+    prioritas: true
+  - namaPerusahaan: GH bandung
+    logo: /MitraAssets/daftarMitra/3/logo.webp
     kategori: Perhotelan
     prioritas: true
-  - namaPerusahaan: Bandung Electronic Center
-    logo: /MitraAssets/daftarMitra/2/logo.jpg
-    kategori: Retail
-    prioritas: true
-  - namaPerusahaan: Pullman Bandung
-    logo: /MitraAssets/daftarMitra/3/logo.png
+  - namaPerusahaan: Gaia Bandung
+    logo: /MitraAssets/daftarMitra/4/logo.webp
     kategori: Perhotelan
     prioritas: true
-  - namaPerusahaan: MBG
-    logo: /MitraAssets/daftarMitra/4/logo.png
-    kategori: SPPG
-    prioritas: true
-  - namaPerusahaan: Ibis hotel
-    logo: /MitraAssets/daftarMitra/5/logo.png
+  - namaPerusahaan: travello
+    logo: /MitraAssets/daftarMitra/5/logo.webp
     kategori: Perhotelan
     prioritas: true
-  - namaPerusahaan: mercure
-    logo: /MitraAssets/daftarMitra/6/logo.png
+  - namaPerusahaan: Ibis Hotel
+    logo: /MitraAssets/daftarMitra/6/logo.webp
     kategori: Perhotelan
     prioritas: true
-  - namaPerusahaan: Hilton
-    logo: /MitraAssets/daftarMitra/7/logo.png
+  - namaPerusahaan: hilton bdg
+    logo: /MitraAssets/daftarMitra/7/logo.webp
+    kategori: Perhotelan
+    prioritas: true
+  - namaPerusahaan: mercure bdg
+    logo: /MitraAssets/daftarMitra/8/logo.webp
+    kategori: Perhotelan
+    prioritas: true
+  - namaPerusahaan: pullman bdg
+    logo: /MitraAssets/daftarMitra/9/logo.webp
     kategori: Perhotelan
     prioritas: true
 testimoni:
@@ -47,6 +55,6 @@ testimoni:
     jabatan: Departemen IT
     fotoTokoh: /MitraAssets/testimoni/0/fotoTokoh.jpg
   - kutipan: Teruskan semangat belajarnya
-    namaTokoh: laxer
+    namaTokoh: laxer M.si
     jabatan: CEO
-    fotoTokoh: /MitraAssets/testimoni/1/fotoTokoh.jpeg
+    fotoTokoh: /MitraAssets/testimoni/1/fotoTokoh.jpg

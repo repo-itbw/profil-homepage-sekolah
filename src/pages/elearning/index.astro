@@ -61,7 +61,7 @@ const kategoriElearning = [
           <!-- Blok Atas: Gambar Sampul Penuh -->
           <div class="w-full aspect-[16/10] overflow-hidden bg-gray-50 relative border-b border-gray-100">
             <img
-              src={materi.data.image || '/assets/staticAssets/elearning-placeholder.jpg'}
+              src={materi.data.image?.value || '/assets/placeholder.svg'}
               alt={materi.data.judul}
               loading="lazy"
               class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

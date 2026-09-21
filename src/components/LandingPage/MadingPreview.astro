@@ -46,7 +46,7 @@ const latestMading = allMading
           <div class="relative w-full aspect-[4/5] overflow-hidden bg-gray-50 rounded-lg sm:rounded-xl mb-3 shadow-sm border border-gray-200">
             {item.data.image ? (
               <img 
-                src={item.data.image} 
+                src={item.data.image?.value || '/assets/placeholder.svg'} 
                 alt={item.data.judul} 
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                 loading="lazy" 

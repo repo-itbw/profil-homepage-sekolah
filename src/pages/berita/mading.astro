@@ -10,7 +10,7 @@ const sortedMading = allMading.sort((a, b) => b.data.tanggal.valueOf() - a.data.
 
 <Layout title="Mading Digital | SMK Bina Wisata Lembang">
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-    
+
     <header class="mb-8 sm:mb-12">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-3 h-6 sm:w-4 sm:h-10 bg-corporate-blue"></div>
@@ -28,15 +28,15 @@ const sortedMading = allMading.sort((a, b) => b.data.tanggal.valueOf() - a.data.
       {sortedMading.map((item) => (
         <article class="group flex flex-col">
           <!-- Pembungkus Gambar dengan pemicu Lightbox -->
-          <button 
+          <button
             type="button"
             class="mading-trigger relative w-full aspect-[4/5] overflow-hidden bg-gray-100 mb-3 rounded-sm cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-corporate-blue focus:ring-offset-2"
-            data-image={item.data.image}
+            data-image={item.data.image?.value || '/assets/placeholder.svg'}
             aria-label={`Lihat detail ${item.data.judul}`}
           >
             {item.data.image ? (
               <img
-                src={item.data.image}
+                src={item.data.image?.value}
                 alt={item.data.judul}
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
                 loading="lazy"
@@ -46,7 +46,7 @@ const sortedMading = allMading.sort((a, b) => b.data.tanggal.valueOf() - a.data.
                 Visual Tidak Tersedia
               </div>
             )}
-            
+
             <!-- Overlay Efek Hover & Ikon Scan -->
             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 group-active:bg-black/30 transition-colors duration-300 flex items-center justify-center backdrop-blur-[1px] opacity-0 group-hover:opacity-100 group-active:opacity-100">
               <Icon name="lucide:scan" class="text-white w-8 h-8 sm:w-10 sm:h-10 drop-shadow-md" />
@@ -105,14 +105,15 @@ const sortedMading = allMading.sort((a, b) => b.data.tanggal.valueOf() - a.data.
     const openLightbox = (src: string) => {
       lightboxImg.src = src;
       lightbox.classList.remove('hidden');
-      
+      lightbox.classList.add('flex'); // KUNCI PEMUSATAN: Aktifkan mode Flexbox
+
       requestAnimationFrame(() => {
         lightbox.classList.remove('opacity-0');
         lightboxImg.classList.remove('scale-95');
         lightboxImg.classList.add('scale-100');
       });
-      
-      document.body.style.overflow = 'hidden'; 
+
+      document.body.style.overflow = 'hidden';
     };
 
     // Fungsi Menutup Popup
@@ -120,13 +121,14 @@ const sortedMading = allMading.sort((a, b) => b.data.tanggal.valueOf() - a.data.
       lightbox.classList.add('opacity-0');
       lightboxImg.classList.remove('scale-100');
       lightboxImg.classList.add('scale-95');
-      
+
       setTimeout(() => {
         lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex'); // KEMBALIKAN KE STATUS AWAL: Matikan mode Flexbox
         lightboxImg.src = '';
       }, 300);
-      
-      document.body.style.overflow = ''; 
+
+      document.body.style.overflow = '';
     };
 
     // Menyimpan referensi fungsi tutup ke variabel global untuk event keydown
@@ -141,7 +143,7 @@ const sortedMading = allMading.sort((a, b) => b.data.tanggal.valueOf() - a.data.
     });
 
     closeBtn?.addEventListener('click', closeLightboxFn);
-    
+
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) closeLightboxFn();
     });

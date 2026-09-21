@@ -7,24 +7,67 @@ import {
 } from "@keystatic/core";
 
 // ============================================================================
+// 0. MODULARISASI SUMBER GAMBAR (Hanya untuk Entitas Dinamis Tinggi)
+// ============================================================================
+const fleksibelImageField = ({
+  label,
+  description,
+  directory,
+  publicPath,
+  isRequired = false,
+}: {
+  label: string;
+  description?: string;
+  directory: string;
+  publicPath: string;
+  isRequired?: boolean;
+}) => {
+  return fields.conditional(
+    fields.select({
+      label: `Metode Input ${label}`,
+      description:
+        "Pilih metode unggah dari komputer atau tautkan URL dari Cloud/CDN. Tapi sangat disarankan pakai url cdn alih alih file lokal",
+      options: [
+        { label: "Upload File Lokal", value: "lokal" },
+        { label: "URL Eksternal (CDN/Cloud)", value: "eksternal" },
+      ],
+      defaultValue: "lokal",
+    }),
+    {
+      lokal: fields.image({
+        label: `Upload ${label}`,
+        description:
+          description ||
+          "Mohon lakukan kompres terlebih dahulu, disarankan format .webp Gunakan (https://towebp.io/) agar size image ringan [atau gunakan alternatif https://imagecompressor.com/]. Kemudian upload disini",
+        directory: directory,
+        publicPath: publicPath,
+        validation: { isRequired },
+      }),
+      eksternal: fields.text({
+        label: `URL ${label} (Eksternal)`,
+        description:
+          "Masukkan URL lengkap gambar dari CDN (Contoh: https://ik.imagekit.io/nama/gambar.png)",
+        validation: { length: { min: isRequired ? 5 : 0 } },
+      }),
+    },
+  );
+};
+
+// ============================================================================
 // 1. MODULARISASI KOMPONEN EMBED (DRY Principle)
 // ============================================================================
 const komponenMultimedia = {
-  // --- A. EMBED YOUTUBE EKSTERNAL ---
   embedYoutube: component({
     label: "Embed YouTube Video",
     schema: {
       youtubeUrl: fields.text({
         label: "URL YouTube Penuh",
-        description:
-          "Contoh: https://www.youtube.com/watch?v=dQw4w9WgXcQ atau https://youtu.be/dQw4w9WgXcQ",
+        description: "Contoh: https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         validation: { length: { min: 10 } },
       }),
     },
     preview: (props) => `[ YouTube: ${props.fields.youtubeUrl.value} ]`,
   }),
-
-  // --- B. EMBED WEB EKSTERNAL ---
   embedWeb: component({
     label: "Embed Web Eksternal",
     schema: {
@@ -36,43 +79,33 @@ const komponenMultimedia = {
       }),
       title: fields.text({
         label: "Judul Frame",
-        description: "Untuk aksesibilitas pembaca layar (Screen Reader)",
         defaultValue: "Embed Web",
       }),
     },
     preview: (props) => `[ Embed Web: ${props.fields.url.value} ]`,
   }),
-
-  // --- C. EMBED GAMBAR EKSTERNAL ---
   embedImage: component({
     label: "Gambar Eksternal",
     schema: {
       url: fields.text({
         label: "URL Gambar",
-        description:
-          "Tautan langsung menuju file gambar (berakhiran .jpg, .png, dll)",
         validation: { length: { min: 5 } },
       }),
       alt: fields.text({
         label: "Teks Alternatif (Alt)",
-        description: "Wajib diisi untuk SEO dan aksesibilitas",
       }),
       caption: fields.text({
         label: "Keterangan (Caption)",
-        description: "Opsional. Teks yang muncul di bawah gambar.",
       }),
     },
     preview: (props) =>
       `[ Gambar Eksternal: ${props.fields.alt.value || "Tanpa alt"} ]`,
   }),
-
-  // --- D. EMBED MATEMATIKA (LATEX) ---
   embedMath: component({
     label: "Rumus Matematika (LaTeX)",
     schema: {
       formula: fields.text({
         label: "Sintaks LaTeX",
-        description: "Contoh: E = mc^2 atau \\frac{a}{b}",
         multiline: true,
       }),
     },
@@ -86,11 +119,11 @@ const komponenMultimedia = {
 export default config({
   storage: import.meta.env.DEV ? { kind: "local" } : { kind: "cloud" },
   cloud: {
-    project: "repo-itbw/homepage-dashboard", // Tempelkan Project Slug dari Keystatic Cloud Dashboard di sini
+    project: "repo-itbw/homepage-dashboard",
   },
   collections: {
     // ------------------------------------------------------------------------
-    // KOLEKSI A: BERITA & ARTIKEL
+    // KOLEKSI A: BERITA & ARTIKEL (Menggunakan CDN)
     // ------------------------------------------------------------------------
     berita: collection({
       label: "Berita & Artikel",
@@ -101,7 +134,7 @@ export default config({
         slug: fields.text({
           label: "Format Nama File (Slug)",
           description:
-            "Wajib gunakan format: tanggal-kategori-namasingkat (Contoh: 2026-08-25-pengumuman_rapat) supaya nanti url webnya bagus (Harus ya gunakan underscore atau strip sebagai separator penamaan disini)",
+            "Patuhi format penamaan: tanggal-kategori-konteks (Contoh: 2026-01-15-pengumuman-kelulusan) supaya url web bagus",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({
@@ -112,13 +145,14 @@ export default config({
           label: "Deskripsi Singkat",
           validation: { length: { max: 150 } },
         }),
-        image: fields.image({
+
+        image: fleksibelImageField({
           label: "Gambar Utama",
-          description:
-            "Mohon lakukan kompres terlebih dahulu sebelum upload supaya gambar tidak terlalu berat sizenya. Gunakan web https://tinypng.com/ atau https://imagecompressor.com/ untuk kompres gambar.",
           directory: "public/BeritaAssets/",
           publicPath: "/BeritaAssets/",
+          isRequired: false,
         }),
+
         tanggal: fields.date({
           label: "Tanggal Publikasi",
           defaultValue: { kind: "today" },
@@ -153,13 +187,13 @@ export default config({
             directory: "public/BeritaAssets/",
             publicPath: "/BeritaAssets/",
           },
-          componentBlocks: komponenMultimedia, // <--- Pemanggilan modular
+          componentBlocks: komponenMultimedia,
         }),
       },
     }),
 
     // ------------------------------------------------------------------------
-    // KOLEKSI B: E-LEARNING (MATERI PEMBELAJARAN)
+    // KOLEKSI B: E-LEARNING (Menggunakan CDN)
     // ------------------------------------------------------------------------
     elearning: collection({
       label: "E-Learning (Materi)",
@@ -168,9 +202,9 @@ export default config({
       format: { contentField: "konten" },
       schema: {
         slug: fields.text({
-          label: "Format Nama File (Slug)",
+          label: "Slug",
           description:
-            "Wajib gunakan format: kelas-mapel-topik (Contoh: 10-fisika-hukum_newton) supaya nanti url webnya bagus (Harus ya gunakan underscore atau strip sebagai separator penamaan disini)",
+            "Patuhi format penamaan: tanggal-kategori-konteks (Contoh: 2026-01-15-matematika-geometri) supaya url web bagus",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({
@@ -181,21 +215,20 @@ export default config({
           label: "Kompetensi / Rangkuman Singkat",
           validation: { length: { max: 200 } },
         }),
-        image: fields.image({
+
+        image: fleksibelImageField({
           label: "Gambar Sampul Materi",
-          description:
-            "Mohon lakukan kompres terlebih dahulu sebelum upload supaya gambar tidak terlalu berat sizenya. Gunakan web https://tinypng.com/ atau https://imagecompressor.com/ untuk kompres gambar.",
           directory: "public/ElearningAssets/",
           publicPath: "/ElearningAssets/",
-          validation: { isRequired: true },
+          isRequired: true,
         }),
+
         tanggal: fields.date({
           label: "Tanggal Rilis Materi",
           defaultValue: { kind: "today" },
         }),
         kategori: fields.select({
           label: "Mata Pelajaran",
-          description: "Pilih klasifikasi mata pelajaran",
           options: [
             { label: "Matematika", value: "Matematika" },
             { label: "IPA", value: "IPA" },
@@ -218,7 +251,6 @@ export default config({
         }),
         konten: fields.document({
           label: "Isi Materi Pembelajaran",
-          description: "Tuliskan ilmu yang akan dituangkan disini",
           tables: true,
           dividers: true,
           links: true,
@@ -234,12 +266,11 @@ export default config({
             blockTypes: true,
           },
           images: {
-            directory: "public/ElearningAssets/", // <--- Rute spesifik Elearning
+            directory: "public/ElearningAssets/",
             publicPath: "/ElearningAssets/",
           },
-          componentBlocks: komponenMultimedia, // <--- Pemanggilan modular digunakan kembali
+          componentBlocks: komponenMultimedia,
         }),
-        // Array Objek untuk Mini Kuis
         kuis: fields.array(
           fields.object({
             pertanyaan: fields.text({
@@ -262,14 +293,11 @@ export default config({
             }),
             pembahasan: fields.text({
               label: "Pembahasan Singkat (Opsional)",
-              description: "Muncul setelah siswa menjawab",
               multiline: true,
             }),
           }),
           {
             label: "Mini Quiz (Evaluasi Materi)",
-            description:
-              "Tambahkan beberapa pertanyaan untuk menguji pemahaman siswa. Kosongkan jika tidak ada kuis.",
             itemLabel: (props) =>
               props.fields.pertanyaan.value || "Pertanyaan Baru",
           },
@@ -278,7 +306,7 @@ export default config({
     }),
 
     // ------------------------------------------------------------------------
-    // KOLEKSI C: MADING DIGITAL (KARYA & POSTER)
+    // KOLEKSI C: MADING DIGITAL (Menggunakan CDN)
     // ------------------------------------------------------------------------
     mading: collection({
       label: "Mading Digital",
@@ -289,22 +317,21 @@ export default config({
         slug: fields.text({
           label: "Format Nama File (Slug)",
           description:
-            "Wajib gunakan format: tahun-namakarya (Contoh: 2026-poster_lingkungan) supaya nanti url webnya bagus (Harus ya gunakan underscore atau strip sebagai separator penamaan disini)",
+            "Patuhi format penamaan: tanggal-konteks (Contoh: 2026-01-15-karyaseni) supaya url web bagus",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({
           label: "Judul Karya",
-          description: "Maksimal 25 karakter agar tata letak grid tetap rapi",
           validation: { length: { max: 25 } },
         }),
-        image: fields.image({
+
+        image: fleksibelImageField({
           label: "Gambar Karya Utama",
-          description:
-            "Mohon lakukan kompres terlebih dahulu sebelum upload supaya gambar tidak terlalu berat sizenya. Gunakan web https://tinypng.com/ atau https://imagecompressor.com/ untuk kompres gambar.",
           directory: "public/MadingAssets/",
           publicPath: "/MadingAssets/",
-          validation: { isRequired: true },
+          isRequired: true,
         }),
+
         tanggal: fields.date({
           label: "Tanggal Publikasi",
           defaultValue: { kind: "today" },
@@ -313,12 +340,8 @@ export default config({
           label: "Nama Kreator / Pembuat",
           defaultValue: "Jurnalis",
         }),
-        // Field konten dipertahankan sebagai syarat mesin markdoc (.mdoc),
-        // namun bisa dibiarkan kosong oleh penulis.
         konten: fields.document({
           label: " Bagian ini (Gausah di isi)",
-          description:
-            "Abaikan saja! Jangan di isi karena bagian ini tidak akan dirender",
           formatting: true,
         }),
       },
@@ -336,21 +359,21 @@ export default config({
         slug: fields.text({
           label: "Format Nama File (Slug)",
           description:
-            "Wajib gunakan format: tahun-kategori-namasingkat (Contoh: 2026-kegiatan-karnaval) supaya nanti url webnya bagus (Harus ya gunakan underscore atau strip sebagai separator penamaan disini)",
+            "Patuhi format penamaan: tanggal-kegiatan (Contoh: 2026-01-15-camping) supaya url web bagus",
           validation: { length: { min: 3 } },
         }),
         judul: fields.text({
           label: "Judul Momen/Foto",
           validation: { length: { max: 150 } },
         }),
-        image: fields.image({
+
+        image: fleksibelImageField({
           label: "Berkas Gambar",
-          description:
-            "Mohon lakukan kompres terlebih dahulu sebelum upload supaya gambar tidak terlalu berat sizenya. Gunakan web https://tinypng.com/ atau https://imagecompressor.com/ untuk kompres gambar.",
-          directory: "public/GaleriAssets", // Penulisan presisi tanpa trailing slash
+          directory: "public/GaleriAssets",
           publicPath: "/GaleriAssets",
-          validation: { isRequired: true },
+          isRequired: true,
         }),
+
         tanggal: fields.date({
           label: "Tanggal Pengambilan",
           defaultValue: { kind: "today" },
@@ -367,8 +390,6 @@ export default config({
         }),
         konten: fields.document({
           label: "Deskripsi Ekstra (Opsional)",
-          description:
-            "Silahkan isi untuk menceritakan kegiatan apa yang pernah terjadi dibalik gambar tersebut",
           tables: true,
           dividers: true,
           links: true,
@@ -384,7 +405,7 @@ export default config({
   },
 
   // ============================================================================
-  // 3. KONFIGURASI SINGLETONS
+  // 3. KONFIGURASI SINGLETONS (Seluruhnya Standar Lokal)
   // ============================================================================
   singletons: {
     jumbotron: singleton({
@@ -396,7 +417,7 @@ export default config({
             image: fields.image({
               label: "Gambar Slide",
               description:
-                "Mohon lakukan kompres terlebih dahulu sebelum upload supaya gambar tidak terlalu berat sizenya. Gunakan web https://tinypng.com/ atau https://imagecompressor.com/ untuk kompres gambar.",
+                "Mohon lakukan kompres terlebih dahulu, disarankan format .webp Gunakan (https://towebp.io/) agar size image ringan [atau gunakan alternatif https://imagecompressor.com/]. Kemudian upload disini",
               directory: "public/JumbotronAssets",
               publicPath: "/JumbotronAssets/",
               validation: { isRequired: true },
@@ -438,8 +459,8 @@ export default config({
     }),
     statistik: singleton({
       label: "Statistik Kesiswaan",
-      path: "./content/statistik/", // Mengarah ke root content/
-      format: { data: "yaml" }, // Memaksa format penyimpanan menjadi YAML
+      path: "./content/statistik/",
+      format: { data: "yaml" },
       schema: {
         demografi: fields.object(
           {
@@ -453,10 +474,9 @@ export default config({
           },
           { label: "Demografi Siswa" },
         ),
-
         distribusiKelas: fields.array(
           fields.object({
-            tingkat: fields.text({ label: "Tingkat Kelas (Contoh: Kelas X)" }),
+            tingkat: fields.text({ label: "Tingkat Kelas" }),
             jumlah: fields.integer({ label: "Jumlah Siswa" }),
             warna: fields.text({
               label: "Kelas Warna Tailwind",
@@ -468,7 +488,6 @@ export default config({
             itemLabel: (props) => props.fields.tingkat.value || "Data Baru",
           },
         ),
-
         serapanAlumni: fields.array(
           fields.object({
             status: fields.text({ label: "Status Lulusan" }),
@@ -483,7 +502,6 @@ export default config({
             itemLabel: (props) => props.fields.status.value || "Data Baru",
           },
         ),
-
         prestasi: fields.object(
           {
             nasional: fields.integer({
@@ -501,22 +519,20 @@ export default config({
           },
           { label: "Rekapitulasi Prestasi" },
         ),
-
         staffGtk: fields.array(
           fields.object({
             peran: fields.text({ label: "Peran / Posisi" }),
             jumlah: fields.integer({ label: "Jumlah Personil" }),
-            warna: fields.text({ label: "Kode Warna Hex (Contoh: #3ba2d5)" }),
+            warna: fields.text({ label: "Kode Warna Hex" }),
           }),
           {
             label: "Staff GTK",
             itemLabel: (props) => props.fields.peran.value || "Data Baru",
           },
         ),
-
         pertumbuhanSiswa: fields.array(
           fields.object({
-            tahun: fields.text({ label: "Tahun (Contoh: 2026)" }),
+            tahun: fields.text({ label: "Tahun" }),
             jumlah: fields.integer({ label: "Jumlah Siswa" }),
           }),
           {
@@ -529,7 +545,7 @@ export default config({
     mitraIndustri: singleton({
       label: "Mitra Industri (DUDI)",
       path: "./content/mitra/",
-      format: { data: "yaml" }, // Tetap menggunakan YAML demi konsistensi statis
+      format: { data: "yaml" },
       schema: {
         hero: fields.object(
           {
@@ -544,25 +560,23 @@ export default config({
           },
           { label: "1. Area Hero" },
         ),
-
         statistikBanner: fields.array(
           fields.object({
             angka: fields.text({ label: "Angka (Contoh: 50+)" }),
-            label: fields.text({
-              label: "Label Teks (Contoh: Perusahaan Mitra)",
-            }),
+            label: fields.text({ label: "Label Teks" }),
           }),
           {
             label: "2. Kapsul Statistik",
             itemLabel: (props) => props.fields.label.value || "Item Baru",
           },
         ),
-
         daftarMitra: fields.array(
           fields.object({
             namaPerusahaan: fields.text({ label: "Nama Perusahaan" }),
             logo: fields.image({
               label: "Logo Perusahaan (Gunakan PNG Transparan)",
+              description:
+                "Mohon lakukan kompres terlebih dahulu, disarankan format .webp Gunakan (https://towebp.io/) agar size image ringan [atau gunakan alternatif https://imagecompressor.com/]. Kemudian upload disini",
               directory: "public/MitraAssets",
               publicPath: "/MitraAssets/",
             }),
@@ -579,7 +593,6 @@ export default config({
               props.fields.namaPerusahaan.value || "Mitra Baru",
           },
         ),
-
         testimoni: fields.array(
           fields.object({
             kutipan: fields.text({
@@ -590,6 +603,8 @@ export default config({
             jabatan: fields.text({ label: "Jabatan & Asal Perusahaan" }),
             fotoTokoh: fields.image({
               label: "Foto Tokoh (Portrait/Square)",
+              description:
+                "Mohon lakukan kompres terlebih dahulu, disarankan format .webp Gunakan (https://towebp.io/) agar size image ringan [atau gunakan alternatif https://imagecompressor.com/]. Kemudian upload disini",
               directory: "public/MitraAssets",
               publicPath: "/MitraAssets/",
             }),

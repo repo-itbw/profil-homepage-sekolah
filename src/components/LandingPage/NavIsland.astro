@@ -1,0 +1,102 @@
+---
+import { Icon } from 'astro-icon/components';
+
+// ============================================================================
+// DATA FRONTMATTER (Pusat Kendali Navigasi)
+// ============================================================================
+const navItems = [
+  { 
+    label: "Prodi", 
+    href: "/akademik/program-keahlian", 
+    icon: "lucide:waypoints", 
+    bgColor: "bg-[#3ba2d5]" 
+  },
+  { 
+    label: "Mitra Industri", 
+    href: "/profil/mitra_industri", 
+    icon: "lucide:handshake", 
+    bgColor: "bg-[#16a34a]" 
+  },
+  { 
+    label: "Data Statistik", 
+    href: "/kesiswaan/statistik", 
+    icon: "lucide:bar-chart-2", 
+    bgColor: "bg-[#8b5cf6]" 
+  },
+  { 
+    label: "Prestasi", 
+    href: "/kesiswaan/prestasi", 
+    icon: "lucide:trophy", 
+    bgColor: "bg-[#eab308]", 
+    isDarkText: true 
+  },
+  { 
+    label: "Fasilitas", 
+    href: "/profil/fasilitas", 
+    icon: "lucide:building-2", 
+    bgColor: "bg-[#f43f5e]" 
+  },
+  { 
+    label: "Ekskul", 
+    href: "/kesiswaan/ekskul", 
+    icon: "lucide:palette", 
+    bgColor: "bg-[#14b8a6]" 
+  },
+  { 
+    label: "Portal PPDB", 
+    href: "/ppdb", 
+    icon: "lucide:user-plus", 
+    bgColor: "bg-[#f97316]" 
+  },
+  { 
+    label: "E-Learning", 
+    href: "/elearning", 
+    icon: "lucide:newspaper", 
+    bgColor: "bg-[#1F2937]" 
+  }
+];
+---
+
+<div class="relative w-full max-w-7xl mx-auto z-40 px-4 sm:px-5 lg:px-6 mt-2 mb-8 lg:mb-10">
+  
+  <!-- 
+    PERBAIKAN 1: Menambahkan 'flex items-center justify-center' pada <nav> 
+    serta memberikan tinggi minimum (min-h) untuk mengamankan sumbu vertikal.
+  -->
+  <nav class="w-full bg-white/95 backdrop-blur-xl border border-gray-200/80 shadow-md rounded-2xl py-5 sm:py-6 px-4 sm:px-8 flex items-center justify-center min-h-[110px] sm:min-h-[128px]">
+    
+    <!-- Ditambahkan 'w-full' agar grid/flex merentang maksimal di dalam nav -->
+    <ul class="w-full grid grid-cols-4 gap-y-6 gap-x-2 sm:flex sm:flex-wrap sm:justify-center xl:flex-nowrap xl:justify-between sm:gap-8 xl:gap-4">
+      
+      {navItems.map((item) => (
+        <li class="flex flex-col items-center justify-start w-full sm:w-[84px] xl:w-[96px]">
+          <a 
+            href={item.href} 
+            class="group flex flex-col items-center gap-2 sm:gap-3 transition-transform duration-300 hover:-translate-y-1.5 focus:outline-none w-full"
+            aria-label={`Navigasi ke ${item.label}`}
+          >
+            <!-- Wadah Ikon Berwarna -->
+            <div class={`w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 ${item.bgColor} shrink-0`}>
+              <Icon 
+                name={item.icon} 
+                class={`w-5 h-5 sm:w-6 sm:h-6 ${item.isDarkText ? 'text-blackcoal' : 'text-white'}`} 
+              />
+            </div>
+            
+            <!-- 
+              PERBAIKAN 2: Mengubah 'items-start' menjadi 'items-center'.
+              Ini akan memindahkan teks persis ke tengah ketinggian 32px (h-8),
+              menghilangkan ilusi ketidakseimbangan ruang kosong di bawah.
+            -->
+            <div class="h-8 flex items-center justify-center w-full">
+              <span class="text-[9px] sm:text-[10px] xl:text-xs font-bold font-comfortaa text-gray-600 group-hover:text-corporate-blue text-center leading-tight transition-colors line-clamp-2">
+                {item.label}
+              </span>
+            </div>
+          </a>
+        </li>
+      ))}
+
+    </ul>
+  </nav>
+</div>
