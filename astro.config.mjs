@@ -14,7 +14,7 @@ export default defineConfig({
   site: "https://test.axelkenshi.my.id/",
   output: "static", 
   adapter: vercel({
-    webAnalytics: { enabled: true }
+    webAnalytics: { enabled: true },
   }),
   devToolbar: {
     enabled: false,
