@@ -408,6 +408,7 @@ export default config({
   // 3. KONFIGURASI SINGLETONS (Seluruhnya Standar Lokal)
   // ============================================================================
   singletons: {
+    // Singletons jumbotron landingpage
     jumbotron: singleton({
       label: "Jumbotron Slide",
       path: "./content/jumbotron/",
@@ -457,6 +458,7 @@ export default config({
         ),
       },
     }),
+    // Singletons statistik transparan
     statistik: singleton({
       label: "Statistik Kesiswaan",
       path: "./content/statistik/",
@@ -542,6 +544,7 @@ export default config({
         ),
       },
     }),
+    // Singletons mitra industri
     mitraIndustri: singleton({
       label: "Mitra Industri (DUDI)",
       path: "./content/mitra/",
@@ -613,6 +616,54 @@ export default config({
             label: "4. Testimoni Industri",
             itemLabel: (props) =>
               props.fields.namaTokoh.value || "Testimoni Baru",
+          },
+        ),
+      },
+    }),
+    // SINGLETON: STAF & GTK
+    gtk: singleton({
+      label: "Profil GTK",
+      path: "./content/gtk/",
+      format: { data: "yaml" },
+      schema: {
+        // Membungkus seluruh data ke dalam sebuah Array
+        daftar_gtk: fields.array(
+          fields.object({
+            nama: fields.text({
+              label: "Nama Lengkap (Termasuk Gelar)",
+              validation: { isRequired: true },
+            }),
+            jabatan: fields.text({
+              label: "Jabatan / Guru Mapel",
+              validation: { isRequired: true },
+            }),
+
+            image: fleksibelImageField({
+              label: "Foto Profil",
+              description:
+                "Gunakan foto portrait rasio 3:4 atau 1:1. Wajib di-compress.",
+              directory: "public/GtkAssets",
+              publicPath: "/GtkAssets",
+              isRequired: true,
+            }),
+
+            // Variabel untuk menentukan baris vertikal (Piramida)
+            level_hierarki: fields.integer({
+            label: "Level Rantai Komando (Baris)",
+            description: "Isi 1 untuk Puncak (Kepsek), 3 untuk Wakasek, untuk Guru, dst. Orang dengan angka sama akan disejajarkan ke samping.",
+            defaultValue: 99,
+            }),
+
+            // Variabel untuk mengurutkan posisi dari Kiri ke Kanan di level yang sama
+            urutan: fields.integer({
+              label: "Prioritas Tampil",
+              defaultValue: 99,
+            }),
+          }),
+          {
+            label: "Daftar Anggota GTK",
+            // itemLabel: Memberi nama pada setiap blok baris di dasbor UI Keystatic
+            itemLabel: (props) => props.fields.nama.value || "Staf Baru",
           },
         ),
       },

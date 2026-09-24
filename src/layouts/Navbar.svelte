@@ -5,7 +5,6 @@
   const navItems = [
     { label: 'Profil',
       sublinks: [
-        { label: 'Sejarah', href: '/profil/sejarah' },
         { label: 'Struktur Organisasi', href: '/profil/organigram' },
         { label: 'Yayasan', href: '/kegiatan/ypbw' },
         { label: 'Sertifikasi', href: '/profil/sertifikasi' },
@@ -19,7 +18,7 @@
         { label: 'Kurikulum', href: '/akademik/kurikulum' },
         { label: 'Program Studi', href: '/akademik/prodi' },
         { label: 'E-Raport', href: '/akademik/eraport' },
-        { label: 'Tenaga pendidik', href: '/profil/tendik' },
+        { label: 'guru & staff', href: '/profil/gtk' },
       ]
     },
     {

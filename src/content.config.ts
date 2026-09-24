@@ -91,7 +91,7 @@ const galeri = defineCollection({
   }),
 });
 
-// 5. Koleksi Jumbotron singletons
+// 5. Koleksi Jumbotron singletons (singletons)
 const jumbotron = defineCollection({
   loader: glob({ base: "./content/jumbotron", pattern: "index.yaml" }),
   schema: z.object({
@@ -112,7 +112,7 @@ const jumbotron = defineCollection({
   }),
 });
 
-// 6. Koleksi statistik singletons
+// 6. Koleksi statistik singletons (singletons)
 const statistik = defineCollection({
   loader: glob({ base: "./content/statistik", pattern: "index.yaml" }),
   schema: z.object({
@@ -146,7 +146,7 @@ const statistik = defineCollection({
   }),
 });
 
-// Definisikan koleksi mitra
+// 7. Definisikan koleksi mitra (singletons)
 const mitra = defineCollection({
   loader: glob({ base: "./content/mitra", pattern: "index.yaml" }),
   schema: z.object({
@@ -176,7 +176,30 @@ const mitra = defineCollection({
   }),
 });
 
-// 8. REGISTRASI KOLEKSI
+// 8. koleksi data gtk (singletons)
+const gtk = defineCollection({
+  // Loader kini hanya memindai tepat 1 berkas: index.yaml
+  loader: glob({ base: './content/gtk', pattern: 'index.yaml' }),
+  schema: z.object({
+    
+    // Zod Array untuk membaca daftar staf
+    daftar_gtk: z.array(
+      z.object({
+        nama: z.string(),
+        jabatan: z.string(),
+        image: z.object({
+          discriminant: z.enum(['lokal', 'eksternal']),
+          value: z.string().optional().nullable()
+        }).optional().nullable(),
+        level_hierarki: z.number().default(99),
+        urutan: z.number().default(99),
+      })
+    )
+    
+  })
+});
+
+// 9. REGISTRASI KOLEKSI
 // Wajib mengekspor seluruh variabel koleksi agar mesin Astro dapat mendaftarkannya ke tipe global (astro:content)
 export const collections = {
   berita,
@@ -186,4 +209,5 @@ export const collections = {
   jumbotron,
   statistik,
   mitra,
+  gtk,
 };

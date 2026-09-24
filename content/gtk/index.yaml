@@ -1,0 +1,81 @@
+daftar_gtk:
+  - nama: albert constant
+    jabatan: Kepala Sekolah
+    image:
+      discriminant: eksternal
+      value: >-
+        https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8fDB8fHww
+    level_hierarki: 1
+    urutan: 1
+  - nama: Rey dalio
+    jabatan: Wakasek Keuangan
+    image:
+      discriminant: eksternal
+      value: >-
+        https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D
+    level_hierarki: 2
+    urutan: 2
+  - nama: Farhan
+    jabatan: Wakasek kurikulum
+    image:
+      discriminant: eksternal
+      value: >-
+        https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D
+    level_hierarki: 2
+    urutan: 3
+  - nama: Hana
+    jabatan: Wakasek kesiswaan
+    image:
+      discriminant: eksternal
+      value: >-
+        https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D
+    level_hierarki: 2
+    urutan: 4
+  - nama: Dr. Axel S.T., M.T
+    jabatan: Wakasek Prasarana
+    image:
+      discriminant: eksternal
+      value: >-
+        https://images.unsplash.com/photo-1624797432677-6f803a98acb3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YnVzaW5lc3NtYW58ZW58MHx8MHx8fDA%3D
+    level_hierarki: 2
+    urutan: 5
+  - nama: risma windi
+    jabatan: Guru PPKN
+    image:
+      discriminant: eksternal
+      value: >-
+        https://plus.unsplash.com/premium_photo-1661942126259-fb08e7cce1e2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGVhY2hlcnxlbnwwfHwwfHx8MA%3D%3D
+    level_hierarki: 3
+    urutan: 6
+  - nama: Drs haikal
+    jabatan: Guru Matematika
+    image:
+      discriminant: eksternal
+      value: >-
+        https://plus.unsplash.com/premium_photo-1664300900349-afd61c20f8b8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHRlYWNoZXJ8ZW58MHx8MHx8fDA%3D
+    level_hierarki: 3
+    urutan: 7
+  - nama: Almatha
+    jabatan: Guru B.Indonesia
+    image:
+      discriminant: eksternal
+      value: >-
+        https://images.unsplash.com/photo-1574281570877-bd815ebb50a4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzR8fHRlYWNoZXJ8ZW58MHx8MHx8fDA%3D
+    level_hierarki: 3
+    urutan: 8
+  - nama: Wendra
+    jabatan: Guru B.Inggris
+    image:
+      discriminant: eksternal
+      value: >-
+        https://images.unsplash.com/photo-1517971129774-8a2b38fa128e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODN8fHRlYWNoZXJ8ZW58MHx8MHx8fDA%3D
+    level_hierarki: 3
+    urutan: 9
+  - nama: Gerald
+    jabatan: Guru PKWU
+    image:
+      discriminant: eksternal
+      value: >-
+        https://images.unsplash.com/photo-1724654814378-108c93f5fa54?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODd8fHRlYWNoZXJ8ZW58MHx8MHx8fDA%3D
+    level_hierarki: 3
+    urutan: 10

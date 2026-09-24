@@ -20,9 +20,12 @@ serapanAlumni:
   - status: Kuliah
     persentase: 25
     warna: bg-yellow-400
-  - status: tidak diketahui
-    persentase: 20
+  - status: Wirausaha
+    persentase: 10
     warna: bg-gray-400
+  - status: Kegiatan Lain
+    persentase: 10
+    warna: bg-[#FFD2C3]
 prestasi:
   nasional: 14
   provinsi: 30

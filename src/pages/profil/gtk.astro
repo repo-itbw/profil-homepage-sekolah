@@ -1,0 +1,106 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+const gtkDoc = await getEntry('gtk', 'index');
+const allGtk = gtkDoc?.data.daftar_gtk || [];
+
+const groupedGtk = allGtk.reduce((acc, person) => {
+  const level = person.level_hierarki ?? 99;
+  if (!acc[level]) acc[level] = [];
+  acc[level].push(person);
+  return acc;
+}, {} as Record<number, typeof allGtk>);
+
+const sortedLevels = Object.keys(groupedGtk).map(Number).sort((a, b) => a - b);
+
+sortedLevels.forEach(level => {
+  groupedGtk[level].sort((a, b) => (a.urutan ?? 99) - (b.urutan ?? 99));
+});
+---
+
+<Layout title="Profil GTK | SMK Bina Wisata Lembang">
+  <!-- Wrapper Induk: Overflow-hidden mencegah scroll horizontal tak disengaja -->
+  <div class="relative w-full overflow-hidden min-h-screen bg-alabaster">
+
+    <!-- Ornamen Dekoratif (Pembaruan Dimensi & Opasitas) -->
+    <Icon name="lucide:clover" class="absolute top-10 left-[-5%] w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 text-success-green opacity-10 -rotate-12 z-0 pointer-events-none" />
+    <Icon name="lucide:flower" class="absolute top-1/4 right-[-5%] w-40 h-40 md:w-56 md:h-56 text-corporate-blue opacity-10 rotate-45 z-0 pointer-events-none" />
+    <Icon name="lucide:flower-2" class="absolute bottom-1/3 left-[5%] w-24 h-24 sm:w-32 sm:h-32 text-accent-yellow opacity-15 -rotate-45 z-0 pointer-events-none" />
+    <Icon name="lucide:leaf" class="absolute bottom-10 right-[10%] w-28 h-28 sm:w-40 sm:h-40 text-success-green opacity-10 rotate-90 z-0 pointer-events-none" />
+
+    <main class="relative z-10 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-12 flex flex-col items-center">
+      
+      <!-- Heading -->
+      <header class="mb-10 sm:mb-14 text-center flex flex-col items-center px-2">
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-blackcoal uppercase tracking-tighter mb-4">
+          Struktur Organisasi
+        </h1>
+        <div class="max-w-2xl border-t-4 border-corporate-blue pt-4">
+          <p class="text-sm sm:text-base text-gray-700 font-comfortaa">
+            Mengenal lebih Struktur kepemimpinan dan jajaran tendik kami.
+          </p>
+        </div>
+      </header>
+
+      <!-- Tata Letak Rantai Komando (Penyusutan Ekstrem) -->
+      <div class="w-full flex flex-col items-center gap-8 sm:gap-16 lg:gap-20">
+        {sortedLevels.map((level) => (
+          
+          // Baris Tingkatan: flex-nowrap memaksa semua kartu di baris yang sama
+          <div class="flex flex-nowrap justify-center gap-1.5 sm:gap-6 lg:gap-8 w-full max-w-5xl">
+            {groupedGtk[level].map((person) => (
+              
+            
+              // Perbaikan 1: Menambahkan 'flex flex-col h-full' pada elemen <article> induk agar anak-anak elemen di dalamnya tidak runtuh (collapse) ke 0 piksel. 
+           
+            <article class="flex-1 shrink min-w-[60px] max-w-[130px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[260px] group relative bg-white border border-blackcoal md:border-2 rounded sm:rounded-xl transition-all duration-300 hover:-translate-y-1 hover:-translate-x-1 shadow-[2px_2px_0_0_var(--color-blackcoal)] md:shadow-[4px_4px_0_0_var(--color-blackcoal)] flex flex-col h-full overflow-hidden">
+              
+              <!-- Kontainer Foto (Perbaikan 2: Menambahkan 'shrink-0' agar foto tidak tergencet teks) -->
+              <div class="w-full aspect-[3/4] border-b border-blackcoal md:border-b-2 bg-alabaster shrink-0">
+                {person.image ? (
+                  <img
+                    src={person.image?.value || '/assets/placeholder.svg'}
+                    alt={`Foto ${person.nama}`}
+                    loading="lazy"
+                    class="w-full h-full object-cover transition-all duration-500 scale-100 group-hover:scale-105 object-top"
+                  />
+                ) : (
+                  <div class="w-full h-full flex items-center justify-center text-gray-400 font-comfortaa text-[8px] sm:text-xs text-center p-1">
+                    Tanpa Foto
+                  </div>
+                )}
+              </div>
+              
+              <!-- Metadata Tipografi (Auto-Stretch & Text Wrap) -->
+              <div class="p-1.5 sm:p-4 md:p-5 flex flex-col items-center text-center justify-between flex-1 bg-white h-full">
+                
+                <h2 class="text-[9px] sm:text-base md:text-lg font-bold font-lato text-blackcoal leading-tight mb-2">
+                  {person.nama}
+                </h2>
+                
+                <!-- Lencana Jabatan (Wrap Text) -->
+                <div class="mt-auto w-full flex justify-center">
+                  <div class="bg-accent-yellow border border-blackcoal px-1.5 py-1 sm:px-2 sm:py-1.5 rounded-sm sm:rounded-md w-full flex items-center justify-center">
+                    
+                    <!-- Penggunaan whitespace-normal dan text-balance agar teks turun secara estetis -->
+                    <span class="block text-[7px] sm:text-[10px] md:text-xs font-bold font-lato uppercase tracking-wider text-blackcoal text-center whitespace-normal text-balance leading-tight">
+                      {person.jabatan || 'Staf'}
+                    </span>
+                    
+                  </div>
+                </div>
+              
+              </div>
+            
+            </article>
+
+            ))}
+          </div>
+          
+        ))}
+      </div>
+    </main>
+  </div>
+</Layout>
