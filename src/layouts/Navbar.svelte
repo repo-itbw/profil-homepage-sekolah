@@ -1,7 +1,8 @@
 <script>
-  import { Menu, X, ChevronDown } from '@lucide/svelte';
+  import { Menu, X, ChevronDown, Megaphone } from '@lucide/svelte';
 
   // Kumpulan link navigasi
+  const ppdbBadge = { label: 'Info PPDB', href: '/ppdb' };
   const navItems = [
     { label: 'Profil',
       sublinks: [
@@ -96,7 +97,7 @@
                   <span class="text-xs sm:text-sm font-bold tracking-widest text-gray-500 uppercase leading-none mb-1">
                     SMKs
                   </span>
-                  <span class="text-sm sm:text-base md:text-lg font-extrabold tracking-tight text-gray-900 uppercase leading-none">
+                  <span class="text-sm sm:text-base md:text-lg font-semibold tracking-tight text-gray-900 uppercase leading-none">
                     Bina Wisata Lembang
                   </span>
                 </div>
@@ -135,6 +136,18 @@
           </div>
         {/each}
       </div>
+
+      <!-- BARU: badge layanan pengaduan untuk desktop, di paling bawah -->
+      <div class="hidden lg:flex items-center z-50">
+        <a
+          href={ppdbBadge.href}
+          class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-[#3ba2d5] hover:bg-[#2f8bb8] active:bg-[#2f8bb8] rounded-xl shadow-sm transition-colors"
+        >
+          <Megaphone size={16} class="pointer-events-none" />
+          {ppdbBadge.label}
+        </a>
+      </div>
+
 
       <!-- PERUBAHAN 2: flex md:hidden diubah menjadi flex lg:hidden -->
       <div class="flex lg:hidden items-center z-50">
@@ -202,6 +215,18 @@
             </div>
           </div>
         {/if}
+
+        <!-- BARU: badge layanan pengaduan untuk mobile, di paling bawah -->
+        <div class="mt-6 flex justify-center">
+          <a
+            href={ppdbBadge.href}
+            onclick={closeAllMenus}
+            class="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-[#3ba2d5] active:bg-[#2f8bb8] rounded-full shadow-sm transition-colors"
+          >
+            <Megaphone size={16} class="pointer-events-none" />
+            {ppdbBadge.label}
+          </a>
+        </div>
 
       </div>
     </div>

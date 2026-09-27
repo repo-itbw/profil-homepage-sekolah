@@ -17,6 +17,8 @@ sekolah-homepage-web/
 │   │   └── index.yaml
 │   ├── mitra/
 │   │   └── index.yaml
+│   ├── gtk/
+│   │   └── index.yaml
 │   └── statistik/
 │       └── index.yaml
 ├── public/                    # Aset statis publik (favicon, logo, font, dll)
@@ -25,6 +27,7 @@ sekolah-homepage-web/
 │   ├── ElearningAssets/       # file aset (foto, video, dll) dari uploader untuk Elearning
 │   ├── MadingAssets/          # file aset (foto, video, dll) dari uploader untuk Mading
 │   ├── GaleriAssets/
+│   ├── GtkAssets/
 │   ├── JumbotronAssets/
 │   │   └── slides/
 │   └── fonts/                 # Kumpulan file font lokal

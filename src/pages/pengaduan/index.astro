@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro'; // sesuaikan dengan layout utama project kamu
+
+const [entry] = await getCollection('pengaduan');
+
+const judul = entry?.data.judul ?? 'Konten Belum Tersedia';
+const imageUrl = entry?.data.image?.value ?? null;
+const Content = entry ? (await render(entry)).Content : null;
+---
+
+<Layout title={judul}>
+  <section class="w-full bg-alabaster py-10 lg:py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- WADAH TUNGGAL: gambar + card menyatu tanpa gap -->
+      <div class="rounded-md overflow-hidden border border-gray-200/70 shadow-sm bg-white">
+
+        <!-- BLOK GAMBAR (opsional, tanpa rounded/border sendiri — mengikuti wadah luar) -->
+        {imageUrl && (
+          <div class="w-full aspect-[16/9] sm:aspect-[21/9] bg-gray-100">
+            <img
+              src={imageUrl}
+              alt={judul}
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+        )}
+
+        <!-- WADAH KONTEN -->
+        <div class="px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-14">
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-blackcoal font-lato mb-6">
+            {judul}
+          </h1>
+
+          {Content ? (
+            <div class="prose prose-sekolah max-w-none">
+              <Content />
+            </div>
+          ) : (
+            <p class="text-gray-500 font-lato text-sm">
+              Konten halaman ini belum diisi melalui Keystatic.
+            </p>
+          )}
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</Layout>

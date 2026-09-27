@@ -58,7 +58,7 @@ const tautanSosial = [
       <!-- 2. KOLOM NAVIGASI (Mobile: 50% / Desktop: ~16%) -->
       <div class="col-span-1 lg:col-span-2 flex flex-col">
         <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Tautan Lainnya</h3>
-        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-comfortaa text-gray-500">
+        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-lato text-gray-500">
           {tautanNavigasi.map((item) => (
             <li>
               <!-- whitespace-normal membatalkan nowrap agar teks panjang berbaris rapi alih-alih terpotong -->
@@ -74,7 +74,7 @@ const tautanSosial = [
       <!-- 3. KOLOM PENDIDIKAN (Mobile: 50% / Desktop: ~16%) -->
       <div class="col-span-1 lg:col-span-2 flex flex-col">
         <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Pendidikan</h3>
-        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-comfortaa text-gray-500">
+        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-lato text-gray-500">
           {tautanPendidikan.map((item) => (
             <li>
               <a href={item.url} class="group flex items-start sm:items-center gap-1.5 sm:gap-2.5 hover:text-corporate-blue transition-colors whitespace-normal">
@@ -89,7 +89,7 @@ const tautanSosial = [
       <!-- 4. KOLOM LAYANAN (Mobile: 50% / Desktop: ~16%) -->
       <div class="col-span-1 lg:col-span-2 flex flex-col">
         <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2">Media Sosial</h3>
-        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-comfortaa text-gray-500">
+        <ul class="flex flex-col gap-2.5 sm:gap-3 text-[10px] sm:text-sm font-lato text-gray-500">
           {tautanSosial.map((item) => (
             <li>
               <a href={item.url} class="group flex items-start sm:items-center gap-1.5 sm:gap-2.5 hover:text-corporate-blue transition-colors whitespace-normal">
@@ -105,25 +105,33 @@ const tautanSosial = [
       <div class="col-span-1 lg:col-span-3 flex flex-col lg:items-end lg:text-right">
         <h3 class="text-[10px] sm:text-sm font-bold text-blackcoal uppercase tracking-wider mb-3 sm:mb-4 border-b border-gray-200 pb-2 w-full lg:text-right">Alamat</h3>
         
-        <address class="not-italic text-[9px] sm:text-sm font-comfortaa text-gray-500 leading-relaxed mb-2 sm:mb-3">
+        <address class="not-italic text-[9px] sm:text-sm font-lato text-gray-500 leading-relaxed mb-2 sm:mb-3">
           Jl. Mutiara 1, Situ PPI<br/>
           Kec. Lembang, Kab. Bandung Barat,<br/>
           Jawa Barat 40391
         </address>
         
-        <p class="text-[9px] sm:text-sm font-comfortaa text-gray-500 leading-relaxed">
+        <p class="text-[9px] sm:text-sm font-lato text-gray-500 leading-relaxed">
           <strong>Email: </strong><br class="block sm:hidden" />
           <!-- break-all mencegah teks alamat email menembus batas kolom di layar kecil -->
           <span class="break-all">bwisata@yahoo.co.id</span><br/>
-          <strong>Telp:</strong> (022) 2789 223
+          <strong>Telp:</strong> (022) 2789 223 <br/>
         </p>
+
+        <a
+          href="/pengaduan"
+          class="inline-flex items-center gap-1.5 mt-3 sm:mt-4 px-3.5 py-1.5 text-[9px] sm:text-xs font-medium text-blackcoal bg-transparent border border-blackcoal rounded-full hover:bg-blackcoal hover:text-white active:bg-blackcoal active:text-white transition-colors"
+        >
+          <Icon name="lucide:message-circle-warning" class="w-3.5 h-3.5 sm:w-4 sm:h-4 pointer-events-none" />
+          Layanan Pengaduan
+        </a>
       </div>
 
     </div>
 
     <!-- GARIS BAWAH & HAK CIPTA -->
     <div class="border-t border-gray-200 pt-6 flex flex-col items-center justify-center text-center">
-      <p class="text-[9px] sm:text-xs font-comfortaa text-gray-400">
+      <p class="text-[9px] sm:text-xs font-lato text-gray-400">
         &copy; {tahunSekarang} Smks Bina Wisata Lembang.
         <br />
         Seisi konten dilindungi oleh Creative Commons Attribution-NonCommercial 4.0 <a class="text-blue-400" href="https://creativecommons.org/licenses/by-nc/4.0/deed.id" target="_blank" rel="noopener noreferrer">(CC BY-NC 4.0).</a>

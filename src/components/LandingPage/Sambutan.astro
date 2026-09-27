@@ -1,6 +1,4 @@
 ---
-import { Icon } from 'astro-icon/components';
-
 // ============================================================================
 // DATA FRONTMATTER (Pusat Kendali Konten)
 // ============================================================================
@@ -17,60 +15,73 @@ const profilKepsek = {
 };
 ---
 
-<section class="relative w-full bg-alabaster py-16 lg:py-24 border-b border-gray-200/60 overflow-hidden">
-  <!-- Elemen Dekoratif Latar Belakang -->
-  <div class="absolute top-0 right-0 w-1/3 h-full bg-corporate-blue/5 rounded-bl-[100px] pointer-events-none"></div>
+<section class="w-full bg-alabaster py-20 lg:py-28">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-16">
 
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <div class="flex flex-col">
-      
-      <!-- 1. Lencana Estetis (Garis Pembatas Simetris di Tengah) -->
-            <div class="flex items-center justify-center gap-3 sm:gap-4 mb-8">
-              <div class="w-12 sm:w-24 h-[2px] bg-gradient-to-r from-transparent to-corporate-blue/60 rounded-full"></div>
-              <span class="text-[10px] sm:text-[11px] font-bold font-mono uppercase tracking-widest text-corporate-blue shrink-0">
-                Sambutan Pimpinan
-              </span>
-              <div class="w-12 sm:w-24 h-[2px] bg-gradient-to-l from-transparent to-corporate-blue/60 rounded-full"></div>
-            </div>
-      
-            <!-- 2. Area Identitas & Foto (Proporsional di Tengah) -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12 text-center sm:text-left">
-              
-              <!-- Foto Profil Kepsek -->
-              <div class="w-20 h-28 sm:w-24 sm:h-32 shrink-0 rounded-2xl overflow-hidden shadow-md">
-                <img 
-                  src={profilKepsek.foto} 
-                  alt={`Foto ${profilKepsek.nama}`} 
-                  class="w-full h-full object-cover object-top"
+      <!-- KOLOM FOTO — frame ringan tegas (backdrop success-green + border putih pada foto) -->
+      <div class="lg:col-span-4">
+        <div class="lg:sticky lg:top-28">
+
+          <div class="flex flex-row items-center gap-4 lg:flex-col lg:items-stretch lg:gap-0 lg:w-full max-w-xs mx-auto lg:mx-0">
+
+            <!-- Foto: diperkecil di mobile, full di desktop -->
+            <div class="relative w-24 sm:w-28 lg:w-full shrink-0">
+              <!-- Backdrop frame solid -->
+              <div class="absolute top-2 left-2 lg:top-3 lg:left-3 w-full h-full bg-accent-yellow"></div>
+
+              <!-- Foto dengan border putih tegas -->
+              <div class="relative aspect-[4/5] overflow-hidden bg-gray-200 border-2 lg:border-4 border-white">
+                <img
+                  src={profilKepsek.foto}
+                  alt={`Foto ${profilKepsek.nama}`}
+                  class="w-full h-full object-cover object-top grayscale-[15%]"
                   loading="lazy"
                 />
               </div>
+            </div>
 
-        <!-- Metadata Nama & nuptk -->
-        <div class="flex flex-col justify-center py-1 sm:py-2">
-          <span class="text-xl sm:text-2xl font-extrabold text-blackcoal font-lato tracking-tight mb-1">
-            {profilKepsek.nama}
-          </span>
-          <span class="text-sm sm:text-base font-bold font-comfortaa text-corporate-blue mb-2">
-            {profilKepsek.jabatan}
-          </span>
-          <span class="text-sm sm:text-[13px] font-mono text-gray-500 uppercase tracking-wider">
-            {profilKepsek.nuptk}
-          </span>
+            <!-- Identitas: kini center secara vertikal sejajar tinggi foto -->
+            <div class="flex-1 min-w-0 pl-3 lg:pl-4 mt-0 lg:mt-6 border-l-2 border-accent-yellow text-left">
+              <p class="text-sm sm:text-base font-bold text-blackcoal font-lato leading-snug">
+                {profilKepsek.nama}
+              </p>
+              <p class="text-xs sm:text-sm font-lato font-medium mt-1">
+                {profilKepsek.jabatan}
+              </p>
+              <p class="text-xs sm:text-sm text-gray-400 font-mono uppercase tracking-wider mt-1">
+                {profilKepsek.nuptk}
+              </p>
+            </div>
+          </div>
+
         </div>
-        
       </div>
 
-      <!-- 3. Kutipan Utama (Pull-Quote) -->
-      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blackcoal font-lato leading-[1.3] mb-8 relative">
-        <Icon name="lucide:quote" class="absolute -top-4 -left-3 sm:-left-6 w-8 h-8 sm:w-12 sm:h-12 text-gray-200 -z-10 rotate-180" />
-        "{profilKepsek.kutipan}"
-      </h2>
+      <!-- KOLOM KONTEN — tipografi sebagai fokus utama -->
+      <div class="lg:col-span-8">
 
-      <!-- 4. Teks Tubuh (Body Copy) -->
-      <div class="space-y-4 border-l-2 border-gray-200 pl-4 sm:pl-6 text-sm sm:text-base text-gray-600 font-comfortaa leading-relaxed">
-        <p>{profilKepsek.paragraf1}</p>
-        <p>{profilKepsek.paragraf2}</p>
+        <!-- Overline label: badge highlight, seperti referensi -->
+        <div class="inline-flex items-center pl-3 pr-4 py-1.5 mb-6 bg-success-green/10 border-l-4 border-success-green">
+          <span class="text-xs font-bold font-lato uppercase tracking-[0.15em] text-success-green">
+            Sambutan Kepala Sekolah
+          </span>
+        </div>
+
+        <!-- Kutipan sebagai headline utama -->
+        <h2 class="text-2xl sm:text-3xl lg:[font-size:2.35rem] font-lato font-semibold text-blackcoal leading-[1.35] tracking-tight mb-4 max-w-3xl">
+          {profilKepsek.kutipan}
+        </h2>
+
+        <!-- Garis aksen di bawah heading -->
+        <div class="w-14 h-1 bg-success-green mb-10"></div>
+
+        <!-- Teks Tubuh (Body Copy) -->
+        <div class="space-y-5 text-[15px] sm:text-base text-gray-600 font-lato leading-relaxed max-w-2xl">
+          <p>{profilKepsek.paragraf1}</p>
+          <p>{profilKepsek.paragraf2}</p>
+        </div>
+
       </div>
 
     </div>

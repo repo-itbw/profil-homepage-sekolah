@@ -5,6 +5,9 @@ import { getCollection } from 'astro:content';
 // 1. IMPOR KOMPONEN SVELTE
 import SmartDock from '../../components/SmartDock.svelte';
 
+// 2. hyperlink ke web arsip eksternal (aktif = true)
+const showOldArchiveBadge = false;
+
 const semuaBerita = await getCollection('berita');
 const beritaUrut = semuaBerita.sort(
   (a, b) => b.data.tanggal.valueOf() - a.data.tanggal.valueOf()
@@ -27,15 +30,26 @@ const formatTanggal = (tanggal: Date) => {
 
   <!-- KONTEN UTAMA -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-    <header class="mb-10 text-center sm:text-left">
+  <header class="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-center sm:text-left">
+    <div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-blackcoal mb-3">Arsip Berita & Pengumuman</h1>
-      <p class="text-gray-600 font-comfortaa max-w-2xl text-sm sm:text-base leading-relaxed">
+      <p class="text-gray-600 font-lato max-w-2xl text-sm sm:text-base leading-relaxed">
         Menyajikan informasi terbaru seputar kegiatan, prestasi, dan pengumuman resmi dari SMKs Bina Wisata Lembang.
       </p>
-      <p class="text-gray-600 font-comfortaa max-w-2xl text-sm sm:text-base leading-relaxed">
+      <p class="text-gray-600 font-lato max-w-2xl text-sm sm:text-base leading-relaxed">
         Telah dikurasi & diterbitkan oleh ekstrakurikuler BWJURNAL.
       </p>
-    </header>
+    </div>
+
+    {showOldArchiveBadge && (
+      <a
+        href="https://arsip.smkbinawisata.sch.id/berita"
+        class="inline-flex items-center justify-center flex-shrink-0 px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-medium text-blackcoal bg-transparent border border-blackcoal rounded-full hover:bg-blackcoal hover:text-white active:bg-blackcoal active:text-white transition-colors"
+      >
+        Lihat Arsip Lama
+      </a>
+    )}
+  </header>
 
     <!-- KISI KARTU BERITA (Tambahan id="news-grid" untuk target Javascript) -->
     <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -62,7 +76,7 @@ const formatTanggal = (tanggal: Date) => {
             </h2>
             
             <!-- Metadata Gabungan -->
-            <div class="flex items-center gap-1.5 text-[10px] sm:text-xs font-comfortaa text-gray-400 mb-3">
+            <div class="flex items-center gap-1.5 text-[10px] sm:text-xs font-lato text-gray-400 mb-3">
               <span class="font-semibold text-gray-500 truncate max-w-[120px]">
                 Oleh: {berita.data.penerbit || 'Admin'}
               </span>
@@ -75,7 +89,7 @@ const formatTanggal = (tanggal: Date) => {
               </span>
             </div>
 
-            <p class="text-xs sm:text-sm text-gray-500 line-clamp-2 font-comfortaa leading-relaxed mt-auto">
+            <p class="text-xs sm:text-sm text-gray-500 line-clamp-2 font-lato leading-relaxed mt-auto">
               {berita.data.deskripsi}
             </p>
           </div>

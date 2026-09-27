@@ -199,7 +199,38 @@ const gtk = defineCollection({
   })
 });
 
-// 9. REGISTRASI KOLEKSI
+// 9. Koleksi sub-page ppdb (Singletons)
+const ppdb = defineCollection({
+  // pattern dikunci ke 'index.mdoc' karena ini singleton (hanya satu file)
+  loader: glob({ base: './content/ppdb', pattern: 'index.mdoc' }),
+  schema: z.object({
+    judul: z.string().max(150),
+    image: z
+      .object({
+        discriminant: z.enum(['lokal', 'eksternal']),
+        value: z.string().optional().nullable(),
+      })
+      .optional()
+      .nullable(),
+  }),
+});
+
+// 10. Koleksi sub-page pengaduan (Singletons)
+const pengaduan = defineCollection({
+  loader: glob({ base: './content/pengaduan', pattern: 'index.mdoc' }),
+  schema: z.object({
+    judul: z.string().max(150),
+    image: z
+      .object({
+        discriminant: z.enum(['lokal', 'eksternal']),
+        value: z.string().optional().nullable(),
+      })
+      .optional()
+      .nullable(),
+  }),
+});
+
+// 13. REGISTRASI KOLEKSI
 // Wajib mengekspor seluruh variabel koleksi agar mesin Astro dapat mendaftarkannya ke tipe global (astro:content)
 export const collections = {
   berita,
@@ -210,4 +241,6 @@ export const collections = {
   statistik,
   mitra,
   gtk,
+  ppdb,
+  pengaduan,
 };

@@ -7,7 +7,7 @@ Ini adalah repository resmi untuk halaman website publik tentang profil institus
 
 ## Apa keuntungan Teknologi ini?
 
-Alih-alih pakai teknologi lama seperti wordpress yang rentan (kadang kurang optimal beserta budget ekstra untuk deployment), Kali ini Framework Astro dipilih karena (Full Control of Architecture) yang artinya, segala sesuatu dibuat secara manual dari nol, tapi pengembang punya kontrol penuh sampai ke tingkat sistem bekerja.
+Alih-alih pakai teknologi lama seperti wordpress yang rentan (kadang kurang optimal beserta budget ekstra untuk deployment), Kali ini Framework Astro dipilih karena (Full Control of Architecture) yang artinya, segala sesuatu dibuat secara manual dari nol, tapi pengembang punya kontrol penuh sampai ke tingkat desain sistem (Code codebase).
 Lalu di dukung platform hosting global yang gratis juga punya latensi yang baik.
 
 Secara desain, Dirancang sebagai MPA (Multi-Page Application) yang memisahkan halaman-halaman menjadi komponen-komponen terpisah, sehingga mudah dikelola dan dioptimalkan. Tanpa khawatir mengganggu fungsionalitas utama aplikasi web. Serta astro sudah punya mekanisme bawaan untuk routing *(misal: domain.com/profil/sejarah)* dan rendering halaman cepat.
@@ -28,7 +28,7 @@ Banyak sekolah membuat website mahal ke vendor luar, lalu kebingungan saat butuh
 
 Oleh karena itu, Pengurus SourceCode ini diharapkan sebagai siswa RPL yang ingin bukan hanya belajar teori coding, tetapi langsung belajar memelihara production system yang dipakai oleh publik bahkan ribuan pengunjung online.
 
-Jadikan Kode Homepage ini sebagai estafet studi kasus supaya pemeliharaan website bisa diwariskan dari kelas XII ke kelas XI layaknya tradisi organisasi atau project-based learning tahunan.
+Jadikan Kode Homepage ini sebagai estafet studi kasus supaya pemeliharaan website bisa diwariskan dari antar generasi angkatan layaknya tradisi organisasi atau project-based learning tahunan.
 
 Selalu Dokumentasikan yang jelas dan Standarisasi penulisan kode: Karena kontrol kodenya berbasis Git, siswa benar-benar bisa belajar version control (Git–GitHub), code review, dan kolaborasi tim sejak dini.
 

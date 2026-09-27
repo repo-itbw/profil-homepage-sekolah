@@ -1,17 +1,4 @@
 @font-face {
-  font-family: "Comfortaa";
-  src: url("/fonts/Comfortaa.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap; /* Tampilkan fallback font dulu, swap setelah font loaded */
-  /* Metrics untuk minimize layout shift dengan fallback serif */
-  ascent-override: 95%;
-  descent-override: 25%;
-  line-gap-override: 0%;
-  size-adjust: 105%;
-}
-
-@font-face {
   font-family: "Lato";
   src: url("/fonts/Lato.woff2") format("woff2");
   font-weight: 100 900;
@@ -31,11 +18,11 @@
   --color-alabaster: #faf9f6;
   --color-blackcoal: #222222;
   --color-corporate-blue: #3ba2d5;
+  --color-ocean-blue: #023e8a;
   --color-accent-yellow: #eab308;
   --color-success-green: #16a34a;
 
   /* Konfigurasi Font */
-  --font-comfortaa: "Comfortaa", ui-serif, Georgia, serif;
   --font-lato: "Lato", ui-sans-serif, Roboto, sans-serif;
 }
 
@@ -64,7 +51,10 @@ html::-webkit-scrollbar {
 
   h1,
   h2,
-  h3 {
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-lato leading-[1.2] font-normal;
   }
   h1 {
@@ -77,7 +67,7 @@ html::-webkit-scrollbar {
     @apply text-xl;
   }
   p {
-    @apply font-comfortaa;
+    @apply font-lato leading-[1.6];
   }
 
   /* Mencegah Tailwind menimpa warna sebaris (inline-styles) dari mesin Shiki */
@@ -94,7 +84,7 @@ html::-webkit-scrollbar {
     }
 }
 
-/*Prose khusus untuk rendering konten berita*/
+/*Prose khusus untuk rendering konten Bacaan*/
 
 @layer components {
   /* Ekstensi kustom untuk tipografi konten Markdoc */
@@ -105,7 +95,7 @@ html::-webkit-scrollbar {
     --tw-prose-links: var(--color-corporate-blue);
     --tw-prose-bold: var(--color-blackcoal);
 
-    @apply text-gray-700 font-comfortaa leading-loose;
+    @apply text-gray-700 font-lato leading-loose;
   }
 
   /* Modifikasi spesifik untuk setiap elemen HTML (Tag) */
@@ -154,5 +144,54 @@ html::-webkit-scrollbar {
 
   .prose-sekolah li {
     @apply marker:text-corporate-blue;
+  }
+
+  /* ========================================================= /
+  / TABEL (Header #023e8a, Rata Tengah & Auto-Stretch)        /
+  / ========================================================= */
+  .prose-sekolah table {
+  @apply w-full my-8 border-collapse bg-white shadow-sm rounded-lg border border-gray-300;
+  
+  display: table;
+  table-layout: auto;
+  
+  
+  }
+  
+  @media (max-width: 768px) {
+  .prose-sekolah table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  }
+  }
+  
+  .prose-sekolah thead {
+  background-color: #fdf0d5;
+  }
+  
+  /* PERBAIKAN: Menambahkan 'text-align: center !important' untuk membobol bawaan Markdown */
+  .prose-sekolah th,
+  .prose-sekolah td {
+  @apply border border-gray-300 px-6 py-4 align-middle text-sm;
+  text-align: center !important;
+  }
+  
+  /* PERBAIKAN: Menambahkan 'color: white !important' agar kontras di latar biru gelap */
+  .prose-sekolah th {
+  @apply font-bold tracking-wide;
+  color: black !important;
+  }
+  
+  .prose-sekolah tbody tr:nth-child(even) {
+  @apply bg-gray-50/50;
+  }
+  
+  .prose-sekolah tbody tr {
+  @apply transition-colors duration-200;
+  }
+  
+  .prose-sekolah tbody tr:hover {
+  @apply bg-[#023e8a]/5;
   }
 }

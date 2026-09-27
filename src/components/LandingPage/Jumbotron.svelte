@@ -97,7 +97,7 @@
           <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-3">
             {slide.title}
           </h1>
-          <p class="text-sm md:text-base mb-6 leading-relaxed opacity-90 font-comfortaa">
+          <p class="text-sm md:text-base mb-6 leading-relaxed opacity-90 font-lato">
             {slide.subtitle}
           </p>
           

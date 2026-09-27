@@ -620,7 +620,7 @@ export default config({
         ),
       },
     }),
-    // SINGLETON: STAF & GTK
+    // Singletons STAF & GTK
     gtk: singleton({
       label: "Profil GTK",
       path: "./content/gtk/",
@@ -666,6 +666,88 @@ export default config({
             itemLabel: (props) => props.fields.nama.value || "Staf Baru",
           },
         ),
+      },
+    }),
+    // Singletons PPDB
+    ppdb: singleton({
+      label: 'Sub-page: PPDB',
+      // path TANPA ekstensi — Keystatic menentukan nama file akhir berdasarkan `format`
+      path: './content/ppdb/index',
+      format: { contentField: 'konten' },
+      schema: {
+        judul: fields.text({
+          label: 'Judul Halaman',
+          validation: { length: { max: 150 } },
+        }),
+        image: fleksibelImageField({
+          label: 'Gambar Header (Opsional)',
+          directory: 'public/ppdbAssets',
+          publicPath: '/ppdbAssets',
+          isRequired: false, // sesuai spek: image bersifat optional/render bila ada
+        }),
+        konten: fields.document({
+          label: "Isi konten",
+          tables: true,
+          dividers: true,
+          links: true,
+          formatting: {
+            inlineMarks: {
+              bold: true,
+              italic: true,
+              strikethrough: true,
+              code: true,
+            },
+            listTypes: true,
+            headingLevels: true,
+            blockTypes: true,
+          },
+          images: {
+            directory: "public/ElearningAssets/",
+            publicPath: "/ElearningAssets/",
+          },
+          componentBlocks: komponenMultimedia,
+        }),
+      },
+    }),
+    // Singletons Pengaduan
+    pengaduan: singleton({
+      label: 'Sub-page: Pengaduan',
+      // path TANPA ekstensi — Keystatic menentukan nama file akhir berdasarkan `format`
+      path: './content/pengaduan/index',
+      format: { contentField: 'konten' },
+      schema: {
+        judul: fields.text({
+          label: 'Judul Halaman',
+          validation: { length: { max: 150 } },
+        }),
+        image: fleksibelImageField({
+          label: 'Gambar Header (Opsional)',
+          directory: 'public/pengaduanAssets',
+          publicPath: '/pengaduanAssets',
+          isRequired: false, // sesuai spek: image bersifat optional/render bila ada
+        }),
+        konten: fields.document({
+          label: "Isi konten",
+          tables: true,
+          dividers: true,
+          links: true,
+          formatting: {
+            inlineMarks: {
+              bold: true,
+              italic: true,
+              strikethrough: true,
+              code: true,
+            },
+            listTypes: true,
+            headingLevels: true,
+            blockTypes: true,
+          },
+          images: {
+            directory: "public/ElearningAssets/",
+            publicPath: "/ElearningAssets/",
+          },
+          componentBlocks: komponenMultimedia,
+        }),
       },
     }),
   },
