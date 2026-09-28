@@ -17,9 +17,9 @@ daftarMitra:
     logo: /MitraAssets/daftarMitra/1/logo.webp
     kategori: Teknologi
     prioritas: true
-  - namaPerusahaan: Kemnaker
+  - namaPerusahaan: Balai Kemnaker
     logo: /MitraAssets/daftarMitra/2/logo.webp
-    kategori: BPVP Lembang
+    kategori: Balai Pelatihan Kemnaker
     prioritas: true
   - namaPerusahaan: GH bandung
     logo: /MitraAssets/daftarMitra/3/logo.webp
@@ -58,3 +58,15 @@ testimoni:
     namaTokoh: laxer M.si
     jabatan: CEO
     fotoTokoh: /MitraAssets/testimoni/1/fotoTokoh.jpg
+  - kutipan: >-
+      Anak-anaknya punya semangat belajar yang tinggi dan disiplin dalam
+      menghadapi tugas
+    namaTokoh: Fritz Richman S.Si
+    jabatan: General Manager, Sigma Hotel
+    fotoTokoh: /MitraAssets/testimoni/2/fotoTokoh.webp
+  - kutipan: >-
+      Sukses selalu! asah mental profesional dan semangat belajar di industri
+      teknologi
+    namaTokoh: risman abdalah S.Kom
+    jabatan: Senior IT, CV Cakra bandung
+    fotoTokoh: /MitraAssets/testimoni/3/fotoTokoh.webp

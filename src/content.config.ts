@@ -230,6 +230,21 @@ const pengaduan = defineCollection({
   }),
 });
 
+// 11. Koleksi sub-page sertifikasi (Singletons)
+const sertifikasi = defineCollection({
+  loader: glob({ base: './content/sertifikasi', pattern: 'index.mdoc' }),
+  schema: z.object({
+    judul: z.string().max(150),
+    image: z
+      .object({
+        discriminant: z.enum(['lokal', 'eksternal']),
+        value: z.string().optional().nullable(),
+      })
+      .optional()
+      .nullable(),
+  }),
+});
+
 // 13. REGISTRASI KOLEKSI
 // Wajib mengekspor seluruh variabel koleksi agar mesin Astro dapat mendaftarkannya ke tipe global (astro:content)
 export const collections = {
@@ -243,4 +258,5 @@ export const collections = {
   gtk,
   ppdb,
   pengaduan,
+  sertifikasi,
 };

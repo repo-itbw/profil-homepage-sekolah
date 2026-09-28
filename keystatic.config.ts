@@ -750,5 +750,46 @@ export default config({
         }),
       },
     }),
+    // Singletons sertifikasi
+    sertifikasi: singleton({
+      label: 'Sub-page: Sertifikasi',
+      // path TANPA ekstensi — Keystatic menentukan nama file akhir berdasarkan `format`
+      path: './content/sertifikasi/index',
+      format: { contentField: 'konten' },
+      schema: {
+        judul: fields.text({
+          label: 'Judul Halaman',
+          validation: { length: { max: 150 } },
+        }),
+        image: fleksibelImageField({
+          label: 'Gambar Header (Opsional)',
+          directory: 'public/pengaduanAssets',
+          publicPath: '/pengaduanAssets',
+          isRequired: false, // sesuai spek: image bersifat optional/render bila ada
+        }),
+        konten: fields.document({
+          label: "Isi konten",
+          tables: true,
+          dividers: true,
+          links: true,
+          formatting: {
+            inlineMarks: {
+              bold: true,
+              italic: true,
+              strikethrough: true,
+              code: true,
+            },
+            listTypes: true,
+            headingLevels: true,
+            blockTypes: true,
+          },
+          images: {
+            directory: "public/ElearningAssets/",
+            publicPath: "/ElearningAssets/",
+          },
+          componentBlocks: komponenMultimedia,
+        }),
+      },
+    }),
   },
 });
